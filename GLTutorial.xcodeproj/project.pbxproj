@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		7C96091527D55812005BEC03 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C96091427D55812005BEC03 /* main.cpp */; };
+		7C96091F27D58B8A005BEC03 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C96091E27D58B8A005BEC03 /* libglfw3.a */; };
+		7C96092427D58CB3005BEC03 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 7C96092327D58CB3005BEC03 /* glad.c */; };
+		7C96092727D58E61005BEC03 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C96092627D58E61005BEC03 /* AppKit.framework */; };
+		7C96092927D58E71005BEC03 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C96092827D58E71005BEC03 /* IOKit.framework */; };
+		7C96092B27D58E7F005BEC03 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C96092A27D58E7F005BEC03 /* CoreFoundation.framework */; };
+		7C96092D27D58E88005BEC03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C96092C27D58E88005BEC03 /* Foundation.framework */; };
+		7C96092F27D58EB0005BEC03 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C96092E27D58EB0005BEC03 /* CoreGraphics.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +32,16 @@
 /* Begin PBXFileReference section */
 		7C96091127D55812005BEC03 /* GLTutorial */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GLTutorial; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C96091427D55812005BEC03 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		7C96091E27D58B8A005BEC03 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
+		7C96092027D58C12005BEC03 /* GLFW */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GLFW; sourceTree = "<group>"; };
+		7C96092127D58C4F005BEC03 /* glad */ = {isa = PBXFileReference; lastKnownFileType = folder; path = glad; sourceTree = "<group>"; };
+		7C96092227D58C4F005BEC03 /* KHR */ = {isa = PBXFileReference; lastKnownFileType = folder; path = KHR; sourceTree = "<group>"; };
+		7C96092327D58CB3005BEC03 /* glad.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glad.c; sourceTree = "<group>"; };
+		7C96092627D58E61005BEC03 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		7C96092827D58E71005BEC03 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		7C96092A27D58E7F005BEC03 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		7C96092C27D58E88005BEC03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7C96092E27D58EB0005BEC03 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +49,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C96092F27D58EB0005BEC03 /* CoreGraphics.framework in Frameworks */,
+				7C96092D27D58E88005BEC03 /* Foundation.framework in Frameworks */,
+				7C96092B27D58E7F005BEC03 /* CoreFoundation.framework in Frameworks */,
+				7C96092927D58E71005BEC03 /* IOKit.framework in Frameworks */,
+				7C96092727D58E61005BEC03 /* AppKit.framework in Frameworks */,
+				7C96091F27D58B8A005BEC03 /* libglfw3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,8 +64,10 @@
 		7C96090827D55812005BEC03 = {
 			isa = PBXGroup;
 			children = (
+				7C96091B27D58A93005BEC03 /* Externals */,
 				7C96091327D55812005BEC03 /* GLTutorial */,
 				7C96091227D55812005BEC03 /* Products */,
+				7C96092527D58E61005BEC03 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,6 +85,46 @@
 				7C96091427D55812005BEC03 /* main.cpp */,
 			);
 			path = GLTutorial;
+			sourceTree = "<group>";
+		};
+		7C96091B27D58A93005BEC03 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				7C96092327D58CB3005BEC03 /* glad.c */,
+				7C96091D27D58AAA005BEC03 /* Libraries */,
+				7C96091C27D58AA1005BEC03 /* Include */,
+			);
+			path = Externals;
+			sourceTree = "<group>";
+		};
+		7C96091C27D58AA1005BEC03 /* Include */ = {
+			isa = PBXGroup;
+			children = (
+				7C96092127D58C4F005BEC03 /* glad */,
+				7C96092227D58C4F005BEC03 /* KHR */,
+				7C96092027D58C12005BEC03 /* GLFW */,
+			);
+			path = Include;
+			sourceTree = "<group>";
+		};
+		7C96091D27D58AAA005BEC03 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				7C96091E27D58B8A005BEC03 /* libglfw3.a */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
+		7C96092527D58E61005BEC03 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7C96092E27D58EB0005BEC03 /* CoreGraphics.framework */,
+				7C96092C27D58E88005BEC03 /* Foundation.framework */,
+				7C96092A27D58E7F005BEC03 /* CoreFoundation.framework */,
+				7C96092827D58E71005BEC03 /* IOKit.framework */,
+				7C96092627D58E61005BEC03 /* AppKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C96091527D55812005BEC03 /* main.cpp in Sources */,
+				7C96092427D58CB3005BEC03 /* glad.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,6 +309,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5JF3397VRD;
 				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Externals/Include";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Externals/Libraries";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -253,6 +321,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5JF3397VRD;
 				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Externals/Include";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Externals/Libraries";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
