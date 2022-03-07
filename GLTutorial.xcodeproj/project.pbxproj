@@ -42,9 +42,13 @@
 		7C96092A27D58E7F005BEC03 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		7C96092C27D58E88005BEC03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7C96092E27D58EB0005BEC03 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		7C96093027D65D5C005BEC03 /* shader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader.h; sourceTree = "<group>"; };
+		7C96093027D65D5C005BEC03 /* program.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = program.h; sourceTree = "<group>"; };
 		7C96093327D66395005BEC03 /* shader.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shader.vs; sourceTree = "<group>"; };
 		7C96093427D663F5005BEC03 /* shader.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shader.fs; sourceTree = "<group>"; };
+		7C96093527D66F97005BEC03 /* wall.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wall.jpg; sourceTree = "<group>"; };
+		7C96093627D67850005BEC03 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
+		7C96093A27D68D9A005BEC03 /* container.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = container.jpg; sourceTree = "<group>"; };
+		7C96093B27D68D9A005BEC03 /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,8 +89,9 @@
 		7C96091327D55812005BEC03 /* GLTutorial */ = {
 			isa = PBXGroup;
 			children = (
+				7C96093927D67B18005BEC03 /* Core */,
+				7C96093827D67892005BEC03 /* Assets */,
 				7C96091427D55812005BEC03 /* main.cpp */,
-				7C96093027D65D5C005BEC03 /* shader.h */,
 				7C96093327D66395005BEC03 /* shader.vs */,
 				7C96093427D663F5005BEC03 /* shader.fs */,
 			);
@@ -106,6 +111,7 @@
 		7C96091C27D58AA1005BEC03 /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				7C96093727D6786A005BEC03 /* stb */,
 				7C96092127D58C4F005BEC03 /* glad */,
 				7C96092227D58C4F005BEC03 /* KHR */,
 				7C96092027D58C12005BEC03 /* GLFW */,
@@ -131,6 +137,32 @@
 				7C96092627D58E61005BEC03 /* AppKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7C96093727D6786A005BEC03 /* stb */ = {
+			isa = PBXGroup;
+			children = (
+				7C96093627D67850005BEC03 /* stb_image.h */,
+			);
+			path = stb;
+			sourceTree = "<group>";
+		};
+		7C96093827D67892005BEC03 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				7C96093B27D68D9A005BEC03 /* awesomeface.png */,
+				7C96093A27D68D9A005BEC03 /* container.jpg */,
+				7C96093527D66F97005BEC03 /* wall.jpg */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		7C96093927D67B18005BEC03 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				7C96093027D65D5C005BEC03 /* program.h */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

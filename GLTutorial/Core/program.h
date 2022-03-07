@@ -1,5 +1,5 @@
-#ifndef SHADER_H
-#define SHADER_H
+#ifndef PROGRAM_H
+#define PROGRAM_H
 
 #include <string>
 #include <fstream>
@@ -9,11 +9,11 @@
 
 #include <glad/glad.h>
 
-class Shader {
+class Program {
 public:
     unsigned int id;
     
-    Shader(const char* vertexPath, const char* fragmentPath) {
+    Program(const char* vertexPath, const char* fragmentPath) {
         std::string vertexCode;
         std::string fragmentCode;
         std::ifstream vShaderFile;
@@ -21,9 +21,6 @@ public:
         
         vShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
         fShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
-        
-        auto dir = std::filesystem::current_path();
-        std::cout << "CURRENT DIRECTORY:" << dir << std::endl;
         
         try {
             vShaderFile.open(vertexPath);
@@ -85,12 +82,14 @@ public:
     void setBool(const std::string &name, bool value) const {
         glUniform1i(glGetUniformLocation(id, name.c_str()), (int) value);
     }
+
     void setInt(const std::string &name, int value) const {
         glUniform1i(glGetUniformLocation(id, name.c_str()), value);
     }
+
     void setFloat(const std::string &name, float value) const {
         glUniform1f(glGetUniformLocation(id, name.c_str()), value);
     }
 };
 
-#endif /* SHADER_H */
+#endif /* PROGRAM_H */

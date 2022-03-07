@@ -1,9 +1,13 @@
 #version 330 core
 
-in vec3 vColor;
-
 out vec4 color;
 
+in vec3 vColor;
+in vec2 vTexCoord;
+
+uniform sampler2D uImage;
+uniform sampler2D uMask;
+
 void main() {
-    color = vec4(vColor, 1.0);
+    color = mix(texture(uImage, vTexCoord), texture(uMask, vTexCoord), 0.2);
 }
