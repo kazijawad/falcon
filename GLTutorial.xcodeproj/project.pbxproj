@@ -42,6 +42,9 @@
 		7C96092A27D58E7F005BEC03 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		7C96092C27D58E88005BEC03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7C96092E27D58EB0005BEC03 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		7C96093027D65D5C005BEC03 /* shader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shader.h; sourceTree = "<group>"; };
+		7C96093327D66395005BEC03 /* shader.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shader.vs; sourceTree = "<group>"; };
+		7C96093427D663F5005BEC03 /* shader.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shader.fs; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +86,9 @@
 			isa = PBXGroup;
 			children = (
 				7C96091427D55812005BEC03 /* main.cpp */,
+				7C96093027D65D5C005BEC03 /* shader.h */,
+				7C96093327D66395005BEC03 /* shader.vs */,
+				7C96093427D663F5005BEC03 /* shader.fs */,
 			);
 			path = GLTutorial;
 			sourceTree = "<group>";
