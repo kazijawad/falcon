@@ -2,7 +2,6 @@
 
 out vec4 color;
 
-in vec3 vColor;
 in vec2 vTexCoord;
 
 uniform sampler2D uImage;
