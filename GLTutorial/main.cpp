@@ -6,6 +6,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stb/stb_image.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Core/program.h"
 
@@ -116,6 +119,11 @@ int main() {
     
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
+        
+        glm::mat4 transform = glm::mat4(1.0f);
+        transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
+        transform = glm::rotate(transform, (float) glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+        program.setMat4("transform", transform);
         
         glClearColor(0.2f, 0.3f, 0.3, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);

@@ -49,6 +49,7 @@
 		7C96093627D67850005BEC03 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
 		7C96093A27D68D9A005BEC03 /* container.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = container.jpg; sourceTree = "<group>"; };
 		7C96093B27D68D9A005BEC03 /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
+		7C96093C27D6AA54005BEC03 /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = glm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +112,7 @@
 		7C96091C27D58AA1005BEC03 /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				7C96093C27D6AA54005BEC03 /* glm */,
 				7C96093727D6786A005BEC03 /* stb */,
 				7C96092127D58C4F005BEC03 /* glad */,
 				7C96092227D58C4F005BEC03 /* KHR */,
