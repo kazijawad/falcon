@@ -53,6 +53,8 @@
 		7C96093D27D6DB44005BEC03 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		7CE2C00D283DE30400D8ECAA /* light_cube.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = light_cube.vs; sourceTree = "<group>"; };
 		7CE2C00E283DE30F00D8ECAA /* light_cube.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = light_cube.fs; sourceTree = "<group>"; };
+		7CE2C00F283EC56100D8ECAA /* container2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = container2.png; sourceTree = "<group>"; };
+		7CE2C012283EEFD000D8ECAA /* container2_specular.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = container2_specular.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +160,8 @@
 			isa = PBXGroup;
 			children = (
 				7C96093B27D68D9A005BEC03 /* awesomeface.png */,
+				7CE2C00F283EC56100D8ECAA /* container2.png */,
+				7CE2C012283EEFD000D8ECAA /* container2_specular.png */,
 				7C96093A27D68D9A005BEC03 /* container.jpg */,
 				7C96093527D66F97005BEC03 /* wall.jpg */,
 			);
@@ -200,7 +204,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1320;
+				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					7C96091027D55812005BEC03 = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -352,6 +356,7 @@
 		7C96091927D55812005BEC03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5JF3397VRD;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -364,6 +369,7 @@
 		7C96091A27D55812005BEC03 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5JF3397VRD;
 				ENABLE_HARDENED_RUNTIME = YES;
