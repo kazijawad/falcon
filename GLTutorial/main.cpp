@@ -152,9 +152,30 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         lightingProgram.use();
-        lightingProgram.setVec3("objectColor", 1.0f, 0.05f, 0.31f);
-        lightingProgram.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
-        lightingProgram.setVec3("lightPosition", lightPosition);
+        lightingProgram.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
+        lightingProgram.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
+        lightingProgram.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+        lightingProgram.setFloat("material.shininess", 32.0f);
+
+        lightingProgram.setVec3("light.position", lightPosition);
+
+        // lightingProgram.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
+        // lightingProgram.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
+        
+        // Control light over time.
+        glm::vec3 lightColor;
+        lightColor.x = sin(glfwGetTime() * 2.0f);
+        lightColor.y = sin(glfwGetTime() * 0.7f);
+        lightColor.z = sin(glfwGetTime() * 1.3f);
+        
+        glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
+        glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
+        
+        lightingProgram.setVec3("light.ambient", ambientColor);
+        lightingProgram.setVec3("light.diffuse", diffuseColor);
+
+        lightingProgram.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+
         lightingProgram.setVec3("viewPosition", camera.Position);
         
         // View/Projection Transformation
