@@ -13,7 +13,8 @@ struct Material {
 };
 
 struct Light {
-    vec3 position;
+    // vec3 position;
+    vec3 direction;
     
     vec3 ambient;
     vec3 diffuse;
@@ -25,19 +26,21 @@ uniform Light light;
 uniform vec3 viewPosition;
 
 void main() {
-    vec3 norm = normalize(vNormal);
-    vec3 lightDir = normalize(light.position - vPosition);
-    float diff = max(dot(norm, lightDir), 0.0);
+    // Ambient
+    vec3 ambient = light.ambient * texture(material.diffuse, vTexCoords).rgb;
     
+    // Diffuse
+    vec3 norm = normalize(vNormal);
+    vec3 lightDir = normalize(-light.direction);
+    float diff = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = light.diffuse * diff * texture(material.diffuse, vTexCoords).rgb;
+    
+    // Specular
     vec3 viewDir = normalize(viewPosition - vPosition);
     vec3 reflectDir = reflect(-lightDir, norm);
-    
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    vec3 specular = light.specular * spec * texture(material.specular, vTexCoords).rgb;
     
-    // Lighting
-    vec3 ambient = light.ambient * vec3(texture(material.diffuse, vTexCoords));
-    vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, vTexCoords));
-    vec3 specular = light.specular * spec * vec3(texture(material.specular, vTexCoords));
-    
-    color = vec4(ambient + diffuse + specular, 1.0);
+    vec3 result = ambient + diffuse + specular;
+    color = vec4(result, 1.0);
 }
