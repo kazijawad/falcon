@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C1E9AA028405D4E00B02131 /* libassimp.5.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C1E9A9D28405BE900B02131 /* libassimp.5.2.0.dylib */; };
 		7C96091527D55812005BEC03 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C96091427D55812005BEC03 /* main.cpp */; };
 		7C96091F27D58B8A005BEC03 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C96091E27D58B8A005BEC03 /* libglfw3.a */; };
 		7C96092427D58CB3005BEC03 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 7C96092327D58CB3005BEC03 /* glad.c */; };
@@ -30,6 +31,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7C1E9A3C284028B000B02131 /* Mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mesh.h; sourceTree = "<group>"; };
+		7C1E9A3D2840378100B02131 /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		7C1E9A952840557500B02131 /* source_attribution.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = source_attribution.txt; sourceTree = "<group>"; };
+		7C1E9A962840557500B02131 /* backpack.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = backpack.obj; sourceTree = "<group>"; };
+		7C1E9A972840557500B02131 /* diffuse.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = diffuse.jpg; sourceTree = "<group>"; };
+		7C1E9A982840557500B02131 /* specular.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = specular.jpg; sourceTree = "<group>"; };
+		7C1E9A992840557500B02131 /* normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = normal.png; sourceTree = "<group>"; };
+		7C1E9A9A2840557500B02131 /* ao.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ao.jpg; sourceTree = "<group>"; };
+		7C1E9A9B2840557500B02131 /* roughness.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = roughness.jpg; sourceTree = "<group>"; };
+		7C1E9A9C2840557500B02131 /* backpack.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; path = backpack.mtl; sourceTree = "<group>"; };
+		7C1E9A9D28405BE900B02131 /* libassimp.5.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.5.2.0.dylib; path = ../../../../usr/local/Cellar/assimp/5.2.3/lib/libassimp.5.2.0.dylib; sourceTree = "<group>"; };
+		7C1E9AA128405DC800B02131 /* GLTutorial.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GLTutorial.entitlements; sourceTree = "<group>"; };
+		7C1E9AA328405E2300B02131 /* model.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = model.vs; sourceTree = "<group>"; };
+		7C1E9AA428405E4A00B02131 /* model.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = model.fs; sourceTree = "<group>"; };
 		7C96091127D55812005BEC03 /* GLTutorial */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GLTutorial; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C96091427D55812005BEC03 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		7C96091E27D58B8A005BEC03 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
@@ -45,16 +60,11 @@
 		7C96093027D65D5C005BEC03 /* Program.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
 		7C96093327D66395005BEC03 /* lighting.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = lighting.vs; sourceTree = "<group>"; };
 		7C96093427D663F5005BEC03 /* lighting.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = lighting.fs; sourceTree = "<group>"; };
-		7C96093527D66F97005BEC03 /* wall.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wall.jpg; sourceTree = "<group>"; };
 		7C96093627D67850005BEC03 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
-		7C96093A27D68D9A005BEC03 /* container.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = container.jpg; sourceTree = "<group>"; };
-		7C96093B27D68D9A005BEC03 /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
 		7C96093C27D6AA54005BEC03 /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = glm; sourceTree = "<group>"; };
 		7C96093D27D6DB44005BEC03 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		7CE2C00D283DE30400D8ECAA /* light_cube.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = light_cube.vs; sourceTree = "<group>"; };
 		7CE2C00E283DE30F00D8ECAA /* light_cube.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = light_cube.fs; sourceTree = "<group>"; };
-		7CE2C00F283EC56100D8ECAA /* container2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = container2.png; sourceTree = "<group>"; };
-		7CE2C012283EEFD000D8ECAA /* container2_specular.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = container2_specular.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C1E9AA028405D4E00B02131 /* libassimp.5.2.0.dylib in Frameworks */,
 				7C96092F27D58EB0005BEC03 /* CoreGraphics.framework in Frameworks */,
 				7C96092D27D58E88005BEC03 /* Foundation.framework in Frameworks */,
 				7C96092B27D58E7F005BEC03 /* CoreFoundation.framework in Frameworks */,
@@ -74,6 +85,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C1E9A942840557500B02131 /* backpack */ = {
+			isa = PBXGroup;
+			children = (
+				7C1E9A952840557500B02131 /* source_attribution.txt */,
+				7C1E9A962840557500B02131 /* backpack.obj */,
+				7C1E9A972840557500B02131 /* diffuse.jpg */,
+				7C1E9A982840557500B02131 /* specular.jpg */,
+				7C1E9A992840557500B02131 /* normal.png */,
+				7C1E9A9A2840557500B02131 /* ao.jpg */,
+				7C1E9A9B2840557500B02131 /* roughness.jpg */,
+				7C1E9A9C2840557500B02131 /* backpack.mtl */,
+			);
+			path = backpack;
+			sourceTree = "<group>";
+		};
+		7C1E9AA228405E0500B02131 /* Programs */ = {
+			isa = PBXGroup;
+			children = (
+				7C96093327D66395005BEC03 /* lighting.vs */,
+				7C1E9AA328405E2300B02131 /* model.vs */,
+				7CE2C00D283DE30400D8ECAA /* light_cube.vs */,
+				7C96093427D663F5005BEC03 /* lighting.fs */,
+				7CE2C00E283DE30F00D8ECAA /* light_cube.fs */,
+				7C1E9AA428405E4A00B02131 /* model.fs */,
+			);
+			path = Programs;
+			sourceTree = "<group>";
+		};
 		7C96090827D55812005BEC03 = {
 			isa = PBXGroup;
 			children = (
@@ -95,13 +134,11 @@
 		7C96091327D55812005BEC03 /* GLTutorial */ = {
 			isa = PBXGroup;
 			children = (
+				7C1E9AA228405E0500B02131 /* Programs */,
+				7C1E9AA128405DC800B02131 /* GLTutorial.entitlements */,
 				7C96093927D67B18005BEC03 /* Core */,
 				7C96093827D67892005BEC03 /* Assets */,
 				7C96091427D55812005BEC03 /* main.cpp */,
-				7C96093327D66395005BEC03 /* lighting.vs */,
-				7CE2C00D283DE30400D8ECAA /* light_cube.vs */,
-				7C96093427D663F5005BEC03 /* lighting.fs */,
-				7CE2C00E283DE30F00D8ECAA /* light_cube.fs */,
 			);
 			path = GLTutorial;
 			sourceTree = "<group>";
@@ -139,6 +176,7 @@
 		7C96092527D58E61005BEC03 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7C1E9A9D28405BE900B02131 /* libassimp.5.2.0.dylib */,
 				7C96092E27D58EB0005BEC03 /* CoreGraphics.framework */,
 				7C96092C27D58E88005BEC03 /* Foundation.framework */,
 				7C96092A27D58E7F005BEC03 /* CoreFoundation.framework */,
@@ -159,11 +197,7 @@
 		7C96093827D67892005BEC03 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				7C96093B27D68D9A005BEC03 /* awesomeface.png */,
-				7CE2C00F283EC56100D8ECAA /* container2.png */,
-				7CE2C012283EEFD000D8ECAA /* container2_specular.png */,
-				7C96093A27D68D9A005BEC03 /* container.jpg */,
-				7C96093527D66F97005BEC03 /* wall.jpg */,
+				7C1E9A942840557500B02131 /* backpack */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -173,6 +207,8 @@
 			children = (
 				7C96093027D65D5C005BEC03 /* Program.h */,
 				7C96093D27D6DB44005BEC03 /* Camera.h */,
+				7C1E9A3C284028B000B02131 /* Mesh.h */,
+				7C1E9A3D2840378100B02131 /* Model.h */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -356,12 +392,19 @@
 		7C96091927D55812005BEC03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GLTutorial/GLTutorial.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5JF3397VRD;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Externals/Include";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Externals/Libraries";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Externals/Include",
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Externals/Libraries",
+					/usr/local/Cellar/assimp/5.2.3/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -369,12 +412,19 @@
 		7C96091A27D55812005BEC03 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GLTutorial/GLTutorial.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5JF3397VRD;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Externals/Include";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Externals/Libraries";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Externals/Include",
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Externals/Libraries",
+					/usr/local/Cellar/assimp/5.2.3/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
