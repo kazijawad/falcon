@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -62,6 +63,10 @@ int main() {
         
     // Depth Testing
     glEnable(GL_DEPTH_TEST);
+    
+    // Blending
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     Program program("Programs/depth_test.vs", "Programs/blending.fs");
     
@@ -199,7 +204,7 @@ int main() {
     // Load Textures
     unsigned int cubeTexture = loadTexture("Assets/marble.jpeg");
     unsigned int floorTexture = loadTexture("Assets/metal.png");
-    unsigned int grassTexture = loadTexture("Assets/grass.png");
+    unsigned int windowTexture = loadTexture("Assets/window.png");
     
     program.use();
     program.setInt("texture1", 0);
@@ -212,6 +217,13 @@ int main() {
         
         // Input
         processInput(window);
+        
+        // Sort Transparent Objects
+        std::map<float, glm::vec3> sorted;
+        for (unsigned int i = 0; i < vegetation.size(); i++) {
+            float distance = glm::length(camera.Position - vegetation[i]);
+            sorted[distance] = vegetation[i];
+        }
         
         // Render
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -254,10 +266,10 @@ int main() {
         
         // Vegetation
         glBindVertexArray(vegetationVAO);
-        glBindTexture(GL_TEXTURE_2D, grassTexture);
-        for (unsigned int i = 0; i < vegetation.size(); i++) {
+        glBindTexture(GL_TEXTURE_2D, windowTexture);
+        for (std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it) {
             model = glm::mat4(1.0f);
-            model = glm::translate(model, vegetation[i]);
+            model = glm::translate(model, it->second);
             program.setMat4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
