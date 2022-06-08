@@ -59,6 +59,7 @@
 		7C9C9BF828501495004BC2B8 /* depth_test.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = depth_test.fs; sourceTree = "<group>"; };
 		7C9C9BFB28502237004BC2B8 /* metal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = metal.png; sourceTree = "<group>"; };
 		7C9C9BFC28502237004BC2B8 /* marble.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = marble.jpeg; sourceTree = "<group>"; };
+		7C9C9BFD28503357004BC2B8 /* single_color.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = single_color.fs; sourceTree = "<group>"; };
 		7CE2C00D283DE30400D8ECAA /* light_cube.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = light_cube.vs; sourceTree = "<group>"; };
 		7CE2C00E283DE30F00D8ECAA /* light_cube.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = light_cube.fs; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,6 +93,7 @@
 				7CE2C00E283DE30F00D8ECAA /* light_cube.fs */,
 				7C1E9AA428405E4A00B02131 /* model.fs */,
 				7C9C9BF828501495004BC2B8 /* depth_test.fs */,
+				7C9C9BFD28503357004BC2B8 /* single_color.fs */,
 			);
 			path = Programs;
 			sourceTree = "<group>";

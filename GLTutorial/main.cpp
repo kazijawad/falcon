@@ -61,10 +61,15 @@ int main() {
     
     stbi_set_flip_vertically_on_load(true);
     
+    // Depth Testing
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     
+    // Stencil Testing
+    glEnable(GL_STENCIL_TEST);
+    
     Program program("Programs/depth_test.vs", "Programs/depth_test.fs");
+    Program programSingleColor("Programs/depth_test.vs", "Programs/single_color.fs");
     
     float cubeVertices[] = {
         // Positions          // Texture Coordinates
@@ -177,22 +182,46 @@ int main() {
         
         // Render
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
         
-        program.use();
+        // Stencil Testing
+        glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+        glStencilFunc(GL_ALWAYS, 1, 0xFF);
+        glStencilMask(0xFF);
         
         // View/Projection Transformation
         glm::mat4 model = glm::mat4(1.0f);
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float) SOURCE_WIDTH / (float) SOURCE_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camera.GetViewMatrix();
+        
+        programSingleColor.use();
+        programSingleColor.setMat4("projection", projection);
+        programSingleColor.setMat4("view", view);
+        
+        program.use();
         program.setMat4("projection", projection);
         program.setMat4("view", view);
+        
+        // Floor
+        glStencilMask(0x00);
+        
+        glBindVertexArray(planeVAO);
+        glBindTexture(GL_TEXTURE_2D, floorTexture);
 
-        // Cubes
+        program.setMat4("model", glm::mat4(1.0f));
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        
+        glBindVertexArray(0);
+
+        // 1st Render Pass - Cubes
+        glStencilFunc(GL_ALWAYS, 1, 0xFF);
+        glStencilMask(0xFF);
+        
         glBindVertexArray(cubeVAO);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, cubeTexture);
 
+        model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
         program.setMat4("model", model);
         glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -202,14 +231,34 @@ int main() {
         program.setMat4("model", model);
         glDrawArrays(GL_TRIANGLES, 0, 36);
         
-        // Floor
-        glBindVertexArray(planeVAO);
-        glBindTexture(GL_TEXTURE_2D, floorTexture);
+        // 2nd Render Pass - Cubes
+        glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+        glStencilMask(0x00);
+        glDisable(GL_DEPTH_TEST);
+        
+        programSingleColor.use();
+        float scale = 1.1f;
+        
+        glBindVertexArray(cubeVAO);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, cubeTexture);
 
-        program.setMat4("model", glm::mat4(1.0f));
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
+        model = glm::scale(model, glm::vec3(scale, scale, scale));
+        programSingleColor.setMat4("model", model);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(scale, scale, scale));
+        programSingleColor.setMat4("model", model);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
         
         glBindVertexArray(0);
+        glStencilMask(0xFF);
+        glStencilFunc(GL_ALWAYS, 0, 0xFF);
+        glEnable(GL_DEPTH_TEST);
         
         glfwSwapBuffers(window);
         glfwPollEvents();
