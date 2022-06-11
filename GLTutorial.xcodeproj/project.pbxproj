@@ -53,13 +53,6 @@
 		7C96093627D67850005BEC03 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
 		7C96093C27D6AA54005BEC03 /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = glm; sourceTree = "<group>"; };
 		7C96093D27D6DB44005BEC03 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
-		7C9C9C0228505DDF004BC2B8 /* container.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = container.jpeg; sourceTree = "<group>"; };
-		7C9C9C0628506863004BC2B8 /* bottom.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bottom.jpg; sourceTree = "<group>"; };
-		7C9C9C0728506863004BC2B8 /* left.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = left.jpg; sourceTree = "<group>"; };
-		7C9C9C0828506863004BC2B8 /* top.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = top.jpg; sourceTree = "<group>"; };
-		7C9C9C0928506863004BC2B8 /* back.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = back.jpg; sourceTree = "<group>"; };
-		7C9C9C0A28506863004BC2B8 /* right.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = right.jpg; sourceTree = "<group>"; };
-		7C9C9C0B28506863004BC2B8 /* front.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = front.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,8 +166,6 @@
 		7C96093827D67892005BEC03 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				7C9C9C0528506863004BC2B8 /* skybox */,
-				7C9C9C0228505DDF004BC2B8 /* container.jpeg */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -188,19 +179,6 @@
 				7C1E9A3D2840378100B02131 /* Model.h */,
 			);
 			path = Core;
-			sourceTree = "<group>";
-		};
-		7C9C9C0528506863004BC2B8 /* skybox */ = {
-			isa = PBXGroup;
-			children = (
-				7C9C9C0628506863004BC2B8 /* bottom.jpg */,
-				7C9C9C0728506863004BC2B8 /* left.jpg */,
-				7C9C9C0828506863004BC2B8 /* top.jpg */,
-				7C9C9C0928506863004BC2B8 /* back.jpg */,
-				7C9C9C0A28506863004BC2B8 /* right.jpg */,
-				7C9C9C0B28506863004BC2B8 /* front.jpg */,
-			);
-			path = skybox;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
