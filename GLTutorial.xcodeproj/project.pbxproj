@@ -37,7 +37,6 @@
 		7C1E9AA128405DC800B02131 /* GLTutorial.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GLTutorial.entitlements; sourceTree = "<group>"; };
 		7C1E9AA328405E2300B02131 /* model.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = model.vs; sourceTree = "<group>"; };
 		7C20D4C6285428560097273D /* model.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = model.fs; sourceTree = "<group>"; };
-		7C20D4C7285429430097273D /* model.gs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = model.gs; sourceTree = "<group>"; };
 		7C96091127D55812005BEC03 /* GLTutorial */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GLTutorial; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C96091427D55812005BEC03 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		7C96091E27D58B8A005BEC03 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
@@ -86,7 +85,6 @@
 			children = (
 				7C1E9AA328405E2300B02131 /* model.vs */,
 				7C20D4C6285428560097273D /* model.fs */,
-				7C20D4C7285429430097273D /* model.gs */,
 			);
 			path = Programs;
 			sourceTree = "<group>";
