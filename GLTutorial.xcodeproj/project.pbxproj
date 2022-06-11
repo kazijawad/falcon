@@ -36,10 +36,8 @@
 		7C1E9A9D28405BE900B02131 /* libassimp.5.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.5.2.0.dylib; path = ../../../../usr/local/Cellar/assimp/5.2.3/lib/libassimp.5.2.0.dylib; sourceTree = "<group>"; };
 		7C1E9AA128405DC800B02131 /* GLTutorial.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GLTutorial.entitlements; sourceTree = "<group>"; };
 		7C1E9AA328405E2300B02131 /* model.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = model.vs; sourceTree = "<group>"; };
-		7C1E9AA428405E4A00B02131 /* red.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = red.fs; sourceTree = "<group>"; };
-		7C20D4C3285423640097273D /* green.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = green.fs; sourceTree = "<group>"; };
-		7C20D4C42854236D0097273D /* blue.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blue.fs; sourceTree = "<group>"; };
-		7C20D4C5285423760097273D /* yellow.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = yellow.fs; sourceTree = "<group>"; };
+		7C20D4C6285428560097273D /* model.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = model.fs; sourceTree = "<group>"; };
+		7C20D4C7285429430097273D /* model.gs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = model.gs; sourceTree = "<group>"; };
 		7C96091127D55812005BEC03 /* GLTutorial */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GLTutorial; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C96091427D55812005BEC03 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		7C96091E27D58B8A005BEC03 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
@@ -86,11 +84,9 @@
 		7C1E9AA228405E0500B02131 /* Programs */ = {
 			isa = PBXGroup;
 			children = (
-				7C1E9AA428405E4A00B02131 /* red.fs */,
-				7C20D4C3285423640097273D /* green.fs */,
-				7C20D4C42854236D0097273D /* blue.fs */,
-				7C20D4C5285423760097273D /* yellow.fs */,
 				7C1E9AA328405E2300B02131 /* model.vs */,
+				7C20D4C6285428560097273D /* model.fs */,
+				7C20D4C7285429430097273D /* model.gs */,
 			);
 			path = Programs;
 			sourceTree = "<group>";
