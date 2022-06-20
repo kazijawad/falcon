@@ -35,11 +35,8 @@
 		7C1E9A3D2840378100B02131 /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		7C1E9A9D28405BE900B02131 /* libassimp.5.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.5.2.0.dylib; path = ../../../../usr/local/Cellar/assimp/5.2.3/lib/libassimp.5.2.0.dylib; sourceTree = "<group>"; };
 		7C1E9AA128405DC800B02131 /* GLTutorial.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GLTutorial.entitlements; sourceTree = "<group>"; };
-		7C6CCF432855376100D504E3 /* depth.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = depth.vs; sourceTree = "<group>"; };
-		7C6CCF4528553A7600D504E3 /* wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood.png; sourceTree = "<group>"; };
-		7C6CCF482855811400D504E3 /* shadow.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shadow.vs; sourceTree = "<group>"; };
-		7C6CCF492855834400D504E3 /* shadow.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shadow.fs; sourceTree = "<group>"; };
-		7C6CCF4C2857FDA300D504E3 /* depth.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = depth.fs; sourceTree = "<group>"; };
+		7C6CCF482855811400D504E3 /* lighting.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = lighting.vs; sourceTree = "<group>"; };
+		7C6CCF492855834400D504E3 /* lighting.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = lighting.fs; sourceTree = "<group>"; };
 		7C96091127D55812005BEC03 /* GLTutorial */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GLTutorial; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C96091427D55812005BEC03 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		7C96091E27D58B8A005BEC03 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
@@ -56,6 +53,8 @@
 		7C96093627D67850005BEC03 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
 		7C96093C27D6AA54005BEC03 /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = glm; sourceTree = "<group>"; };
 		7C96093D27D6DB44005BEC03 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		7CD3315328612C5200DF7F72 /* brickwall_normal.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = brickwall_normal.jpeg; sourceTree = "<group>"; };
+		7CD3315428612C5200DF7F72 /* brickwall.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = brickwall.jpeg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,10 +78,8 @@
 		7C1E9AA228405E0500B02131 /* Programs */ = {
 			isa = PBXGroup;
 			children = (
-				7C6CCF4C2857FDA300D504E3 /* depth.fs */,
-				7C6CCF432855376100D504E3 /* depth.vs */,
-				7C6CCF492855834400D504E3 /* shadow.fs */,
-				7C6CCF482855811400D504E3 /* shadow.vs */,
+				7C6CCF492855834400D504E3 /* lighting.fs */,
+				7C6CCF482855811400D504E3 /* lighting.vs */,
 			);
 			path = Programs;
 			sourceTree = "<group>";
@@ -171,7 +168,8 @@
 		7C96093827D67892005BEC03 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				7C6CCF4528553A7600D504E3 /* wood.png */,
+				7CD3315328612C5200DF7F72 /* brickwall_normal.jpeg */,
+				7CD3315428612C5200DF7F72 /* brickwall.jpeg */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
