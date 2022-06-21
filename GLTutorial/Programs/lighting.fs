@@ -2,9 +2,12 @@
 
 uniform sampler2D diffuseMap;
 uniform sampler2D normalMap;
+uniform sampler2D depthMap;
 
 uniform vec3 lightPosition;
 uniform vec3 viewPosition;
+
+uniform float heightScale;
 
 in VertexData {
     vec2 uv;
@@ -15,11 +18,23 @@ in VertexData {
 
 out vec4 fragColor;
 
+vec2 parallaxMapping(vec2 uv, vec3 viewDir) {
+    float height = texture(depthMap, uv).r;
+    vec2 p = viewDir.xy / viewDir.z * (height * heightScale);
+    return uv - p;
+}
+
 void main() {
-    vec3 color = texture(diffuseMap, inData.uv).rgb;
+    // Offset UVs with Parallax Mapping
+    vec3 viewDir = normalize(inData.tangentViewPosition - inData.tangentPosition);
+    vec2 uv = parallaxMapping(inData.uv, viewDir);
+    if (uv.x > 1.0 || uv.y > 1.0 || uv.x < 0.0 || uv.y < 0.0) discard;
+    
+    // Diffuse
+    vec3 color = texture(diffuseMap, uv).rgb;
     
     // Normal
-    vec3 normal = texture(normalMap, inData.uv).rgb;
+    vec3 normal = texture(normalMap, uv).rgb;
     normal = normalize(normal * 2.0 - 1.0);
     
     // Ambient
@@ -31,7 +46,6 @@ void main() {
     vec3 diffuse = diff * color;
     
     // Specular
-    vec3 viewDir = normalize(inData.tangentViewPosition - inData.tangentPosition);
     vec3 halfwayDir = normalize(lightDir + viewDir);
     float spec = pow(max(dot(normal, halfwayDir), 0.0), 32.0);
     vec3 specular = vec3(0.2) * spec;

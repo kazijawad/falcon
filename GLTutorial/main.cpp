@@ -26,6 +26,8 @@ void renderQuad();
 const unsigned int SOURCE_WIDTH = 800;
 const unsigned int SOURCE_HEIGHT = 600;
 
+float heightScale = 0.1f;
+
 // Camera
 auto camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 float lastX = (float) SOURCE_WIDTH / 2.0f;
@@ -74,13 +76,15 @@ int main() {
     auto program = Program("Programs/lighting.vs", "Programs/lighting.fs");
     
     // Load Texture(s)
-    unsigned int diffuseMap = loadTexture("Assets/brickwall.jpeg");
-    unsigned int normalMap = loadTexture("Assets/brickwall_normal.jpeg");
+    unsigned int diffuseMap = loadTexture("Assets/bricks2.jpeg");
+    unsigned int normalMap = loadTexture("Assets/bricks2_normal.jpeg");
+    unsigned int depthMap = loadTexture("Assets/bricks2_disp.jpeg");
     
     // Configure Shader(s)
     program.use();
     program.setInt("diffuseMap", 0);
     program.setInt("normalMap", 1);
+    program.setInt("depthMap", 2);
     
     // Lighting Constant
     glm::vec3 lightPosition = glm::vec3(0.5f, 1.0f, 0.3f);
@@ -113,6 +117,7 @@ int main() {
 
         program.setVec3("viewPosition", camera.Position);
         program.setVec3("lightPosition", lightPosition);
+        program.setFloat("heightScale", heightScale);
         
         // Bind Textures
         glActiveTexture(GL_TEXTURE0);
@@ -120,6 +125,9 @@ int main() {
 
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, normalMap);
+        
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
         
         renderQuad();
         
