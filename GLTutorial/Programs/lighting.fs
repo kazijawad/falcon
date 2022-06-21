@@ -1,82 +1,43 @@
 #version 330 core
 
-uniform sampler2D diffuseMap;
-uniform sampler2D normalMap;
-uniform sampler2D depthMap;
+struct Light {
+    vec3 position;
+    vec3 color;
+};
 
-uniform vec3 lightPosition;
+uniform Light lights[16];
+uniform sampler2D diffuseMap;
 uniform vec3 viewPosition;
 
-uniform float heightScale;
-
 in VertexData {
+    vec3 position;
+    vec3 normal;
     vec2 uv;
-    vec3 tangentLightPosition;
-    vec3 tangentViewPosition;
-    vec3 tangentPosition;
 } inData;
 
 out vec4 fragColor;
 
-vec2 parallaxMapping(vec2 uv, vec3 viewDir) {
-    const float minLayers = 8.0;
-    const float maxLayers = 32.0;
-    float numLayers = mix(maxLayers, minLayers, max(dot(vec3(0.0, 0.0, 1.0), viewDir), 0.0));
-    
-    float layerDepth = 1.0 / numLayers;
-    float currentLayerDepth = 0.0;
-    
-    // Amount to shift UVs per layer from P
-    vec2 P = viewDir.xy * heightScale;
-    vec2 deltaUVs = P / numLayers;
-    
-    vec2 currentUVs = uv;
-    float currentDepth = texture(depthMap, currentUVs).r;
-    while (currentLayerDepth < currentDepth) {
-        currentUVs -= deltaUVs;
-        currentDepth = texture(depthMap, currentUVs).r;
-        currentLayerDepth += layerDepth;
-    }
-    
-    // Get UVs before collision
-    vec2 prevUVs = currentUVs + deltaUVs;
-    
-    // Get depth after and before collision
-    float afterDepth = currentDepth - currentLayerDepth;
-    float beforeDepth = texture(depthMap, prevUVs).r - currentLayerDepth + layerDepth;
-    
-    // Lerp UVs
-    float weight = afterDepth / (afterDepth - beforeDepth);
-    vec2 finalUVs = prevUVs * weight + currentUVs * (1.0 - weight);
-    
-    return finalUVs;
-}
-
 void main() {
-    // Offset UVs with Parallax Mapping
-    vec3 viewDir = normalize(inData.tangentViewPosition - inData.tangentPosition);
-    vec2 uv = parallaxMapping(inData.uv, viewDir);
-    if (uv.x > 1.0 || uv.y > 1.0 || uv.x < 0.0 || uv.y < 0.0) discard;
-    
-    // Diffuse
-    vec3 color = texture(diffuseMap, uv).rgb;
-    
-    // Normal
-    vec3 normal = texture(normalMap, uv).rgb;
-    normal = normalize(normal * 2.0 - 1.0);
+    vec3 color = texture(diffuseMap, inData.uv).rgb;
+    vec3 normal = normalize(inData.normal);
     
     // Ambient
     vec3 ambient = 0.1 * color;
     
-    // Diffuse
-    vec3 lightDir = normalize(inData.tangentLightPosition - inData.tangentPosition);
-    float diff = max(dot(lightDir, normal), 0.0);
-    vec3 diffuse = diff * color;
+    // Lighting
+    vec3 lighting = vec3(1.0);
+    for (int i = 0; i < 16; i++) {
+        // Diffuse
+        vec3 lightDir = normalize(lights[i].position - inData.position);
+        float diff = max(dot(lightDir, normal), 0.0);
+        vec3 diffuse = lights[i].color * diff * color;
+
+        // Attenuation
+        vec3 result = diffuse;
+        float dist = length(inData.position - lights[i].position);
+        result *= 1.0 / (dist * dist);
+        lighting += result;
+    }
     
-    // Specular
-    vec3 halfwayDir = normalize(lightDir + viewDir);
-    float spec = pow(max(dot(normal, halfwayDir), 0.0), 32.0);
-    vec3 specular = vec3(0.2) * spec;
-    
-    fragColor = vec4(ambient + diffuse + specular, 1.0);
+    fragColor = vec4(ambient + lighting, 1.0);
 }

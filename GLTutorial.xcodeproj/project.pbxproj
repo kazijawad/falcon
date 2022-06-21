@@ -53,12 +53,9 @@
 		7C96093627D67850005BEC03 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
 		7C96093C27D6AA54005BEC03 /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = glm; sourceTree = "<group>"; };
 		7C96093D27D6DB44005BEC03 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
-		7CD33155286146BF00DF7F72 /* bricks2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bricks2.jpeg; sourceTree = "<group>"; };
-		7CD33156286146BF00DF7F72 /* bricks2_disp.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bricks2_disp.jpeg; sourceTree = "<group>"; };
-		7CD33157286146BF00DF7F72 /* bricks2_normal.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bricks2_normal.jpeg; sourceTree = "<group>"; };
 		7CD3315828614B0600DF7F72 /* wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood.png; sourceTree = "<group>"; };
-		7CD3315928614B0600DF7F72 /* toy_box_disp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toy_box_disp.png; sourceTree = "<group>"; };
-		7CD3315A28614B0600DF7F72 /* toy_box_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toy_box_normal.png; sourceTree = "<group>"; };
+		7CD3315B2861675200DF7F72 /* hdr.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = hdr.vs; sourceTree = "<group>"; };
+		7CD3315C2861677B00DF7F72 /* hdr.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = hdr.fs; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +80,9 @@
 			isa = PBXGroup;
 			children = (
 				7C6CCF492855834400D504E3 /* lighting.fs */,
+				7CD3315C2861677B00DF7F72 /* hdr.fs */,
 				7C6CCF482855811400D504E3 /* lighting.vs */,
+				7CD3315B2861675200DF7F72 /* hdr.vs */,
 			);
 			path = Programs;
 			sourceTree = "<group>";
@@ -172,12 +171,7 @@
 		7C96093827D67892005BEC03 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				7CD33156286146BF00DF7F72 /* bricks2_disp.jpeg */,
-				7CD33157286146BF00DF7F72 /* bricks2_normal.jpeg */,
-				7CD3315928614B0600DF7F72 /* toy_box_disp.png */,
-				7CD3315A28614B0600DF7F72 /* toy_box_normal.png */,
 				7CD3315828614B0600DF7F72 /* wood.png */,
-				7CD33155286146BF00DF7F72 /* bricks2.jpeg */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
