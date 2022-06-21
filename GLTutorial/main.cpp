@@ -76,9 +76,9 @@ int main() {
     auto program = Program("Programs/lighting.vs", "Programs/lighting.fs");
     
     // Load Texture(s)
-    unsigned int diffuseMap = loadTexture("Assets/bricks2.jpeg");
-    unsigned int normalMap = loadTexture("Assets/bricks2_normal.jpeg");
-    unsigned int depthMap = loadTexture("Assets/bricks2_disp.jpeg");
+    unsigned int diffuseMap = loadTexture("Assets/wood.png");
+    unsigned int normalMap = loadTexture("Assets/toy_box_normal.png");
+    unsigned int depthMap = loadTexture("Assets/toy_box_disp.png");
     
     // Configure Shader(s)
     program.use();

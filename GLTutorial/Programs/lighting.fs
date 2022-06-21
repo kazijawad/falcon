@@ -19,9 +19,26 @@ in VertexData {
 out vec4 fragColor;
 
 vec2 parallaxMapping(vec2 uv, vec3 viewDir) {
-    float height = texture(depthMap, uv).r;
-    vec2 p = viewDir.xy / viewDir.z * (height * heightScale);
-    return uv - p;
+    const float minLayers = 8.0;
+    const float maxLayers = 32.0;
+    float numLayers = mix(maxLayers, minLayers, max(dot(vec3(0.0, 0.0, 1.0), viewDir), 0.0));
+    
+    float layerDepth = 1.0 / numLayers;
+    float currentLayerDepth = 0.0;
+    
+    // Amount to shift UVs per layer from P
+    vec2 P = viewDir.xy * heightScale;
+    vec2 deltaUVs = P / numLayers;
+    
+    vec2 currentUVs = uv;
+    float currentDepth = texture(depthMap, currentUVs).r;
+    while (currentLayerDepth < currentDepth) {
+        currentUVs -= deltaUVs;
+        currentDepth = texture(depthMap, currentUVs).r;
+        currentLayerDepth += layerDepth;
+    }
+    
+    return currentUVs;
 }
 
 void main() {
