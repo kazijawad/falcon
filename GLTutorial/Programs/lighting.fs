@@ -38,7 +38,18 @@ vec2 parallaxMapping(vec2 uv, vec3 viewDir) {
         currentLayerDepth += layerDepth;
     }
     
-    return currentUVs;
+    // Get UVs before collision
+    vec2 prevUVs = currentUVs + deltaUVs;
+    
+    // Get depth after and before collision
+    float afterDepth = currentDepth - currentLayerDepth;
+    float beforeDepth = texture(depthMap, prevUVs).r - currentLayerDepth + layerDepth;
+    
+    // Lerp UVs
+    float weight = afterDepth / (afterDepth - beforeDepth);
+    vec2 finalUVs = prevUVs * weight + currentUVs * (1.0 - weight);
+    
+    return finalUVs;
 }
 
 void main() {
