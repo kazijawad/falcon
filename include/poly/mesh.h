@@ -5,10 +5,9 @@
 #include <vector>
 
 #include <glm/glm.hpp>
+#include <poly/program.h>
 
-#include "program.h"
-
-namespace Polyhedra {
+namespace poly {
 
 struct Vertex {
     glm::vec3 Position;

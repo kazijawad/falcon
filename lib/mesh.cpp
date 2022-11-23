@@ -1,9 +1,9 @@
 #include <glad/gl.h>
 #include <glm/glm.hpp>
 
-#include "mesh.h"
+#include <poly/mesh.h>
 
-namespace Polyhedra {
+namespace poly {
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures) {
     this->vertices = vertices;

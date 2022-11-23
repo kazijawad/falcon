@@ -2,8 +2,9 @@
 #define camera_h
 
 #include <glad/gl.h>
+#include <glm/glm.hpp>
 
-namespace Polyhedra {
+namespace poly {
 
 enum CameraMovement {
     FORWARD,

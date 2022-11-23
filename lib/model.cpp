@@ -5,9 +5,9 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
-#include "model.h"
+#include <poly/model.h>
 
-namespace Polyhedra {
+namespace poly {
 
 Model::Model(const char* path) {
     loadModel(path);

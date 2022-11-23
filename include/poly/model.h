@@ -5,11 +5,10 @@
 #include <vector>
 
 #include <assimp/scene.h>
+#include <poly/program.h>
+#include <poly/mesh.h>
 
-#include "program.h"
-#include "mesh.h"
-
-namespace Polyhedra {
+namespace poly {
 
 unsigned int TextureFromFile(const char* path, const std::string &directory);
 

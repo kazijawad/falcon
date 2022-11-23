@@ -3,9 +3,9 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
-#include "camera.h"
+#include <poly/camera.h>
 
-namespace Polyhedra {
+namespace poly {
 
 Camera::Camera(
     glm::vec3 p, glm::vec3 up, float yaw, float pitch

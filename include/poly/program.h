@@ -1,9 +1,11 @@
 #ifndef program_h
 #define program_h
 
+#include <string>
+
 #include <glm/fwd.hpp>
 
-namespace Polyhedra {
+namespace poly {
 
 class Program {
 public:
