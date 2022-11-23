@@ -5,7 +5,7 @@
 #include <vector>
 
 #include <glm/glm.hpp>
-#include <poly/program.h>
+#include <poly/core/program.h>
 
 namespace poly {
 

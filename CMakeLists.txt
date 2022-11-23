@@ -26,9 +26,11 @@ add_subdirectory(external/assimp)
 
 # Library
 add_library(lib STATIC
-    include/poly/renderer.h lib/renderer.cpp
-    include/poly/camera.h lib/camera.cpp
-    include/poly/program.h lib/program.cpp
+    include/poly/core/renderer.h lib/core/renderer.cpp
+    include/poly/core/camera.h lib/core/camera.cpp
+    include/poly/core/program.h lib/core/program.cpp
+    include/poly/core/transform.h lib/core/transform.cpp
+
     include/poly/mesh.h lib/mesh.cpp
     include/poly/model.h lib/model.cpp
 )

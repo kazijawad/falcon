@@ -5,8 +5,10 @@
 #include <glad/gl.h>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
-#include <poly/renderer.h>
-#include <poly/program.h>
+#include <poly/core/renderer.h>
+#include <poly/core/camera.h>
+#include <poly/core/transform.h>
+#include <poly/core/program.h>
 
 void loop(poly::Program program, unsigned int VAO);
 void handleResize(GLFWwindow* window, int width, int height);
@@ -15,6 +17,9 @@ int main() {
     try {
         auto renderer = new poly::Renderer(1280, 720);
         glfwSetFramebufferSizeCallback(renderer->window, handleResize);
+
+        auto scene = new poly::Transform();
+        auto camera = new poly::Camera(45.0, 1280.0 / 720.0, 0.1, 100.0);
 
         auto program = poly::Program("./src/pbr.vs", "./src/pbr.fs");
 
@@ -40,7 +45,7 @@ int main() {
 
         renderer->terminate();
         return 0;
-    } catch (std::exception& e) {
+    } catch (std::exception &e) {
         return -1;
     }
 }

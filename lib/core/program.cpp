@@ -8,7 +8,7 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
-#include <poly/program.h>
+#include <poly/core/program.h>
 
 namespace poly {
 

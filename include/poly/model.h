@@ -5,7 +5,7 @@
 #include <vector>
 
 #include <assimp/scene.h>
-#include <poly/program.h>
+#include <poly/core/program.h>
 #include <poly/mesh.h>
 
 namespace poly {

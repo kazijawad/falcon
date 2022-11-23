@@ -2,7 +2,7 @@
 #define renderer_h
 
 #include <GLFW/glfw3.h>
-#include <poly/program.h>
+#include <poly/core/program.h>
 
 namespace poly {
 

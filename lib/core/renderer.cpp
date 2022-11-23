@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include <glad/gl.h>
-#include <poly/renderer.h>
+#include <poly/core/renderer.h>
 
 namespace poly {
 
