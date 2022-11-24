@@ -1,47 +1,90 @@
-#include <exception>
 #include <iostream>
+#include <memory>
 #include <vector>
+#include <exception>
 
 #include <glad/gl.h>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
+
 #include <poly/core/renderer.h>
 #include <poly/core/camera.h>
 #include <poly/core/transform.h>
+#include <poly/core/geometry.h>
 #include <poly/core/program.h>
+#include <poly/core/mesh.h>
 
-void loop(poly::Program program, unsigned int VAO);
+const glm::vec3 poly::Camera::UP = glm::vec3(0.0, 1.0, 0.0);
+
+void loop(poly::Renderer &renderer);
 void handleResize(GLFWwindow* window, int width, int height);
 
 int main() {
     try {
         auto renderer = new poly::Renderer(1280, 720);
+        renderer->setClearColor(0.1, 0.1, 0.1, 1.0);
+
         glfwSetFramebufferSizeCallback(renderer->window, handleResize);
 
-        auto scene = new poly::Transform();
-        auto camera = new poly::Camera(45.0, 1280.0 / 720.0, 0.1, 100.0);
+        auto scene = std::make_shared<poly::Transform>();
 
-        auto program = poly::Program("./src/pbr.vs", "./src/pbr.fs");
+        auto camera = std::make_shared<poly::Camera>(45.0, 1280.0 / 720.0, 0.1, 100.0);
+        camera->position.z = 10.0;
 
-        float vertices[] = {
-            -0.5f, -0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-             0.0f,  0.5f, 0.0f
+        std::vector<float> vertices = {
+            -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+             0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
+             0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+             0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+            -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
+            -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+
+            -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+             0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
+             0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+             0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+            -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
+            -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+
+            -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+            -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+            -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+            -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+            -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+            -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+
+             0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+             0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+             0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+             0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+             0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+             0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+
+            -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+             0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
+             0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+             0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+            -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
+            -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+
+            -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+             0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
+             0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+             0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+            -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
+            -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
         };
 
-        unsigned int VAO, VBO;
-        glGenVertexArrays(1, &VAO);
-        glGenBuffers(1, &VBO);
+        auto geometry = std::make_shared<poly::Geometry>(vertices);
+        auto program = std::make_shared<poly::Program>("./src/pbr.vs", "./src/pbr.fs");
 
-        glBindVertexArray(VAO);
+        auto mesh = std::make_shared<poly::Mesh>(geometry, program);
+        scene->add(mesh);
 
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+        renderer->scene = scene;
+        renderer->camera = camera;
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) 0);
-        glEnableVertexAttribArray(0);
-
-        renderer->run(loop, program, VAO);
+        renderer->run(loop);
 
         renderer->terminate();
         return 0;
@@ -50,11 +93,13 @@ int main() {
     }
 }
 
-void loop(poly::Program program, unsigned int VAO) {
-    program.use();
+void loop(poly::Renderer &renderer) {
+    auto cube = renderer.scene->children[0];
+    cube->rotation.x = renderer.elapsedTime;
+    cube->rotation.y = renderer.elapsedTime;
+    cube->scale = glm::vec3(glm::sin(renderer.elapsedTime) + 2.0);
 
-    glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    renderer.render(renderer.scene, renderer.camera);
 }
 
 void handleResize(GLFWwindow* window, int width, int height) {

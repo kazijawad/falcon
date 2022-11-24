@@ -20,25 +20,19 @@ add_subdirectory(external/glfw)
 # GLM
 add_subdirectory(external/glm)
 
-# assimp
-set(ASSIMP_WARNINGS_AS_ERRORS OFF)
-add_subdirectory(external/assimp)
-
 # Library
 add_library(lib STATIC
-    include/poly/core/renderer.h lib/core/renderer.cpp
-    include/poly/core/camera.h lib/core/camera.cpp
-    include/poly/core/program.h lib/core/program.cpp
+    include/poly/core/renderer.h  lib/core/renderer.cpp
     include/poly/core/transform.h lib/core/transform.cpp
-
-    include/poly/mesh.h lib/mesh.cpp
-    include/poly/model.h lib/model.cpp
+    include/poly/core/camera.h    lib/core/camera.cpp
+    include/poly/core/program.h   lib/core/program.cpp
+    include/poly/core/geometry.h  lib/core/geometry.cpp
+    include/poly/core/mesh.h      lib/core/mesh.cpp
 )
 target_link_libraries(lib PUBLIC
     glad
     glfw
     glm::glm
-    assimp::assimp
 )
 target_include_directories(lib PUBLIC
     include
