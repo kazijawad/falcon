@@ -39,23 +39,30 @@ Renderer::Renderer(unsigned int width, unsigned int height, bool isDebug) : widt
         std::printf("Renderer: %s\n", glGetString(GL_RENDERER));
         std::printf("Version: %s\n", glGetString(GL_VERSION));
     }
-
-    glEnable(GL_DEPTH_TEST);
-}
-
-void Renderer::setClearColor(float r, float g, float b, float a) {
-    clearColor[0] = r;
-    clearColor[1] = g;
-    clearColor[2] = b;
-    clearColor[3] = a;
 }
 
 void Renderer::run(void (*f)(Renderer &renderer)) {
     while (!glfwWindowShouldClose(window)) {
         elapsedTime = (float) glfwGetTime();
+        resize();
 
-        glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        if (depthTest) {
+            glEnable(GL_DEPTH_TEST);
+        } else {
+            glDisable(GL_DEPTH_TEST);
+        }
+
+        if (stencilTest) {
+            glEnable(GL_STENCIL_TEST);
+        } else {
+            glDisable(GL_STENCIL_TEST);
+        }
+
+        glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+        if (autoClear) {
+            glClear(GL_COLOR_BUFFER_BIT | (depthTest ? GL_DEPTH_BUFFER_BIT : 0) | (stencilTest ? GL_STENCIL_BUFFER_BIT : 0));
+
+        }
 
         (*f)(*this);
 
@@ -73,6 +80,21 @@ void Renderer::render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> 
 
 void Renderer::terminate() {
     glfwTerminate();
+}
+
+void Renderer::resize() {
+    int newWidth, newHeight;
+    glfwGetFramebufferSize(window, &newWidth, &newHeight);
+
+    if (newWidth != width || newHeight != height) {
+        glViewport(0, 0, newWidth, newHeight);
+
+        width = newWidth;
+        height = newHeight;
+
+        camera->aspect = (float) width / height;
+        camera->updateProjectionMatrix();
+    }
 }
 
 }

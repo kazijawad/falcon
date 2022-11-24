@@ -9,8 +9,7 @@ namespace poly {
 
 class Camera : public Transform {
 public:
-    static const glm::vec3 UP;
-
+    glm::vec3 up = glm::vec3(0.0, 1.0, 0.0);
     glm::mat4 viewMatrix = glm::mat4();
     glm::mat4 projectionMatrix = glm::mat4();
 

@@ -15,10 +15,15 @@ class Renderer {
 public:
     unsigned int width;
     unsigned int height;
+    glm::vec4 clearColor = glm::vec4(0.0);
+
     bool isDebug;
-    float elapsedTime = 0.0;
+    bool autoClear = true;
+    bool depthTest = true;
+    bool stencilTest = false;
 
     GLFWwindow* window;
+    float elapsedTime = 0.0;
 
     std::shared_ptr<Transform> scene;
     std::shared_ptr<Camera> camera;
@@ -26,14 +31,12 @@ public:
     Renderer(unsigned int width, unsigned int height);
     Renderer(unsigned int width, unsigned int height, bool isDebug);
 
-    void setClearColor(float r, float g, float b, float a);
-
     void run(void (*f)(Renderer &renderer));
     void render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera);
     void terminate();
 
 private:
-    float clearColor[4] { 0.0, 0.0, 0.0, 1.0 };
+    void resize();
 };
 
 }

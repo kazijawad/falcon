@@ -14,17 +14,13 @@
 #include <poly/core/program.h>
 #include <poly/core/mesh.h>
 
-const glm::vec3 poly::Camera::UP = glm::vec3(0.0, 1.0, 0.0);
-
 void loop(poly::Renderer &renderer);
 void handleResize(GLFWwindow* window, int width, int height);
 
 int main() {
     try {
         auto renderer = new poly::Renderer(1280, 720);
-        renderer->setClearColor(0.1, 0.1, 0.1, 1.0);
-
-        glfwSetFramebufferSizeCallback(renderer->window, handleResize);
+        renderer->clearColor = glm::vec4(0.1, 0.1, 0.1, 1.0);
 
         auto scene = std::make_shared<poly::Transform>();
 
@@ -100,8 +96,4 @@ void loop(poly::Renderer &renderer) {
     cube->scale = glm::vec3(glm::sin(renderer.elapsedTime) + 2.0);
 
     renderer.render(renderer.scene, renderer.camera);
-}
-
-void handleResize(GLFWwindow* window, int width, int height) {
-    glViewport(0, 0, width, height);
 }
