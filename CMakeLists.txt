@@ -34,6 +34,7 @@ add_library(lib STATIC
     include/poly/core/mesh.h      lib/core/mesh.cpp
 
     include/poly/geometries/plane.h      lib/geometries/plane.cpp
+    include/poly/geometries/cube.h      lib/geometries/cube.cpp
 
     include/poly/loaders/gltf_loader.h      lib/loaders/gltf_loader.cpp
 )
