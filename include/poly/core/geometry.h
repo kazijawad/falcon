@@ -2,6 +2,7 @@
 #define geometry_h
 
 #include <vector>
+#include <tuple>
 
 #include <glm/glm.hpp>
 
@@ -20,6 +21,7 @@ public:
 
     Geometry(std::vector<float> vertices);
     Geometry(std::vector<Vertex> vertices);
+    Geometry(std::tuple<std::vector<Vertex>, std::vector<unsigned int>> vertexIndexPair);
     Geometry(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 
     void draw();

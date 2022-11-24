@@ -44,7 +44,7 @@ Program::Program(const char* vertexPath, const char* fragmentPath, const char* g
         fragmentCode = fShaderStream.str();
         if (gShaderStream) geometryCode = gShaderStream.str();
     } catch (std::ifstream::failure e) {
-        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ" << std::endl;
+        std::printf("Failed to read shader files\n");
     }
     
     const char* vShaderCode = vertexCode.c_str();
@@ -60,7 +60,7 @@ Program::Program(const char* vertexPath, const char* fragmentPath, const char* g
     glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(vertex, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        std::printf("Failed to compile vertex shader: %s\n", infoLog);
     }
     
     fragment = glCreateShader(GL_FRAGMENT_SHADER);
@@ -69,7 +69,7 @@ Program::Program(const char* vertexPath, const char* fragmentPath, const char* g
     glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(fragment, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+        std::printf("Failed to compile fragment shader: %s\n", infoLog);
     }
     
     if (!geometryCode.empty()) {
@@ -80,7 +80,7 @@ Program::Program(const char* vertexPath, const char* fragmentPath, const char* g
         glGetShaderiv(geometry, GL_COMPILE_STATUS, &success);
         if (!success) {
             glGetShaderInfoLog(geometry, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::GEOMETRY::COMPILATION_FAILED\n" << infoLog << std::endl;
+            std::printf("Failed to compile geometry shader: %s\n", infoLog);
         }
     }
     
@@ -94,7 +94,7 @@ Program::Program(const char* vertexPath, const char* fragmentPath, const char* g
     glGetProgramiv(id, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(id, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+        std::printf("Failed to link program: %s\n", infoLog);
     }
     
     glDeleteShader(vertex);

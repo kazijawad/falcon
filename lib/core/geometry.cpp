@@ -36,6 +36,8 @@ Geometry::Geometry(std::vector<float> rawVertices) {
 }
 
 Geometry::Geometry(std::vector<Vertex> vertices) : Geometry(vertices, std::vector<unsigned int>()) {}
+Geometry::Geometry(std::tuple<std::vector<Vertex>, std::vector<unsigned int>> vertexIndexPair) :
+    Geometry(std::get<0>(vertexIndexPair), std::get<1>(vertexIndexPair)) {}
 
 Geometry::Geometry(std::vector<Vertex> vertices, std::vector<unsigned int> indices) : vertices(vertices), indices(indices) {
     init();

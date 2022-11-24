@@ -10,9 +10,10 @@
 #include <poly/core/renderer.h>
 #include <poly/core/camera.h>
 #include <poly/core/transform.h>
-#include <poly/core/geometry.h>
 #include <poly/core/program.h>
 #include <poly/core/mesh.h>
+#include <poly/geometries/plane.h>
+#include <poly/loaders/gltf_loader.h>
 
 void loop(poly::Renderer &renderer);
 void handleResize(GLFWwindow* window, int width, int height);
@@ -21,6 +22,9 @@ int main() {
     try {
         auto renderer = new poly::Renderer(1280, 720);
         renderer->clearColor = glm::vec4(0.1, 0.1, 0.1, 1.0);
+
+        auto loader = new poly::GLTFLoader();
+        loader->load("./assets/meshes/cornell_box/scene.gltf");
 
         auto scene = std::make_shared<poly::Transform>();
 
@@ -71,7 +75,7 @@ int main() {
             -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
         };
 
-        auto geometry = std::make_shared<poly::Geometry>(vertices);
+        auto geometry = std::make_shared<poly::Plane>();
         auto program = std::make_shared<poly::Program>("./src/pbr.vs", "./src/pbr.fs");
 
         auto mesh = std::make_shared<poly::Mesh>(geometry, program);
@@ -90,10 +94,10 @@ int main() {
 }
 
 void loop(poly::Renderer &renderer) {
-    auto cube = renderer.scene->children[0];
-    cube->rotation.x = renderer.elapsedTime;
-    cube->rotation.y = renderer.elapsedTime;
-    cube->scale = glm::vec3(glm::sin(renderer.elapsedTime) + 2.0);
+    // auto cube = renderer.scene->children[0];
+    // cube->rotation.x = renderer.elapsedTime;
+    // cube->rotation.y = renderer.elapsedTime;
+    // cube->scale = glm::vec3(glm::sin(renderer.elapsedTime) + 2.0);
 
     renderer.render(renderer.scene, renderer.camera);
 }

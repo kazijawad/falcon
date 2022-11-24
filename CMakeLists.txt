@@ -20,6 +20,10 @@ add_subdirectory(external/glfw)
 # GLM
 add_subdirectory(external/glm)
 
+# TinyGLTF
+set(TINYGLTF_HEADER_ONLY ON CACHE INTERNAL "" FORCE)
+set(TINYGLTF_INSTALL OFF CACHE INTERNAL "" FORCE)
+
 # Library
 add_library(lib STATIC
     include/poly/core/renderer.h  lib/core/renderer.cpp
@@ -28,6 +32,10 @@ add_library(lib STATIC
     include/poly/core/program.h   lib/core/program.cpp
     include/poly/core/geometry.h  lib/core/geometry.cpp
     include/poly/core/mesh.h      lib/core/mesh.cpp
+
+    include/poly/geometries/plane.h      lib/geometries/plane.cpp
+
+    include/poly/loaders/gltf_loader.h      lib/loaders/gltf_loader.cpp
 )
 target_link_libraries(lib PUBLIC
     glad
@@ -37,11 +45,10 @@ target_link_libraries(lib PUBLIC
 target_include_directories(lib PUBLIC
     include
     external/stb
+    external/json
+    external/tinygltf
 )
 
 # Application
 target_link_libraries(poly PUBLIC lib)
-target_include_directories(poly PUBLIC
-    include
-    external/stb
-)
+target_include_directories(poly PUBLIC include)
