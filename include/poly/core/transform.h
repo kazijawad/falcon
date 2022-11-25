@@ -27,12 +27,11 @@ public:
     void add(std::shared_ptr<Transform> object);
     void remove(std::shared_ptr<Transform> object);
 
-    void updateWorldMatrix(glm::mat4 &parentWorldMatrix);
-    void updateWorldMatrix();
-    void updateLocalMatrix();
+    virtual void updateWorldMatrix(glm::mat4 &parentWorldMatrix);
+    virtual void updateWorldMatrix();
+    virtual void updateLocalMatrix();
 
-    virtual void draw();
-    virtual void draw(std::shared_ptr<Camera> camera);
+    void traverse(std::shared_ptr<Camera> camera);
 };
 
 }

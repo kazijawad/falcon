@@ -6,20 +6,7 @@ namespace poly {
 
 Mesh::Mesh(std::shared_ptr<Geometry> geometry, std::shared_ptr<Program> program) : Transform(), geometry(geometry), program(program) {}
 
-void Mesh::draw() {
-    updateWorldMatrix();
-
-    program->use();
-    geometry->draw();
-
-    for (auto child : children) {
-        child->draw();
-    }
-}
-
 void Mesh::draw(std::shared_ptr<Camera> camera) {
-    updateWorldMatrix();
-
     modelViewMatrix = camera->viewMatrix * worldMatrix;
     normalMatrix = glm::transpose(glm::inverse(modelViewMatrix));
 
@@ -33,10 +20,6 @@ void Mesh::draw(std::shared_ptr<Camera> camera) {
     program->setMat3("normalMatrix", normalMatrix);
 
     geometry->draw();
-
-    for (auto child : children) {
-        child->draw();
-    }
 }
 
 }

@@ -15,27 +15,22 @@
 #include <poly/geometries/cube.h>
 #include <poly/loaders/gltf_loader.h>
 
-void loop(poly::Renderer &renderer);
-void handleResize(GLFWwindow* window, int width, int height);
+using namespace poly;
+
+void loop(Renderer &renderer);
 
 int main() {
     try {
-        auto renderer = new poly::Renderer(1280, 720);
+        auto renderer = new Renderer(1280, 720);
         renderer->clearColor = glm::vec4(0.1, 0.1, 0.1, 1.0);
 
-        auto loader = new poly::GLTFLoader();
+        auto loader = new GLTFLoader();
         auto scenes = loader->load("./assets/meshes/box/scene.gltf");
 
         auto scene = scenes[0];
 
-        auto camera = std::make_shared<poly::Camera>(45.0, 1280.0 / 720.0, 0.1, 100.0);
-        camera->position.z = 5.0;
-
-        auto mesh = std::make_shared<poly::Mesh>(std::make_shared<poly::Cube>(), std::make_shared<poly::Program>(
-            "./assets/shaders/normal/vertex.glsl",
-            "./assets/shaders/normal/fragment.glsl"
-        ));
-        scene->add(mesh);
+        auto camera = std::make_shared<Camera>(45.0, 1280.0 / 720.0, 0.1, 100.0);
+        camera->position.z = 10.0;
 
         renderer->scene = scene;
         renderer->camera = camera;
@@ -49,6 +44,6 @@ int main() {
     }
 }
 
-void loop(poly::Renderer &renderer) {
+void loop(Renderer &renderer) {
     renderer.render(renderer.scene, renderer.camera);
 }

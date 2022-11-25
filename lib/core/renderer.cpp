@@ -73,9 +73,8 @@ void Renderer::run(void (*f)(Renderer &renderer)) {
 
 void Renderer::render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera) {
     camera->updateWorldMatrix();
-    for (auto child : scene->children) {
-        child->draw(camera);
-    }
+    scene->updateWorldMatrix();
+    scene->traverse(camera);
 }
 
 void Renderer::terminate() {

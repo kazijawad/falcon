@@ -1,7 +1,7 @@
 #include <memory>
 #include <iostream>
 
-#include <glm/ext/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
 #include <glm/gtx/euler_angles.hpp>
 
 #include <poly/core/transform.h>
@@ -40,23 +40,19 @@ void Transform::updateWorldMatrix() {
 }
 
 void Transform::updateLocalMatrix() {
-    auto T = glm::translate(glm::mat4(1.0), position);
+    auto T = glm::translate(position);
     auto R = glm::eulerAngleXYX(rotation.x, rotation.y, rotation.z);
-    auto S = glm::scale(glm::mat4(1.0), scale);
+    auto S = glm::scale(scale);
     localMatrix = T * R * S;
 }
 
-void Transform::draw() {
-    updateWorldMatrix();
+void Transform::traverse(std::shared_ptr<Camera> camera) {
     for (auto child : children) {
-        child->draw();
-    }
-}
-
-void Transform::draw(std::shared_ptr<Camera> camera) {
-    updateWorldMatrix();
-    for (auto child : children) {
-        child->draw();
+        if (std::dynamic_pointer_cast<Mesh>(child) != nullptr) {
+            auto mesh = std::dynamic_pointer_cast<Mesh>(child);
+            mesh->draw(camera);
+        }
+        child->traverse(camera);
     }
 }
 

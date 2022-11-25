@@ -12,11 +12,16 @@ Camera::Camera(float fov, float aspect, float near, float far) : Transform(), fo
 
 void Camera::updateWorldMatrix() {
     Transform::updateWorldMatrix();
-    viewMatrix = glm::lookAt(position, glm::vec3(0.0), up);
+    viewMatrix = glm::lookAt(position, target, up);
 }
 
 void Camera::updateProjectionMatrix() {
     projectionMatrix = glm::perspective(glm::radians(fov), aspect, near, far);
+}
+
+void Camera::lookAt(glm::vec3 target) {
+    viewMatrix = glm::lookAt(position, target, up);
+    target = target;
 }
 
 }

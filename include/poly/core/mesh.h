@@ -22,8 +22,7 @@ public:
 
     Mesh(std::shared_ptr<Geometry> geometry, std::shared_ptr<Program> program);
 
-    void draw() override;
-    void draw(std::shared_ptr<Camera> camera) override;
+    void draw(std::shared_ptr<Camera> camera);
 };
 
 }
