@@ -5,6 +5,7 @@
 #include <memory>
 
 #include <glm/glm.hpp>
+#include <glm/ext.hpp>
 
 namespace poly {
 
@@ -16,7 +17,7 @@ public:
     std::vector<std::shared_ptr<Transform>> children;
 
     glm::vec3 position = glm::vec3(0.0);
-    glm::vec3 rotation = glm::vec3(0.0);
+    glm::quat rotation = glm::quat();
     glm::vec3 scale = glm::vec3(1.0);
 
     glm::mat4 localMatrix = glm::mat4(1.0);

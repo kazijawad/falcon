@@ -1,8 +1,5 @@
-#include <memory>
-#include <iostream>
-
 #include <glm/gtx/transform.hpp>
-#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 #include <poly/core/transform.h>
 #include <poly/core/mesh.h>
@@ -41,7 +38,7 @@ void Transform::updateWorldMatrix() {
 
 void Transform::updateLocalMatrix() {
     auto T = glm::translate(position);
-    auto R = glm::eulerAngleXYX(rotation.x, rotation.y, rotation.z);
+    auto R = glm::toMat4(rotation);
     auto S = glm::scale(scale);
     localMatrix = T * R * S;
 }

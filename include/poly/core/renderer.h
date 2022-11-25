@@ -32,7 +32,7 @@ public:
     Renderer(unsigned int width, unsigned int height, bool isDebug);
 
     void run(void (*f)(Renderer &renderer));
-    void render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera);
+    void render();
     void terminate();
 
 private:

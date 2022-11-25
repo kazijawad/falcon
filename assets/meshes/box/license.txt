@@ -1,5 +1,1 @@
-Downloaded from: https://github.com/KhronosGroup/glTF-Sample-Models
-
-Donated by Cesium for glTF testing.
-
-This model is licensed under a Creative Commons Attribution 4.0 International License.
+Source: https://github.com/KhronosGroup/glTF-Sample-Models

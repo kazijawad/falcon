@@ -3,16 +3,12 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
 #include <iostream>
-#include <string>
-#include <memory>
 #include <vector>
 
 #include <glm/gtc/type_ptr.hpp>
 
 #include <poly/loaders/gltf_loader.h>
 #include <poly/core/mesh.h>
-#include <poly/core/program.h>
-#include <poly/core/geometry.h>
 
 namespace poly {
 
@@ -58,13 +54,19 @@ std::shared_ptr<Transform> GLTFLoader::loadNode(int nodeIndex) {
 
     if (!node.matrix.empty()) {
         double* mat = &node.matrix[0];
-        auto model = glm::make_mat4(mat);
-        transform->localMatrix = model;
+        transform->localMatrix = glm::make_mat4(mat);
+    }
+
+    if (!node.rotation.empty()) {
+        double* quat = &node.rotation[0];
+        transform->rotation = glm::make_quat(quat);
     }
 
     if (node.mesh > -1) {
-        auto meshes = loadMesh(node.mesh);
-        for (auto mesh : meshes) {
+        auto geometries = loadMesh(node.mesh);
+        for (auto geometry : geometries) {
+            auto program = std::make_shared<Program>("./assets/shaders/normal/vertex.glsl", "./assets/shaders/normal/fragment.glsl");
+            auto mesh = std::make_shared<Mesh>(geometry, program);
             transform->add(mesh);
         }
     }
@@ -79,9 +81,9 @@ std::shared_ptr<Transform> GLTFLoader::loadNode(int nodeIndex) {
     return transform;
 }
 
-std::vector<std::shared_ptr<Mesh>> GLTFLoader::loadMesh(int meshIndex) {
+std::vector<std::shared_ptr<Geometry>> GLTFLoader::loadMesh(int meshIndex) {
     auto mesh = model.meshes[meshIndex];
-    std::vector<std::shared_ptr<Mesh>> meshes;
+    std::vector<std::shared_ptr<Geometry>> geometries;
 
     for (auto primitive : mesh.primitives) {
         // TODO: Handle point and line rendering.
@@ -131,7 +133,7 @@ std::vector<std::shared_ptr<Mesh>> GLTFLoader::loadMesh(int meshIndex) {
             }
         }
 
-        if (primitive.indices) {
+        if (primitive.indices > -1) {
             auto accessorIndex = primitive.indices;
             auto accessor = model.accessors[accessorIndex];
 
@@ -186,13 +188,10 @@ std::vector<std::shared_ptr<Mesh>> GLTFLoader::loadMesh(int meshIndex) {
         }
 
         auto geometry = std::make_shared<Geometry>(vertices, indices);
-        auto program = std::make_shared<Program>("./assets/shaders/normal/vertex.glsl", "./assets/shaders/normal/fragment.glsl");
-        auto mesh = std::make_shared<Mesh>(geometry, program);
-
-        meshes.push_back(mesh);
+        geometries.push_back(geometry);
     }
 
-    return meshes;
+    return geometries;
 }
 
 }
