@@ -24,17 +24,17 @@ int main() {
         renderer->clearColor = glm::vec4(0.1, 0.1, 0.1, 1.0);
 
         auto loader = new poly::GLTFLoader();
-        loader->load("./assets/meshes/cornell_box/scene.gltf");
+        auto scenes = loader->load("./assets/meshes/box/scene.gltf");
 
-        auto scene = std::make_shared<poly::Transform>();
+        auto scene = scenes[0];
 
         auto camera = std::make_shared<poly::Camera>(45.0, 1280.0 / 720.0, 0.1, 100.0);
         camera->position.z = 5.0;
 
-        auto geometry = std::make_shared<poly::Cube>();
-        auto program = std::make_shared<poly::Program>("./src/pbr.vs", "./src/pbr.fs");
-
-        auto mesh = std::make_shared<poly::Mesh>(geometry, program);
+        auto mesh = std::make_shared<poly::Mesh>(std::make_shared<poly::Cube>(), std::make_shared<poly::Program>(
+            "./assets/shaders/normal/vertex.glsl",
+            "./assets/shaders/normal/fragment.glsl"
+        ));
         scene->add(mesh);
 
         renderer->scene = scene;
@@ -50,9 +50,5 @@ int main() {
 }
 
 void loop(poly::Renderer &renderer) {
-    auto cube = renderer.scene->children[0];
-    cube->rotation.x = renderer.elapsedTime;
-    cube->rotation.y = renderer.elapsedTime;
-
     renderer.render(renderer.scene, renderer.camera);
 }

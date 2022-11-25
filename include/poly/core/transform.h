@@ -9,10 +9,11 @@
 namespace poly {
 
 class Mesh;
+class Camera;
 
 class Transform {
 public:
-    std::vector<std::shared_ptr<Mesh>> children;
+    std::vector<std::shared_ptr<Transform>> children;
 
     glm::vec3 position = glm::vec3(0.0);
     glm::vec3 rotation = glm::vec3(0.0);
@@ -23,12 +24,15 @@ public:
 
     Transform();
 
-    void add(std::shared_ptr<Mesh> object);
-    void remove(std::shared_ptr<Mesh> object);
+    void add(std::shared_ptr<Transform> object);
+    void remove(std::shared_ptr<Transform> object);
 
     void updateWorldMatrix(glm::mat4 &parentWorldMatrix);
     void updateWorldMatrix();
     void updateLocalMatrix();
+
+    virtual void draw();
+    virtual void draw(std::shared_ptr<Camera> camera);
 };
 
 }

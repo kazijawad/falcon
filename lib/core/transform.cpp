@@ -11,11 +11,11 @@ namespace poly {
 
 Transform::Transform() {}
 
-void Transform::add(std::shared_ptr<Mesh> object) {
+void Transform::add(std::shared_ptr<Transform> object) {
     children.push_back(object);
 }
 
-void Transform::remove(std::shared_ptr<Mesh> object) {
+void Transform::remove(std::shared_ptr<Transform> object) {
     children.erase(std::remove(children.begin(), children.end(), object), children.end());
 }
 
@@ -24,7 +24,7 @@ void Transform::updateWorldMatrix(glm::mat4 &parentWorldMatrix) {
 
     worldMatrix = parentWorldMatrix * localMatrix;
 
-    for (std::shared_ptr<Mesh> child : children) {
+    for (std::shared_ptr<Transform> child : children) {
         child->updateWorldMatrix(worldMatrix);
     }
 }
@@ -34,7 +34,7 @@ void Transform::updateWorldMatrix() {
 
     worldMatrix = glm::mat4(localMatrix);
 
-    for (std::shared_ptr<Mesh> child : children) {
+    for (std::shared_ptr<Transform> child : children) {
         child->updateWorldMatrix(worldMatrix);
     }
 }
@@ -44,6 +44,20 @@ void Transform::updateLocalMatrix() {
     auto R = glm::eulerAngleXYX(rotation.x, rotation.y, rotation.z);
     auto S = glm::scale(glm::mat4(1.0), scale);
     localMatrix = T * R * S;
+}
+
+void Transform::draw() {
+    updateWorldMatrix();
+    for (auto child : children) {
+        child->draw();
+    }
+}
+
+void Transform::draw(std::shared_ptr<Camera> camera) {
+    updateWorldMatrix();
+    for (auto child : children) {
+        child->draw();
+    }
 }
 
 }

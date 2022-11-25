@@ -7,11 +7,16 @@
 
 namespace poly {
 
+class Transform;
+class Mesh;
+
 class GLTFLoader {
 public:
     GLTFLoader();
 
-    void load(const std::string &filename);
+    std::vector<std::shared_ptr<Transform>> load(const std::string &filename);
+    std::shared_ptr<Transform> loadNode(int nodeIndex);
+    std::vector<std::shared_ptr<Mesh>> loadMesh(int meshIndex);
 
 private:
     tinygltf::TinyGLTF loader;

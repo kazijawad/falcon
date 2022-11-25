@@ -22,8 +22,6 @@ public:
 
     void updateWorldMatrix();
     void updateProjectionMatrix();
-
-    void lookAt(glm::vec3 v);
 };
 
 }
