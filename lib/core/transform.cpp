@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 
