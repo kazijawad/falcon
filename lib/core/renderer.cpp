@@ -18,6 +18,7 @@ Renderer::Renderer(unsigned int width, unsigned int height, bool isDebug) : widt
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_SAMPLES, 4);
 
     GLFWwindow* newWindow = glfwCreateWindow(width, height, "Poly", NULL, NULL);
     if (newWindow == NULL) {
@@ -33,6 +34,9 @@ Renderer::Renderer(unsigned int width, unsigned int height, bool isDebug) : widt
         std::printf("Failed to initialize OpenGL Context\n");
         throw std::exception();
     }
+
+    // Enable MSAA
+    glEnable(GL_MULTISAMPLE);
 
     if (isDebug) {
         std::printf("Vender: %s\n", glGetString(GL_VENDOR));

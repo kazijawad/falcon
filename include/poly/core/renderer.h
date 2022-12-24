@@ -17,7 +17,7 @@ public:
     unsigned int height;
     glm::vec4 clearColor = glm::vec4(0.0);
 
-    bool isDebug;
+    bool isDebug = true;
     bool autoClear = true;
     bool depthTest = true;
     bool stencilTest = false;

@@ -9,16 +9,16 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_executable(poly src/main.cpp)
 
 # GLAD
-add_subdirectory(external/glad)
+add_subdirectory(ext/glad)
 
 # GLFW
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-add_subdirectory(external/glfw)
+add_subdirectory(ext/glfw)
 
 # GLM
-add_subdirectory(external/glm)
+add_subdirectory(ext/glm)
 
 # TinyGLTF
 set(TINYGLTF_HEADER_ONLY ON CACHE INTERNAL "" FORCE)
@@ -31,12 +31,15 @@ add_library(lib STATIC
     include/poly/core/camera.h    lib/core/camera.cpp
     include/poly/core/program.h   lib/core/program.cpp
     include/poly/core/geometry.h  lib/core/geometry.cpp
+    include/poly/core/material.h  lib/core/material.cpp
     include/poly/core/mesh.h      lib/core/mesh.cpp
 
-    include/poly/geometries/plane.h      lib/geometries/plane.cpp
-    include/poly/geometries/cube.h      lib/geometries/cube.cpp
+    include/poly/geometries/plane.h lib/geometries/plane.cpp
+    include/poly/geometries/cube.h  lib/geometries/cube.cpp
 
-    include/poly/loaders/gltf_loader.h      lib/loaders/gltf_loader.cpp
+    include/poly/materials/shader_material.h lib/materials/shader_material.cpp
+
+    include/poly/loaders/gltf_loader.h lib/loaders/gltf_loader.cpp
 )
 target_link_libraries(lib PUBLIC
     glad
@@ -45,9 +48,9 @@ target_link_libraries(lib PUBLIC
 )
 target_include_directories(lib PUBLIC
     include
-    external/stb
-    external/json
-    external/tinygltf
+    ext/stb
+    ext/json
+    ext/tinygltf
 )
 
 # Application

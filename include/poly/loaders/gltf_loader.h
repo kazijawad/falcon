@@ -9,7 +9,9 @@
 namespace poly {
 
 class Transform;
+class Mesh;
 class Geometry;
+class Material;
 
 class GLTFLoader {
 public:
@@ -17,7 +19,10 @@ public:
 
     std::vector<std::shared_ptr<Transform>> load(const std::string &filename);
     std::shared_ptr<Transform> loadNode(int nodeIndex);
-    std::vector<std::shared_ptr<Geometry>> loadMesh(int meshIndex);
+    std::vector<std::shared_ptr<Mesh>> loadMesh(int meshIndex);
+
+    std::shared_ptr<Geometry> loadGeometry(tinygltf::Primitive primitive);
+    std::shared_ptr<Material> loadMaterial(tinygltf::Primitive primitive);
 
 private:
     tinygltf::TinyGLTF loader;

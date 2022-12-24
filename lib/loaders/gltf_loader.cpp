@@ -1,3 +1,4 @@
+#include <memory>
 #define TINYGLTF_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -63,10 +64,8 @@ std::shared_ptr<Transform> GLTFLoader::loadNode(int nodeIndex) {
     }
 
     if (node.mesh > -1) {
-        auto geometries = loadMesh(node.mesh);
-        for (auto geometry : geometries) {
-            auto program = std::make_shared<Program>("./assets/shaders/normal/vertex.glsl", "./assets/shaders/normal/fragment.glsl");
-            auto mesh = std::make_shared<Mesh>(geometry, program);
+        auto meshes = loadMesh(node.mesh);
+        for (auto mesh : meshes) {
             transform->add(mesh);
         }
     }
@@ -81,117 +80,129 @@ std::shared_ptr<Transform> GLTFLoader::loadNode(int nodeIndex) {
     return transform;
 }
 
-std::vector<std::shared_ptr<Geometry>> GLTFLoader::loadMesh(int meshIndex) {
+std::vector<std::shared_ptr<Mesh>> GLTFLoader::loadMesh(int meshIndex) {
     auto mesh = model.meshes[meshIndex];
-    std::vector<std::shared_ptr<Geometry>> geometries;
+    std::vector<std::shared_ptr<Mesh>> meshes;
 
     for (auto primitive : mesh.primitives) {
         // TODO: Handle point and line rendering.
         if (primitive.mode && primitive.mode != 4) continue;
 
         // TODO: Handle material.
+        auto geometry = loadGeometry(primitive);
+        auto material = loadMaterial(primitive);
 
-        std::vector<float> positions;
-        std::vector<float> normals;
-        std::vector<unsigned int> indices;
-
-        if (primitive.attributes.count("POSITION") > 0) {
-            auto accessorIndex = primitive.attributes.find("POSITION")->second;
-            auto accessor = model.accessors[accessorIndex];
-
-            if (accessor.type != TINYGLTF_TYPE_VEC3) {
-                std::printf("Primitive position accessor is not of type VEC3: %d", accessorIndex);
-            } else {
-                auto bufferView = model.bufferViews[accessor.bufferView];
-                auto buffer = model.buffers[bufferView.buffer];
-
-                auto data = reinterpret_cast<const float*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
-                for (size_t i = 0; i < accessor.count; i++) {
-                    positions.push_back(data[i * 3 + 0]);
-                    positions.push_back(data[i * 3 + 1]);
-                    positions.push_back(data[i * 3 + 2]);
-                }
-            }
-        }
-
-        if (primitive.attributes.count("NORMAL") > 0) {
-            auto accessorIndex = primitive.attributes.find("NORMAL")->second;
-            auto accessor = model.accessors[accessorIndex];
-
-            if (accessor.type != TINYGLTF_TYPE_VEC3) {
-                std::printf("Primitive normal accessor is not of type VEC3: %d", accessorIndex);
-            } else {
-                auto bufferView = model.bufferViews[accessor.bufferView];
-                auto buffer = model.buffers[bufferView.buffer];
-
-                auto data = reinterpret_cast<const float*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
-                for (size_t i = 0; i < accessor.count; i++) {
-                    normals.push_back(data[i * 3 + 0]);
-                    normals.push_back(data[i * 3 + 1]);
-                    normals.push_back(data[i * 3 + 2]);
-                }
-            }
-        }
-
-        if (primitive.indices > -1) {
-            auto accessorIndex = primitive.indices;
-            auto accessor = model.accessors[accessorIndex];
-
-            if (accessor.type != TINYGLTF_TYPE_SCALAR) {
-                std::printf("Primitive index accessor is not of type SCALAR: %d", accessorIndex);
-            } else {
-                auto bufferView = model.bufferViews[accessor.bufferView];
-                auto buffer = model.buffers[bufferView.buffer];
-
-                switch (accessor.componentType) {
-                case TINYGLTF_PARAMETER_TYPE_UNSIGNED_INT: {
-                    auto data = reinterpret_cast<const uint32_t*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
-                    for (size_t i = 0; i < accessor.count; i++) {
-                        indices.push_back(data[i]);
-                    }
-                    break;
-                }
-                case TINYGLTF_PARAMETER_TYPE_UNSIGNED_SHORT: {
-                    auto data = reinterpret_cast<const uint16_t*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
-                    for (size_t i = 0; i < accessor.count; i++) {
-                        indices.push_back(data[i]);
-                    }
-                    break;
-                }
-                case TINYGLTF_PARAMETER_TYPE_UNSIGNED_BYTE: {
-                    auto data = reinterpret_cast<const uint8_t*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
-                    for (size_t i = 0; i < accessor.count; i++) {
-                        indices.push_back(data[i]);
-                    }
-                    break;
-                }
-                }
-            }
-        }
-
-        if (positions.size() != normals.size() && !normals.empty()) {
-            std::printf("GLTF positions and normals are not equal: %zu, %zu", positions.size(), normals.size());
-        }
-
-        std::vector<Vertex> vertices;
-
-        for (unsigned int i = 0; i < positions.size(); i += 3) {
-            Vertex vertex;
-
-            vertex.position = glm::vec3(positions[i], positions[i + 1], positions[i + 2]);
-
-            if (i + 2 < normals.size()) {
-                vertex.normal = glm::vec3(normals[i], normals[i + 1], normals[i + 2]);
-            }
-
-            vertices.push_back(vertex);
-        }
-
-        auto geometry = std::make_shared<Geometry>(vertices, indices);
-        geometries.push_back(geometry);
+        meshes.push_back(std::make_shared<Mesh>(geometry, material));
     }
 
-    return geometries;
+    return meshes;
+}
+
+std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive) {
+    std::vector<float> positions;
+    std::vector<float> normals;
+    std::vector<unsigned int> indices;
+
+    if (primitive.attributes.count("POSITION") > 0) {
+        auto accessorIndex = primitive.attributes.find("POSITION")->second;
+        auto accessor = model.accessors[accessorIndex];
+
+        if (accessor.type != TINYGLTF_TYPE_VEC3) {
+            std::printf("Primitive position accessor is not of type VEC3: %d", accessorIndex);
+        } else {
+            auto bufferView = model.bufferViews[accessor.bufferView];
+            auto buffer = model.buffers[bufferView.buffer];
+
+            auto data = reinterpret_cast<const float*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
+            for (size_t i = 0; i < accessor.count; i++) {
+                positions.push_back(data[i * 3 + 0]);
+                positions.push_back(data[i * 3 + 1]);
+                positions.push_back(data[i * 3 + 2]);
+            }
+        }
+    }
+
+    if (primitive.attributes.count("NORMAL") > 0) {
+        auto accessorIndex = primitive.attributes.find("NORMAL")->second;
+        auto accessor = model.accessors[accessorIndex];
+
+        if (accessor.type != TINYGLTF_TYPE_VEC3) {
+            std::printf("Primitive normal accessor is not of type VEC3: %d", accessorIndex);
+        } else {
+            auto bufferView = model.bufferViews[accessor.bufferView];
+            auto buffer = model.buffers[bufferView.buffer];
+
+            auto data = reinterpret_cast<const float*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
+            for (size_t i = 0; i < accessor.count; i++) {
+                normals.push_back(data[i * 3 + 0]);
+                normals.push_back(data[i * 3 + 1]);
+                normals.push_back(data[i * 3 + 2]);
+            }
+        }
+    }
+
+    if (primitive.indices > -1) {
+        auto accessorIndex = primitive.indices;
+        auto accessor = model.accessors[accessorIndex];
+
+        if (accessor.type != TINYGLTF_TYPE_SCALAR) {
+            std::printf("Primitive index accessor is not of type SCALAR: %d", accessorIndex);
+        } else {
+            auto bufferView = model.bufferViews[accessor.bufferView];
+            auto buffer = model.buffers[bufferView.buffer];
+
+            switch (accessor.componentType) {
+            case TINYGLTF_PARAMETER_TYPE_UNSIGNED_INT: {
+                auto data = reinterpret_cast<const uint32_t*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
+                for (size_t i = 0; i < accessor.count; i++) {
+                    indices.push_back(data[i]);
+                }
+                break;
+            }
+            case TINYGLTF_PARAMETER_TYPE_UNSIGNED_SHORT: {
+                auto data = reinterpret_cast<const uint16_t*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
+                for (size_t i = 0; i < accessor.count; i++) {
+                    indices.push_back(data[i]);
+                }
+                break;
+            }
+            case TINYGLTF_PARAMETER_TYPE_UNSIGNED_BYTE: {
+                auto data = reinterpret_cast<const uint8_t*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
+                for (size_t i = 0; i < accessor.count; i++) {
+                    indices.push_back(data[i]);
+                }
+                break;
+            }
+            }
+        }
+    }
+
+    if (positions.size() != normals.size() && !normals.empty()) {
+        std::printf("GLTF positions and normals are not equal: %zu, %zu", positions.size(), normals.size());
+    }
+
+    std::vector<Vertex> vertices;
+
+    for (unsigned int i = 0; i < positions.size(); i += 3) {
+        Vertex vertex;
+
+        vertex.position = glm::vec3(positions[i], positions[i + 1], positions[i + 2]);
+
+        if (i + 2 < normals.size()) {
+            vertex.normal = glm::vec3(normals[i], normals[i + 1], normals[i + 2]);
+        }
+
+        vertices.push_back(vertex);
+    }
+
+    return std::make_shared<Geometry>(vertices, indices);
+}
+
+std::shared_ptr<Material> GLTFLoader::loadMaterial(tinygltf::Primitive primitive) {
+    auto material = model.materials[primitive.material];
+
+    // Temporary
+    return std::make_shared<Material>("./assets/shaders/normal/vertex.glsl", "./assets/shaders/normal/fragment.glsl");
 }
 
 }
