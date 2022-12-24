@@ -30,7 +30,7 @@ int main() {
         auto loader = new GLTFLoader();
         auto scenes = loader->load("./assets/meshes/cornell_box/scene.gltf");
 
-        auto scene = scenes[0];        
+        auto scene = scenes[0];
 
         renderer->scene = scene;
         renderer->camera = camera;
