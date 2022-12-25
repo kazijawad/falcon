@@ -8,6 +8,12 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(poly src/main.cpp)
 
+# Assets
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
+
+# whereami
+add_subdirectory(ext/whereami)
+
 # GLAD
 add_subdirectory(ext/glad)
 
@@ -42,8 +48,11 @@ add_library(lib STATIC
     include/poly/materials/pbr_material.h lib/materials/pbr_material.cpp
 
     include/poly/loaders/gltf_loader.h lib/loaders/gltf_loader.cpp
+
+    include/poly/utils/file_utils.h lib/utils/file_utils.cpp
 )
 target_link_libraries(lib PUBLIC
+    whereami
     glad
     glfw
     glm::glm

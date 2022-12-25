@@ -14,6 +14,7 @@
 #include <poly/core/mesh.h>
 #include <poly/geometries/cube.h>
 #include <poly/loaders/gltf_loader.h>
+#include <poly/utils/file_utils.h>
 
 using namespace poly;
 
@@ -28,7 +29,7 @@ int main() {
         camera->position = glm::vec3(0.0, 3.0, 6.0);
 
         auto loader = new GLTFLoader();
-        auto scenes = loader->load("./assets/meshes/cornell_box/scene.gltf");
+        auto scenes = loader->load(FileUtils::getAssetPath("/assets/meshes/cornell_box/scene.gltf"));
 
         auto scene = scenes[0];
 
