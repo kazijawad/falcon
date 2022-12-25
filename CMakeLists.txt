@@ -38,6 +38,8 @@ add_library(lib STATIC
     include/poly/geometries/cube.h  lib/geometries/cube.cpp
 
     include/poly/materials/shader_material.h lib/materials/shader_material.cpp
+    include/poly/materials/normal_material.h lib/materials/normal_material.cpp
+    include/poly/materials/pbr_material.h lib/materials/pbr_material.cpp
 
     include/poly/loaders/gltf_loader.h lib/loaders/gltf_loader.cpp
 )

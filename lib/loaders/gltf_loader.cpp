@@ -1,4 +1,3 @@
-#include <memory>
 #define TINYGLTF_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -10,6 +9,8 @@
 
 #include <poly/loaders/gltf_loader.h>
 #include <poly/core/mesh.h>
+#include <poly/materials/normal_material.h>
+#include <poly/materials/pbr_material.h>
 
 namespace poly {
 
@@ -199,10 +200,24 @@ std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive
 }
 
 std::shared_ptr<Material> GLTFLoader::loadMaterial(tinygltf::Primitive primitive) {
-    auto material = model.materials[primitive.material];
+    if (primitive.material > -1) {
+        auto modelMaterial = model.materials[primitive.material];
 
-    // Temporary
-    return std::make_shared<Material>("./assets/shaders/normal/vertex.glsl", "./assets/shaders/normal/fragment.glsl");
+        auto pbr = modelMaterial.pbrMetallicRoughness;
+        auto baseColor = glm::vec4(
+            pbr.baseColorFactor[0],
+            pbr.baseColorFactor[1],
+            pbr.baseColorFactor[2],
+            pbr.baseColorFactor[3]
+        );
+
+        auto material = std::make_shared<PBRMaterial>(baseColor, pbr.metallicFactor, pbr.roughnessFactor);
+        material->doubleSided = modelMaterial.doubleSided;
+
+        return material;
+    }
+
+    return std::make_shared<NormalMaterial>();
 }
 
 }

@@ -10,4 +10,8 @@ Material::Material(
     const char* geometryPath
 ) : program(vertexPath, fragmentPath, geometryPath) {};
 
+void Material::use() {
+    program.use();
+}
+
 }

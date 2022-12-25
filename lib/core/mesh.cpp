@@ -10,15 +10,16 @@ void Mesh::draw(std::shared_ptr<Camera> camera) {
     modelViewMatrix = camera->viewMatrix * worldMatrix;
     normalMatrix = glm::transpose(glm::inverse(modelViewMatrix));
 
-    auto program = material->program;
-    program.use();
+    material->use();
 
-    program.setMat4("model", worldMatrix);
-    program.setMat4("view", camera->viewMatrix);
-    program.setMat4("projection", camera->projectionMatrix);
+    material->program.setMat4("model", worldMatrix);
+    material->program.setMat4("view", camera->viewMatrix);
+    material->program.setMat4("projection", camera->projectionMatrix);
 
-    program.setMat4("modelViewMatrix", modelViewMatrix);
-    program.setMat3("normalMatrix", normalMatrix);
+    material->program.setMat4("modelViewMatrix", modelViewMatrix);
+    material->program.setMat3("normalMatrix", normalMatrix);
+
+    material->program.setVec3("cameraPosition", camera->position);
 
     geometry->draw();
 }

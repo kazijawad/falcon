@@ -28,7 +28,7 @@ int main() {
         camera->position = glm::vec3(0.0, 3.0, 6.0);
 
         auto loader = new GLTFLoader();
-        auto scenes = loader->load("./assets/meshes/box/scene.gltf");
+        auto scenes = loader->load("./assets/meshes/cornell_box/scene.gltf");
 
         auto scene = scenes[0];
 
