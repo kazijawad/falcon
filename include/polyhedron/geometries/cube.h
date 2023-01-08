@@ -1,9 +1,9 @@
 #ifndef cube_h
 #define cube_h
 
-#include <poly/geometries/plane.h>
+#include <polyhedron/geometries/plane.h>
 
-namespace poly {
+namespace polyhedron {
 
 class Cube : public Geometry {
 public:

@@ -3,10 +3,10 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-#include <poly/core/transform.h>
-#include <poly/core/mesh.h>
+#include <polyhedron/core/transform.h>
+#include <polyhedron/core/mesh.h>
 
-namespace poly {
+namespace polyhedron {
 
 Transform::Transform() {}
 

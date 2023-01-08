@@ -1,8 +1,8 @@
 #include <glm/gtc/matrix_inverse.hpp>
 
-#include <poly/core/mesh.h>
+#include <polyhedron/core/mesh.h>
 
-namespace poly {
+namespace polyhedron {
 
 Mesh::Mesh(std::shared_ptr<Geometry> geometry, std::shared_ptr<Material> material) : Transform(), geometry(geometry), material(material) {}
 

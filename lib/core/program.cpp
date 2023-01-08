@@ -8,9 +8,9 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
-#include <poly/core/program.h>
+#include <polyhedron/core/program.h>
 
-namespace poly {
+namespace polyhedron {
 
 Program::Program(const char* vertexPath, const char* fragmentPath, const char* geometryPath) {
     std::string vertexCode;

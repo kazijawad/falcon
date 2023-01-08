@@ -1,9 +1,9 @@
 #ifndef plane_h
 #define plane_h
 
-#include <poly/core/geometry.h>
+#include <polyhedron/core/geometry.h>
 
-namespace poly {
+namespace polyhedron {
 
 class Plane : public Geometry {
 public:

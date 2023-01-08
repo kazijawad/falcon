@@ -1,9 +1,9 @@
 #ifndef material_h
 #define material_h
 
-#include <poly/core/program.h>
+#include <polyhedron/core/program.h>
 
-namespace poly {
+namespace polyhedron {
 
 class Material {
 public:

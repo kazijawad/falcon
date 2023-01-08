@@ -6,7 +6,7 @@
 
 #include <glm/glm.hpp>
 
-namespace poly {
+namespace polyhedron {
 
 struct Vertex {
     glm::vec3 position;

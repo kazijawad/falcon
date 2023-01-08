@@ -1,6 +1,6 @@
-#include <poly/geometries/plane.h>
+#include <polyhedron/geometries/plane.h>
 
-namespace poly {
+namespace polyhedron {
 
 Plane::Plane() : Plane(1, 1, 1, 1) {}
 Plane::Plane(int width, int height) : Plane(width, height, 1, 1) {}

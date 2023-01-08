@@ -1,10 +1,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
 
-#include <poly/core/camera.h>
-#include <poly/core/transform.h>
+#include <polyhedron/core/camera.h>
+#include <polyhedron/core/transform.h>
 
-namespace poly {
+namespace polyhedron {
 
 Camera::Camera(float fov, float aspect, float near, float far) : Transform(), fov(fov), aspect(aspect), near(near), far(far) {
     updateProjectionMatrix();

@@ -2,9 +2,9 @@
 
 #include <glad/gl.h>
 
-#include <poly/core/geometry.h>
+#include <polyhedron/core/geometry.h>
 
-namespace poly {
+namespace polyhedron {
 
 Geometry::Geometry(std::vector<float> rawVertices) {
     std::vector<Vertex> newVertices;

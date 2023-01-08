@@ -6,7 +6,7 @@
 
 #include <tiny_gltf.h>
 
-namespace poly {
+namespace polyhedron {
 
 class Transform;
 class Mesh;

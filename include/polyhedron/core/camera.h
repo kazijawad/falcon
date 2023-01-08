@@ -3,9 +3,9 @@
 
 #include <glm/glm.hpp>
 
-#include <poly/core/transform.h>
+#include <polyhedron/core/transform.h>
 
-namespace poly {
+namespace polyhedron {
 
 class Camera : public Transform {
 public:

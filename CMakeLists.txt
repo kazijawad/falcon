@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.24)
 
-project(poly)
+project(polyhedron)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_executable(poly src/main.cpp)
+add_executable(polyhedron src/main.cpp)
 
 # Assets
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
@@ -32,24 +32,24 @@ set(TINYGLTF_INSTALL OFF CACHE INTERNAL "" FORCE)
 
 # Library
 add_library(lib STATIC
-    include/poly/core/renderer.h  lib/core/renderer.cpp
-    include/poly/core/transform.h lib/core/transform.cpp
-    include/poly/core/camera.h    lib/core/camera.cpp
-    include/poly/core/program.h   lib/core/program.cpp
-    include/poly/core/geometry.h  lib/core/geometry.cpp
-    include/poly/core/material.h  lib/core/material.cpp
-    include/poly/core/mesh.h      lib/core/mesh.cpp
+    include/polyhedron/core/renderer.h  lib/core/renderer.cpp
+    include/polyhedron/core/transform.h lib/core/transform.cpp
+    include/polyhedron/core/camera.h    lib/core/camera.cpp
+    include/polyhedron/core/program.h   lib/core/program.cpp
+    include/polyhedron/core/geometry.h  lib/core/geometry.cpp
+    include/polyhedron/core/material.h  lib/core/material.cpp
+    include/polyhedron/core/mesh.h      lib/core/mesh.cpp
 
-    include/poly/geometries/plane.h lib/geometries/plane.cpp
-    include/poly/geometries/cube.h  lib/geometries/cube.cpp
+    include/polyhedron/geometries/plane.h lib/geometries/plane.cpp
+    include/polyhedron/geometries/cube.h  lib/geometries/cube.cpp
 
-    include/poly/materials/shader_material.h lib/materials/shader_material.cpp
-    include/poly/materials/normal_material.h lib/materials/normal_material.cpp
-    include/poly/materials/pbr_material.h lib/materials/pbr_material.cpp
+    include/polyhedron/materials/shader_material.h lib/materials/shader_material.cpp
+    include/polyhedron/materials/normal_material.h lib/materials/normal_material.cpp
+    include/polyhedron/materials/pbr_material.h lib/materials/pbr_material.cpp
 
-    include/poly/loaders/gltf_loader.h lib/loaders/gltf_loader.cpp
+    include/polyhedron/loaders/gltf_loader.h lib/loaders/gltf_loader.cpp
 
-    include/poly/utils/file_utils.h lib/utils/file_utils.cpp
+    include/polyhedron/utils/file_utils.h lib/utils/file_utils.cpp
 )
 target_link_libraries(lib PUBLIC
     whereami
@@ -65,5 +65,5 @@ target_include_directories(lib PUBLIC
 )
 
 # Application
-target_link_libraries(poly PUBLIC lib)
-target_include_directories(poly PUBLIC include)
+target_link_libraries(polyhedron PUBLIC lib)
+target_include_directories(polyhedron PUBLIC include)

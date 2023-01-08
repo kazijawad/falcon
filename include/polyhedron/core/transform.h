@@ -7,7 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
-namespace poly {
+namespace polyhedron {
 
 class Mesh;
 class Camera;

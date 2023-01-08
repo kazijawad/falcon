@@ -1,7 +1,7 @@
-#include <poly/materials/pbr_material.h>
-#include <poly/utils/file_utils.h>
+#include <polyhedron/materials/pbr_material.h>
+#include <polyhedron/utils/file_utils.h>
 
-namespace poly {
+namespace polyhedron {
 
 PBRMaterial::PBRMaterial(
     glm::vec4 baseColor,

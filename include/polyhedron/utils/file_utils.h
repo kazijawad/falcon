@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace poly {
+namespace polyhedron {
 
 class FileUtils {
 public:

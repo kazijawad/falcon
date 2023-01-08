@@ -7,12 +7,12 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include <poly/loaders/gltf_loader.h>
-#include <poly/core/mesh.h>
-#include <poly/materials/normal_material.h>
-#include <poly/materials/pbr_material.h>
+#include <polyhedron/loaders/gltf_loader.h>
+#include <polyhedron/core/mesh.h>
+#include <polyhedron/materials/normal_material.h>
+#include <polyhedron/materials/pbr_material.h>
 
-namespace poly {
+namespace polyhedron {
 
 GLTFLoader::GLTFLoader() {}
 

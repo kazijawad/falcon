@@ -1,9 +1,9 @@
 #ifndef shader_material_h
 #define shader_material_h
 
-#include <poly/core/material.h>
+#include <polyhedron/core/material.h>
 
-namespace poly {
+namespace polyhedron {
 
 class ShaderMaterial : public Material {
 public:

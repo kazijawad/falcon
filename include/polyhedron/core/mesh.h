@@ -5,12 +5,12 @@
 
 #include <glm/glm.hpp>
 
-#include <poly/core/transform.h>
-#include <poly/core/geometry.h>
-#include <poly/core/material.h>
-#include <poly/core/camera.h>
+#include <polyhedron/core/transform.h>
+#include <polyhedron/core/geometry.h>
+#include <polyhedron/core/material.h>
+#include <polyhedron/core/camera.h>
 
-namespace poly {
+namespace polyhedron {
 
 class Mesh : public Transform {
 public:

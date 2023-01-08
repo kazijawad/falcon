@@ -4,10 +4,10 @@
 
 #include <glad/gl.h>
 
-#include <poly/core/renderer.h>
-#include <poly/core/mesh.h>
+#include <polyhedron/core/renderer.h>
+#include <polyhedron/core/mesh.h>
 
-namespace poly {
+namespace polyhedron {
 
 Renderer::Renderer(unsigned int width, unsigned int height) : Renderer(width, height, true) {}
 

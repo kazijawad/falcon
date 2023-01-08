@@ -1,6 +1,6 @@
-#include <poly/materials/shader_material.h>
+#include <polyhedron/materials/shader_material.h>
 
-namespace poly {
+namespace polyhedron {
 
 ShaderMaterial::ShaderMaterial(
     const char* vertexPath,

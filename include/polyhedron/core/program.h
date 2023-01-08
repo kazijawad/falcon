@@ -5,7 +5,7 @@
 
 #include <glm/fwd.hpp>
 
-namespace poly {
+namespace polyhedron {
 
 class Program {
 public:

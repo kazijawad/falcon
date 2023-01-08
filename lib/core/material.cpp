@@ -1,6 +1,6 @@
-#include <poly/core/material.h>
+#include <polyhedron/core/material.h>
 
-namespace poly {
+namespace polyhedron {
 
 Material::Material(Program program): program(program) {}
 

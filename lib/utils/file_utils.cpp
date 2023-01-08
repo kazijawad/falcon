@@ -3,9 +3,9 @@
 
 #include <whereami.h>
 
-#include <poly/utils/file_utils.h>
+#include <polyhedron/utils/file_utils.h>
 
-namespace poly {
+namespace polyhedron {
 
 const char* FileUtils::getExecutableDirectory() {
     auto dirnameLength = 0;

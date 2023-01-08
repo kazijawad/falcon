@@ -1,7 +1,7 @@
-#include <poly/materials/normal_material.h>
-#include <poly/utils/file_utils.h>
+#include <polyhedron/materials/normal_material.h>
+#include <polyhedron/utils/file_utils.h>
 
-namespace poly {
+namespace polyhedron {
 
 NormalMaterial::NormalMaterial()
     : ShaderMaterial(

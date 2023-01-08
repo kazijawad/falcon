@@ -1,6 +1,6 @@
-#include <poly/geometries/cube.h>
+#include <polyhedron/geometries/cube.h>
 
-namespace poly {
+namespace polyhedron {
 
 Cube::Cube() : Cube(1, 1, 1, 1, 1, 1) {}
 Cube::Cube(int width, int height, int depth) : Cube(width, height, depth, 1, 1, 1) {}

@@ -5,11 +5,11 @@
 
 #include <GLFW/glfw3.h>
 
-#include <poly/core/program.h>
-#include <poly/core/transform.h>
-#include <poly/core/camera.h>
+#include <polyhedron/core/program.h>
+#include <polyhedron/core/transform.h>
+#include <polyhedron/core/camera.h>
 
-namespace poly {
+namespace polyhedron {
 
 class Renderer {
 public:

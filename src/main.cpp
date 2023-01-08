@@ -7,16 +7,16 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
-#include <poly/core/renderer.h>
-#include <poly/core/camera.h>
-#include <poly/core/transform.h>
-#include <poly/core/program.h>
-#include <poly/core/mesh.h>
-#include <poly/geometries/cube.h>
-#include <poly/loaders/gltf_loader.h>
-#include <poly/utils/file_utils.h>
+#include <polyhedron/core/renderer.h>
+#include <polyhedron/core/camera.h>
+#include <polyhedron/core/transform.h>
+#include <polyhedron/core/program.h>
+#include <polyhedron/core/mesh.h>
+#include <polyhedron/geometries/cube.h>
+#include <polyhedron/loaders/gltf_loader.h>
+#include <polyhedron/utils/file_utils.h>
 
-using namespace poly;
+using namespace polyhedron;
 
 void loop(Renderer &renderer);
 
