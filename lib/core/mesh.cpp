@@ -1,3 +1,4 @@
+#include <glad/gl.h>
 #include <glm/gtc/matrix_inverse.hpp>
 
 #include <polyhedron/core/mesh.h>
@@ -12,14 +13,26 @@ void Mesh::draw(std::shared_ptr<Camera> camera) {
 
     material->use();
 
-    material->program.setMat4("model", worldMatrix);
-    material->program.setMat4("view", camera->viewMatrix);
-    material->program.setMat4("projection", camera->projectionMatrix);
+    material->setMat4("model", worldMatrix);
+    material->setMat4("view", camera->viewMatrix);
+    material->setMat4("projection", camera->projectionMatrix);
 
-    material->program.setMat4("modelViewMatrix", modelViewMatrix);
-    material->program.setMat3("normalMatrix", normalMatrix);
+    material->setMat4("modelViewMatrix", modelViewMatrix);
+    material->setMat3("normalMatrix", normalMatrix);
 
-    material->program.setVec3("cameraPosition", camera->position);
+    material->setVec3("cameraPosition", camera->position);
+
+    if (material->depthTest) {
+        glEnable(GL_DEPTH_TEST);
+    } else {
+        glDisable(GL_DEPTH_TEST);
+    }
+
+    if (material->depthWrite) {
+        glDepthMask(GL_TRUE);
+    } else {
+        glDepthMask(GL_FALSE);
+    }
 
     geometry->draw();
 }

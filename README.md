@@ -2,6 +2,8 @@
 
 An OpenGL real-time renderer.
 
+Note: This project is set to OpenGL 4.6 and will not work on macOS because macOS only supports up to OpenGL 4.1.
+
 ## Features
 
 - Scene Graph
@@ -10,7 +12,6 @@ An OpenGL real-time renderer.
     - Cube
 - Material System
     - Normal Material
-    - Shader Material
     - PBR Material
 - Physically Based Shading
 - GLTF Loader
@@ -31,11 +32,11 @@ Please make sure you have at minimum [CMake](https://cmake.org) 3.25 and Clang.
 git clone --recursive https://github.com/kazijawad/polyhedron.git
 ```
 
-2. Run the build shell script. If you're on Windows, you can replace `default-mac` inside the script with `default-windows`.
-If you're using an IDE wth CMake support, you can choose the approriate configuration preset.
+2. Build the project using CMake. If you're using an IDE wth CMake support, you can choose the approriate configuration preset.
 
 ```bash
-./build.sh
+cmake --preset default
+cmake --build --preset default
 ```
 
 3. Run the built program.

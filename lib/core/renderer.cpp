@@ -1,5 +1,4 @@
 #include <iostream>
-#include <memory>
 #include <exception>
 
 #include <glad/gl.h>
@@ -9,9 +8,7 @@
 
 namespace polyhedron {
 
-Renderer::Renderer(unsigned int width, unsigned int height) : Renderer(width, height, true) {}
-
-Renderer::Renderer(unsigned int width, unsigned int height, bool isDebug) : width(width), height(height), isDebug(isDebug) {
+Renderer::Renderer(unsigned int width, unsigned int height) : width(width), height(height) {
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -38,37 +35,34 @@ Renderer::Renderer(unsigned int width, unsigned int height, bool isDebug) : widt
     // Enable MSAA
     glEnable(GL_MULTISAMPLE);
 
-    if (isDebug) {
-        std::printf("Vender: %s\n", glGetString(GL_VENDOR));
-        std::printf("Renderer: %s\n", glGetString(GL_RENDERER));
-        std::printf("Version: %s\n", glGetString(GL_VERSION));
-    }
+    std::printf("Vender: %s\n", glGetString(GL_VENDOR));
+    std::printf("Renderer: %s\n", glGetString(GL_RENDERER));
+    std::printf("Version: %s\n", glGetString(GL_VERSION));
 }
 
-void Renderer::run(void (*f)(Renderer &renderer)) {
+void Renderer::setClearColor(float r, float g, float b, float a) {
+    glClearColor(r, g, b, a);
+}
+
+void Renderer::clearColor() {
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Renderer::clearDepth() {
+    glClear(GL_DEPTH_BUFFER_BIT);
+}
+
+void Renderer::clearStencil() {
+    glClear(GL_STENCIL_BUFFER_BIT);
+}
+
+void Renderer::clear(bool color, bool depth, bool stencil) {
+    glClear(GL_COLOR_BUFFER_BIT | (depth ? GL_DEPTH_BUFFER_BIT : 0) | (stencil ? GL_STENCIL_BUFFER_BIT : 0));
+}
+
+void Renderer::run(std::function<void()> fn) {
     while (!glfwWindowShouldClose(window)) {
-        elapsedTime = (float) glfwGetTime();
-        resize();
-
-        if (depthTest) {
-            glEnable(GL_DEPTH_TEST);
-        } else {
-            glDisable(GL_DEPTH_TEST);
-        }
-
-        if (stencilTest) {
-            glEnable(GL_STENCIL_TEST);
-        } else {
-            glDisable(GL_STENCIL_TEST);
-        }
-
-        glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-        if (autoClear) {
-            glClear(GL_COLOR_BUFFER_BIT | (depthTest ? GL_DEPTH_BUFFER_BIT : 0) | (stencilTest ? GL_STENCIL_BUFFER_BIT : 0));
-
-        }
-
-        (*f)(*this);
+        fn();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -76,8 +70,11 @@ void Renderer::run(void (*f)(Renderer &renderer)) {
 }
 
 void Renderer::render() {
+    resize();
+
     camera->updateWorldMatrix();
     scene->updateWorldMatrix();
+
     scene->traverse(camera);
 }
 
@@ -95,7 +92,7 @@ void Renderer::resize() {
         width = newWidth;
         height = newHeight;
 
-        camera->aspect = (float) width / height;
+        camera->aspect = (float) width / (float) height;
         camera->updateProjectionMatrix();
     }
 }

@@ -7,7 +7,7 @@ PBRMaterial::PBRMaterial(
     glm::vec4 baseColor,
     float metallic,
     float roughness
-) : ShaderMaterial(
+) : Material(
         FileUtils::getAssetPath("/assets/shaders/pbr/vertex.glsl"),
         FileUtils::getAssetPath("/assets/shaders/pbr/fragment.glsl")
     ),
@@ -18,10 +18,10 @@ PBRMaterial::PBRMaterial(
 void PBRMaterial::use() {
     Material::use();
 
-    program.setVec4("baseColor", baseColor);
-    program.setFloat("metallic", metallic);
-    program.setFloat("roughness", roughness);
-    program.setFloat("ao", ao);
+    setVec4("baseColor", baseColor);
+    setFloat("metallic", metallic);
+    setFloat("roughness", roughness);
+    setFloat("ao", ao);
 }
 
 }

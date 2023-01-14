@@ -2,16 +2,6 @@
     "version": 4,
     "configurePresets": [
         {
-            "name": "default-mac",
-            "displayName": "Default Unix Config",
-            "generator": "Unix Makefiles",
-            "binaryDir": "${sourceDir}/build",
-            "environment": {
-                "CC": "clang",
-                "CXX": "clang++"
-            }
-        },
-        {
             "name": "default-windows",
             "displayName": "Default Windows Config",
             "generator": "Ninja",
@@ -23,11 +13,6 @@
         }
     ],
     "buildPresets": [
-        {
-            "name": "default-mac",
-            "configurePreset": "default-mac",
-            "jobs": 4
-        },
         {
             "name": "default-windows",
             "configurePreset": "default-windows",

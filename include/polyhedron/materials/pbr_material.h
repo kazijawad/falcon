@@ -3,11 +3,11 @@
 
 #include <glm/glm.hpp>
 
-#include <polyhedron/materials/shader_material.h>
+#include <polyhedron/core/material.h>
 
 namespace polyhedron {
 
-class PBRMaterial : public ShaderMaterial {
+class PBRMaterial : public Material {
 public:
     glm::vec4 baseColor;
 

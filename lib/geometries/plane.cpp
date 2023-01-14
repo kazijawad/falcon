@@ -2,9 +2,6 @@
 
 namespace polyhedron {
 
-Plane::Plane() : Plane(1, 1, 1, 1) {}
-Plane::Plane(int width, int height) : Plane(width, height, 1, 1) {}
-
 Plane::Plane(int width, int height, unsigned int widthSegments, unsigned int heightSegments) :
     Geometry(Plane::build(width, height, widthSegments, heightSegments)) {}
 

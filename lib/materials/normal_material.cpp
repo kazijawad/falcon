@@ -4,7 +4,7 @@
 namespace polyhedron {
 
 NormalMaterial::NormalMaterial()
-    : ShaderMaterial(
+    : Material(
         FileUtils::getAssetPath("/assets/shaders/normal/vertex.glsl"),
         FileUtils::getAssetPath("/assets/shaders/normal/fragment.glsl")
     ) {}

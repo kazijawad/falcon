@@ -7,9 +7,7 @@ namespace polyhedron {
 
 class Plane : public Geometry {
 public:
-    Plane();
-    Plane(int width, int height);
-    Plane(int width, int height, unsigned int widthSegments, unsigned int heightSegments);
+    Plane(int width = 1, int height = 1, unsigned int widthSegments = 1, unsigned int heightSegments = 1);
 
     static std::tuple<std::vector<Vertex>, std::vector<unsigned int>> build(
         int width,

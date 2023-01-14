@@ -35,7 +35,6 @@ add_library(lib STATIC
     include/polyhedron/core/renderer.h  lib/core/renderer.cpp
     include/polyhedron/core/transform.h lib/core/transform.cpp
     include/polyhedron/core/camera.h    lib/core/camera.cpp
-    include/polyhedron/core/program.h   lib/core/program.cpp
     include/polyhedron/core/geometry.h  lib/core/geometry.cpp
     include/polyhedron/core/material.h  lib/core/material.cpp
     include/polyhedron/core/mesh.h      lib/core/mesh.cpp
@@ -43,7 +42,6 @@ add_library(lib STATIC
     include/polyhedron/geometries/plane.h lib/geometries/plane.cpp
     include/polyhedron/geometries/cube.h  lib/geometries/cube.cpp
 
-    include/polyhedron/materials/shader_material.h lib/materials/shader_material.cpp
     include/polyhedron/materials/normal_material.h lib/materials/normal_material.cpp
     include/polyhedron/materials/pbr_material.h lib/materials/pbr_material.cpp
 
