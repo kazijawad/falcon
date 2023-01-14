@@ -2,7 +2,7 @@
     "version": 4,
     "configurePresets": [
         {
-            "name": "default-windows",
+            "name": "default",
             "displayName": "Default Windows Config",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build",
@@ -14,7 +14,7 @@
     ],
     "buildPresets": [
         {
-            "name": "default-windows",
+            "name": "default",
             "configurePreset": "default-windows",
             "jobs": 4
         }
