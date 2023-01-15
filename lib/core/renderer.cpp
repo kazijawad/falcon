@@ -17,7 +17,7 @@ Renderer::Renderer(unsigned int width, unsigned int height) : width(width), heig
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_SAMPLES, 4);
 
-    GLFWwindow* newWindow = glfwCreateWindow(width, height, "Poly", NULL, NULL);
+    GLFWwindow* newWindow = glfwCreateWindow(width, height, "Polyhedron", NULL, NULL);
     if (newWindow == NULL) {
         std::printf("Failed to create GLFW window\n");
         glfwTerminate();

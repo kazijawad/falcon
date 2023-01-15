@@ -29,6 +29,7 @@ int main() {
         renderer.scene = scene;
         renderer.camera = camera;
         renderer.run([renderer]() mutable {
+            renderer.clear();
             renderer.render();
         });
 
