@@ -15,7 +15,7 @@
     "buildPresets": [
         {
             "name": "default",
-            "configurePreset": "default-windows",
+            "configurePreset": "default",
             "jobs": 4
         }
     ]

@@ -89,7 +89,6 @@ std::vector<std::shared_ptr<Mesh>> GLTFLoader::loadMesh(int meshIndex) {
         // TODO: Handle point and line rendering.
         if (primitive.mode && primitive.mode != 4) continue;
 
-        // TODO: Handle material.
         auto geometry = loadGeometry(primitive);
         auto material = loadMaterial(primitive);
 

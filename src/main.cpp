@@ -9,15 +9,10 @@
 
 #include <polyhedron/core/renderer.h>
 #include <polyhedron/core/camera.h>
-#include <polyhedron/core/transform.h>
-#include <polyhedron/core/mesh.h>
-#include <polyhedron/geometries/cube.h>
 #include <polyhedron/loaders/gltf_loader.h>
 #include <polyhedron/utils/file_utils.h>
 
 using namespace polyhedron;
-
-void loop(Renderer &renderer);
 
 int main() {
     try {
