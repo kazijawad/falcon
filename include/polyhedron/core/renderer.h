@@ -7,19 +7,12 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-namespace polyhedron {
+#include <polyhedron/core/mesh.h>
 
-class Transform;
-class Camera;
+namespace polyhedron {
 
 class Renderer {
 public:
-    unsigned int width;
-    unsigned int height;
-
-    std::shared_ptr<Transform> scene;
-    std::shared_ptr<Camera> camera;
-
     Renderer(unsigned int width, unsigned int height);
     ~Renderer();
 
@@ -32,14 +25,23 @@ public:
 
     void run(std::function<void()> fn);
 
-    void render();
+    void render(
+        std::shared_ptr<Transform> scene,
+        std::shared_ptr<Camera> camera
+    );
 
     void terminate();
 
 private:
     GLFWwindow* window;
+    unsigned int width;
+    unsigned int height;
 
     bool resize();
+    std::vector<std::shared_ptr<Mesh>> getRenderList(
+        std::shared_ptr<Transform> scene,
+        std::shared_ptr<Camera> camera
+    );
 };
 
 }

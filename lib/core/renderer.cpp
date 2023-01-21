@@ -4,7 +4,6 @@
 #include <glad/gl.h>
 
 #include <polyhedron/core/renderer.h>
-#include <polyhedron/core/mesh.h>
 
 namespace polyhedron {
 
@@ -73,7 +72,7 @@ void Renderer::run(std::function<void()> fn) {
     }
 }
 
-void Renderer::render() {
+void Renderer::render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera) {
     if (resize()) {
         // TODO: Need to improve, assumes the same camera
         // used between renders.
@@ -83,7 +82,10 @@ void Renderer::render() {
     scene->updateWorldMatrix(nullptr);
     camera->updateWorldMatrix();
 
-    scene->traverse(camera);
+    auto meshes = getRenderList(scene, camera);
+    for (std::shared_ptr<Mesh> mesh : meshes) {
+        mesh->draw(camera);
+    }
 }
 
 void Renderer::terminate() {
@@ -104,6 +106,28 @@ bool Renderer::resize() {
     }
 
     return false;
+}
+
+std::vector<std::shared_ptr<Mesh>> Renderer::getRenderList(
+    std::shared_ptr<Transform> scene,
+    std::shared_ptr<Camera> camera
+) {
+    std::vector<std::shared_ptr<Mesh>> meshes;
+
+    scene->traverse([&meshes](std::shared_ptr<Transform> transform) mutable {
+        if (transform->isVisible) {
+            if (std::shared_ptr<Mesh> mesh = std::dynamic_pointer_cast<Mesh>(transform)) {
+                // TODO: Test for frustum culling?
+                meshes.push_back(mesh);
+            }
+            return false;
+        }
+        return true;
+    });
+
+    // TODO: Add sorting.
+
+    return meshes;
 }
 
 }

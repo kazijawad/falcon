@@ -27,11 +27,9 @@ int main() {
             FileUtils::getAssetPath("/assets/meshes/cornell_box/scene.gltf")
         )[0];
 
-        renderer.scene = scene;
-        renderer.camera = camera;
-        renderer.run([renderer]() mutable {
+        renderer.run([renderer, scene, camera]() mutable {
             renderer.clear();
-            renderer.render();
+            renderer.render(scene, camera);
         });
 
         return 0;

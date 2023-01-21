@@ -4,7 +4,6 @@
 #include <glm/gtx/quaternion.hpp>
 
 #include <polyhedron/core/transform.h>
-#include <polyhedron/core/mesh.h>
 
 namespace polyhedron {
 
@@ -111,12 +110,12 @@ void Transform::updateLocalMatrix() {
     localMatrix = T * R * S;
 }
 
-void Transform::traverse(std::shared_ptr<Camera> camera) {
+void Transform::traverse(std::function<bool(std::shared_ptr<Transform>)> fn) {
+    // Exit early if returned true.
+    if (fn(this->shared_from_this())) return;
+
     for (std::shared_ptr<Transform> child : children) {
-        if (std::shared_ptr<Mesh> mesh = std::dynamic_pointer_cast<Mesh>(child)) {
-            mesh->draw(camera);
-        }
-        child->traverse(camera);
+        child->traverse(fn);
     }
 }
 

@@ -12,7 +12,6 @@ public:
     bool depthTest = true;
     bool depthWrite = true;
 
-    bool visible = true;
     bool doubleSided = false;
 
     Material(const char* vertexPath, const char* fragmentPath, const char* geometryPath = NULL);

@@ -183,7 +183,7 @@ std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive
 
     std::vector<Vertex> vertices;
 
-    for (unsigned int i = 0; i < positions.size(); i += 3) {
+    for (auto i = 0; i < positions.size(); i += 3) {
         Vertex vertex;
 
         vertex.position = glm::vec3(positions[i], positions[i + 1], positions[i + 2]);
@@ -200,10 +200,10 @@ std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive
 
 std::shared_ptr<Material> GLTFLoader::loadMaterial(tinygltf::Primitive primitive) {
     if (primitive.material > -1) {
-        auto modelMaterial = model.materials[primitive.material];
+        tinygltf::Material modelMaterial = model.materials[primitive.material];
 
-        auto pbr = modelMaterial.pbrMetallicRoughness;
-        auto baseColor = glm::vec4(
+        tinygltf::PbrMetallicRoughness pbr = modelMaterial.pbrMetallicRoughness;
+        glm::vec4 baseColor(
             pbr.baseColorFactor[0],
             pbr.baseColorFactor[1],
             pbr.baseColorFactor[2],

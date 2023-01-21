@@ -3,16 +3,17 @@
 
 #include <vector>
 #include <memory>
+#include <functional>
 
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
 namespace polyhedron {
 
-class Camera;
-
-class Transform {
+class Transform: public std::enable_shared_from_this<Transform> {
 public:
+    bool isVisible = true;
+
     std::vector<std::shared_ptr<Transform>> children;
 
     Transform();
@@ -40,7 +41,7 @@ public:
     void updateWorldMatrix(glm::mat4* parentWorldMatrix);
     void updateLocalMatrix();
 
-    void traverse(std::shared_ptr<Camera> camera);
+    void traverse(std::function<bool(std::shared_ptr<Transform>)> fn);
 
 protected:
     bool isDirty = false;
