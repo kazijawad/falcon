@@ -2,17 +2,13 @@
 
 An OpenGL real-time renderer.
 
-Note: This project is set to OpenGL 4.6 and will not work on macOS because macOS only supports up to OpenGL 4.1.
+Note: This project is set to OpenGL 4.6 and will not work on macOS.
 
 ## Features
 
 - Scene Graph
 - Standard Geometry
-    - Plane
-    - Cube
 - Material System
-    - Normal Material
-    - PBR Material
 - Physically Based Shading
 - GLTF Loader
 

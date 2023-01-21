@@ -50,7 +50,7 @@ protected:
 
     glm::vec3 t = glm::vec3(0.0);
     // The quaternion can be define as (v, w) where v is a 3-component
-    // vector with imaginary components and w is a scale. The 3-component
+    // vector with imaginary components and w is a scalar. The 3-component
     // vector defines the axis of rotation and w defines the angle in
     // radians. We use a quaternion instead of euler angles for rotation
     // to avoid gimbal lock in rotation transformations. In the future,
