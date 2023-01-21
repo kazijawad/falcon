@@ -34,7 +34,6 @@ int main() {
             renderer.render();
         });
 
-        renderer.terminate();
         return 0;
     } catch (std::exception &e) {
         return -1;

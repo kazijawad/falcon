@@ -21,6 +21,7 @@ public:
     std::shared_ptr<Camera> camera;
 
     Renderer(unsigned int width, unsigned int height);
+    ~Renderer();
 
     void setClearColor(float r, float g, float b, float a);
 
@@ -38,7 +39,7 @@ public:
 private:
     GLFWwindow* window;
 
-    void resize();
+    bool resize();
 };
 
 }

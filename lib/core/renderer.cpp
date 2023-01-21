@@ -40,6 +40,10 @@ Renderer::Renderer(unsigned int width, unsigned int height) : width(width), heig
     std::printf("Version: %s\n", glGetString(GL_VERSION));
 }
 
+Renderer::~Renderer() {
+    terminate();
+}
+
 void Renderer::setClearColor(float r, float g, float b, float a) {
     glClearColor(r, g, b, a);
 }
@@ -70,10 +74,14 @@ void Renderer::run(std::function<void()> fn) {
 }
 
 void Renderer::render() {
-    resize();
+    if (resize()) {
+        // TODO: Need to improve, assumes the same camera
+        // used between renders.
+        camera->setAspectRatio((float)width / (float)height);
+    }
 
-    camera->updateWorldMatrix();
     scene->updateWorldMatrix(nullptr);
+    camera->updateWorldMatrix();
 
     scene->traverse(camera);
 }
@@ -82,7 +90,7 @@ void Renderer::terminate() {
     glfwTerminate();
 }
 
-void Renderer::resize() {
+bool Renderer::resize() {
     int newWidth, newHeight;
     glfwGetFramebufferSize(window, &newWidth, &newHeight);
 
@@ -92,8 +100,10 @@ void Renderer::resize() {
         width = newWidth;
         height = newHeight;
 
-        camera->setAspectRatio((float)width / (float)height);
+        return true;
     }
+
+    return false;
 }
 
 }
