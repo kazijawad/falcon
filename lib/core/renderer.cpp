@@ -79,7 +79,7 @@ void Renderer::render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> 
         camera->setAspectRatio((float)width / (float)height);
     }
 
-    scene->updateWorldMatrix(nullptr);
+    scene->updateWorldMatrix();
     camera->updateWorldMatrix();
 
     auto meshes = getRenderList(scene, camera);
