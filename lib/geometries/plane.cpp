@@ -2,36 +2,29 @@
 
 namespace polyhedron {
 
-Plane::Plane(int width, int height, unsigned int widthSegments, unsigned int heightSegments) :
-    Geometry(Plane::build(width, height, widthSegments, heightSegments)) {}
-
-std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Plane::build(
+Plane::Plane(
     int width,
     int height,
     unsigned int widthSegments,
     unsigned int heightSegments
-) {
-    return Plane::build(width, height, 0, widthSegments, heightSegments, 0, 1, 2, 1.0f, -1.0f, 0, 0);
-}
+) : Geometry() {
+    int depth = 0;
 
-std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Plane::build(
-    int width,
-    int height,
-    int depth,
-    unsigned int widthSegments,
-    unsigned int heightSegments,
-    unsigned int u,
-    unsigned int v,
-    unsigned int w,
-    float uDirection,
-    float vDirection,
-    unsigned int i,
-    unsigned int ii
-) {
+    unsigned int u = 0;
+    unsigned int v = 1;
+    unsigned int w = 2;
+
+    float uDirection = 1.0f;
+    float vDirection = -1.0f;
+
+    unsigned int i = 0;
+    unsigned int ii = 0;
+
     unsigned int numVertices = (widthSegments + 1) * (heightSegments + 1);
     unsigned int numIndices = widthSegments * heightSegments * 6;
 
-    std::vector<Vertex> newVertices(numVertices);
+    vertices.reserve(numVertices);
+    indices.resize(numIndices);
 
     unsigned int io = i;
     float segmentedWidth = (float) width / widthSegments;
@@ -40,13 +33,12 @@ std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Plane::build(
     std::vector<float> position(numVertices * 3);
     std::vector<float> normal(numVertices * 3);
     std::vector<float> uv(numVertices * 2);
-    std::vector<unsigned int> index(numIndices);
 
     Plane::build(
         position,
         normal,
         uv,
-        index,
+        indices,
         width,
         height,
         depth,
@@ -61,7 +53,7 @@ std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Plane::build(
         ii
     );
 
-    for (unsigned int i = 0; i < newVertices.size(); i++) {
+    for (auto i = 0; i < numVertices; i++) {
         Vertex vertex;
 
         vertex.position = glm::vec3(
@@ -81,10 +73,10 @@ std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Plane::build(
             uv[i * 2 + 1]
         );
 
-        newVertices[i] = vertex;
+        vertices.push_back(vertex);
     }
 
-    return std::make_tuple(newVertices, index);
+    bindBuffers();
 }
 
 void Plane::build(

@@ -73,7 +73,7 @@ void Renderer::render() {
     resize();
 
     camera->updateWorldMatrix();
-    scene->updateWorldMatrix();
+    scene->updateWorldMatrix(nullptr);
 
     scene->traverse(camera);
 }
@@ -92,8 +92,7 @@ void Renderer::resize() {
         width = newWidth;
         height = newHeight;
 
-        camera->aspect = (float) width / (float) height;
-        camera->updateProjectionMatrix();
+        camera->setAspectRatio((float)width / (float)height);
     }
 }
 

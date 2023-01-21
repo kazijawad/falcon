@@ -9,16 +9,7 @@ Cube::Cube(
     unsigned int widthSegments,
     unsigned int heightSegments,
     unsigned int depthSegments
-) : Geometry(Cube::build(width, height, depth, widthSegments, heightSegments, depthSegments)) {}
-
-std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Cube::build(
-    int width,
-    int height,
-    int depth,
-    unsigned int widthSegments,
-    unsigned int heightSegments,
-    unsigned int depthSegments
-) {
+) : Geometry() {
     unsigned int numVertices = (widthSegments + 1) * (heightSegments + 1) * 2 +
         (widthSegments + 1) * (depthSegments + 1) * 2 +
         (heightSegments + 1) * (depthSegments + 1) * 2;
@@ -26,12 +17,12 @@ std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Cube::build(
         widthSegments * depthSegments * 2 +
         heightSegments * depthSegments * 2) * 6;
 
-    std::vector<Vertex> newVertices(numVertices);
+    vertices.reserve(numVertices);
+    indices.resize(numIndices);
 
     std::vector<float> position(numVertices * 3);
     std::vector<float> normal(numVertices * 3);
     std::vector<float> uv(numVertices * 2);
-    std::vector<unsigned int> index(numIndices);
 
     unsigned int i = 0;
     unsigned int ii = 0;
@@ -41,7 +32,7 @@ std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Cube::build(
         position,
         normal,
         uv,
-        index,
+        indices,
         depth,
         height,
         width,
@@ -63,7 +54,7 @@ std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Cube::build(
         position,
         normal,
         uv,
-        index,
+        indices,
         depth,
         height,
         -width,
@@ -85,7 +76,7 @@ std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Cube::build(
         position,
         normal,
         uv,
-        index,
+        indices,
         width,
         depth,
         height,
@@ -107,7 +98,7 @@ std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Cube::build(
         position,
         normal,
         uv,
-        index,
+        indices,
         width,
         depth,
         -height,
@@ -129,7 +120,7 @@ std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Cube::build(
         position,
         normal,
         uv,
-        index,
+        indices,
         width,
         height,
         -depth,
@@ -151,7 +142,7 @@ std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Cube::build(
         position,
         normal,
         uv,
-        index,
+        indices,
         width,
         height,
         depth,
@@ -166,7 +157,7 @@ std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Cube::build(
         ii
     );
 
-    for (unsigned int i = 0; i < newVertices.size(); i++) {
+    for (auto i = 0; i < numVertices; i++) {
         Vertex vertex;
 
         vertex.position = glm::vec3(
@@ -186,10 +177,10 @@ std::tuple<std::vector<Vertex>, std::vector<unsigned int>> Cube::build(
             uv[i * 2 + 1]
         );
 
-        newVertices[i] = vertex;
+        vertices.push_back(vertex);
     }
 
-    return std::make_tuple(newVertices, index);
+    bindBuffers();
 }
 
 }

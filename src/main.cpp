@@ -20,11 +20,12 @@ int main() {
         renderer.setClearColor(0.1, 0.1, 0.1, 1.0);
 
         auto camera = std::make_shared<Camera>(45.0, 1280.0 / 720.0, 0.1, 100.0);
-        camera->position = glm::vec3(0.0, 3.0, 6.0);
+        camera->applyTranslation(0.0, 3.0, 6.0);
 
         GLTFLoader loader;
-        auto scenes = loader.load(FileUtils::getAssetPath("/assets/meshes/cornell_box/scene.gltf"));
-        auto scene = scenes[0];
+        std::shared_ptr<Transform> scene = loader.load(
+            FileUtils::getAssetPath("/assets/meshes/cornell_box/scene.gltf")
+        )[0];
 
         renderer.scene = scene;
         renderer.camera = camera;

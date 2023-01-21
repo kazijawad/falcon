@@ -39,7 +39,7 @@ std::vector<std::shared_ptr<Transform>> GLTFLoader::load(const std::string &file
 
         for (int nodeIndex : model.scenes[i].nodes) {
             auto transform = loadNode(nodeIndex);
-            scene->add(transform);
+            scene->addChild(transform);
         }
 
         scenes[i] = scene;
@@ -56,25 +56,25 @@ std::shared_ptr<Transform> GLTFLoader::loadNode(int nodeIndex) {
 
     if (!node.matrix.empty()) {
         double* mat = &node.matrix[0];
-        transform->localMatrix = glm::make_mat4(mat);
+        transform->setLocalSpace(glm::make_mat4(mat));
     }
 
     if (!node.rotation.empty()) {
         double* quat = &node.rotation[0];
-        transform->rotation = glm::make_quat(quat);
+        transform->applyRotation(quat[3], glm::vec3(quat[0], quat[1], quat[2]));
     }
 
     if (node.mesh > -1) {
         auto meshes = loadMesh(node.mesh);
         for (auto mesh : meshes) {
-            transform->add(mesh);
+            transform->addChild(mesh);
         }
     }
 
     if (!node.children.empty()) {
         for (auto childNodeIndex : node.children) {
             auto childTranform = loadNode(childNodeIndex);
-            transform->add(childTranform);
+            transform->addChild(childTranform);
         }
     }
 

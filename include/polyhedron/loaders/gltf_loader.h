@@ -6,12 +6,9 @@
 
 #include <tiny_gltf.h>
 
-namespace polyhedron {
+#include <polyhedron/core/mesh.h>
 
-class Transform;
-class Mesh;
-class Geometry;
-class Material;
+namespace polyhedron {
 
 class GLTFLoader {
 public:

@@ -19,17 +19,16 @@ public:
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
 
-    Geometry(std::vector<float> vertices);
+    Geometry();
     Geometry(std::vector<Vertex> vertices);
-    Geometry(std::tuple<std::vector<Vertex>, std::vector<unsigned int>> vertexIndexPair);
     Geometry(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 
     void draw();
 
-private:
+protected:
     unsigned int VAO, VBO, EBO;
 
-    void init();
+    void bindBuffers();
 };
 
 }

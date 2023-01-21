@@ -9,22 +9,33 @@ namespace polyhedron {
 
 class Camera : public Transform {
 public:
-    glm::vec3 up = glm::vec3(0.0, 1.0, 0.0);
-    glm::vec3 target = glm::vec3(0.0);
-    glm::mat4 viewMatrix = glm::mat4();
-    glm::mat4 projectionMatrix = glm::mat4();
+    static glm::vec3 UP;
 
+    Camera(float fov, float aspect, float near, float far);
+
+    glm::mat4 view();
+    glm::mat4 projection();
+
+    void setFOV(float v);
+    void setAspectRatio(float v);
+    void setNearPlane(float v);
+    void setFarPlane(float v);
+
+    void updateWorldMatrix();
+    void updateProjectionMatrix();
+
+    void lookAt(glm::vec3 target);
+
+protected:
     float fov;
     float aspect;
     float near;
     float far;
 
-    Camera(float fov, float aspect, float near, float far);
+    glm::vec3 target = glm::vec3(0.0);
 
-    void updateWorldMatrix() override;
-    void updateProjectionMatrix();
-
-    void lookAt(glm::vec3 target);
+    glm::mat4 viewMatrix = glm::mat4();
+    glm::mat4 projectionMatrix = glm::mat4();
 };
 
 }

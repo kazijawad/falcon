@@ -6,44 +6,17 @@
 
 namespace polyhedron {
 
-Geometry::Geometry(std::vector<float> rawVertices) {
-    std::vector<Vertex> newVertices;
+Geometry::Geometry() {}
 
-    for (unsigned int i = 0; i < rawVertices.size(); i += 8) {
-        float x = rawVertices[i];
-        float y = rawVertices[i + 1];
-        float z = rawVertices[i + 2];
-
-        float nx = rawVertices[i + 3];
-        float ny = rawVertices[i + 4];
-        float nz = rawVertices[i + 5];
-
-        float uvx = rawVertices[i + 6];
-        float uvy = rawVertices[i + 7];
-
-        Vertex vertex;
-        vertex.position = glm::vec3(x, y, z);
-        vertex.normal = glm::vec3(nx, ny, nz);
-        vertex.uv = glm::vec2(uvx, uvy);
-
-        newVertices.push_back(vertex);
-    }
-
-    vertices = newVertices;
-    indices = std::vector<unsigned int>();
-
-    init();
+Geometry::Geometry(std::vector<Vertex> vertices) : vertices(vertices) {
+    bindBuffers();
 }
-
-Geometry::Geometry(std::vector<Vertex> vertices) : Geometry(vertices, std::vector<unsigned int>()) {}
-Geometry::Geometry(std::tuple<std::vector<Vertex>, std::vector<unsigned int>> vertexIndexPair) :
-    Geometry(std::get<0>(vertexIndexPair), std::get<1>(vertexIndexPair)) {}
 
 Geometry::Geometry(std::vector<Vertex> vertices, std::vector<unsigned int> indices) : vertices(vertices), indices(indices) {
-    init();
+    bindBuffers();
 }
 
-void Geometry::init() {
+void Geometry::bindBuffers() {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     if (!indices.empty()) {
