@@ -7,16 +7,17 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include <polyhedron/loaders/gltf_loader.h>
-#include <polyhedron/core/mesh.h>
+#include <polyhedron/cameras/perspective_camera.h>
+#include <polyhedron/cameras/orthographic_camera.h>
 #include <polyhedron/materials/normal_material.h>
 #include <polyhedron/materials/pbr_material.h>
+#include <polyhedron/loaders/gltf_loader.h>
 
 namespace polyhedron {
 
 GLTFLoader::GLTFLoader() {}
 
-std::vector<std::shared_ptr<Transform>> GLTFLoader::load(const std::string &filename) {
+GLTFState GLTFLoader::load(const std::string &filename) {
     std::string err;
     std::string warn;
 
@@ -33,30 +34,65 @@ std::vector<std::shared_ptr<Transform>> GLTFLoader::load(const std::string &file
         throw std::exception();
     }
 
-    std::vector<std::shared_ptr<Transform>> scenes(model.scenes.size());
-    for (unsigned int i = 0; i < model.scenes.size(); i++) {
+    GLTFState state;
+    state.cameras = std::vector<std::shared_ptr<Camera>>(model.cameras.size());
+    state.scenes = std::vector<std::shared_ptr<Transform>>(model.scenes.size());
+
+    for (auto i = 0; i < model.cameras.size(); ++i) {
+        tinygltf::Camera camera = model.cameras[i];
+
+        if (camera.type == "perspective") {
+            state.cameras[i] = std::make_shared<PerspectiveCamera>(
+                glm::degrees(camera.perspective.yfov),
+                camera.perspective.aspectRatio,
+                camera.perspective.znear,
+                camera.perspective.zfar
+            );
+        } else if (camera.type == "orthographic") {
+            state.cameras[i] = std::make_shared<OrthographicCamera>(
+                -camera.orthographic.xmag,
+                camera.orthographic.xmag,
+                -camera.orthographic.ymag,
+                camera.orthographic.ymag,
+                camera.orthographic.znear,
+                camera.orthographic.zfar
+            );
+        }
+    }
+
+    for (auto i = 0; i < model.scenes.size(); ++i) {
         auto scene = std::make_shared<Transform>();
 
         for (int nodeIndex : model.scenes[i].nodes) {
-            auto transform = loadNode(nodeIndex);
+            auto transform = loadNode(state, nodeIndex);
             scene->addChild(transform);
         }
 
-        scenes[i] = scene;
+        state.scenes[i] = scene;
     }
 
-    return scenes;
+    return state;
 }
 
-std::shared_ptr<Transform> GLTFLoader::loadNode(int nodeIndex) {
-    auto node = model.nodes[nodeIndex];
-    // TODO: Handle cameras and lights.
+std::shared_ptr<Transform> GLTFLoader::loadNode(GLTFState &state, int nodeIndex) {
+    tinygltf::Node node = model.nodes[nodeIndex];
+    // TODO: Handle lights.
 
-    auto transform = std::make_shared<Transform>();
+    std::shared_ptr<Transform> transform;
+    if (node.camera > -1) {
+        transform = state.cameras[node.camera];
+    } else {
+        transform = std::make_shared<Transform>();
+    }
 
-    if (!node.matrix.empty()) {
-        double* mat = &node.matrix[0];
-        transform->setLocalSpace(glm::make_mat4(mat));
+    if (!node.translation.empty()) {
+        double* translation = &node.translation[0];
+        transform->applyTranslation(translation[0], translation[1], translation[2]);
+    }
+
+    if (!node.scale.empty()) {
+        double* scale = &node.scale[0];
+        transform->applyScale(scale[0], scale[1], scale[2]);
     }
 
     if (!node.rotation.empty()) {
@@ -64,16 +100,28 @@ std::shared_ptr<Transform> GLTFLoader::loadNode(int nodeIndex) {
         transform->applyRotation(quat[3], glm::vec3(quat[0], quat[1], quat[2]));
     }
 
+    if (!node.matrix.empty()) {
+        double* mat = &node.matrix[0];
+        transform->setLocalSpace(glm::make_mat4(mat));
+    } else if (node.camera > -1) {
+        // The view direction is along the negative z-axis
+        // if no transformation is defined.
+        if (std::shared_ptr<Camera> camera = std::dynamic_pointer_cast<Camera>(transform)) {
+            auto translation = camera->translation();
+            camera->lookAt(glm::vec3(translation.x, translation.y, -translation.z));
+        }
+    }
+
     if (node.mesh > -1) {
         auto meshes = loadMesh(node.mesh);
-        for (auto mesh : meshes) {
+        for (std::shared_ptr<Mesh> mesh : meshes) {
             transform->addChild(mesh);
         }
     }
 
     if (!node.children.empty()) {
         for (auto childNodeIndex : node.children) {
-            auto childTranform = loadNode(childNodeIndex);
+            auto childTranform = loadNode(state, childNodeIndex);
             transform->addChild(childTranform);
         }
     }
@@ -82,10 +130,10 @@ std::shared_ptr<Transform> GLTFLoader::loadNode(int nodeIndex) {
 }
 
 std::vector<std::shared_ptr<Mesh>> GLTFLoader::loadMesh(int meshIndex) {
-    auto mesh = model.meshes[meshIndex];
+    tinygltf::Mesh mesh = model.meshes[meshIndex];
     std::vector<std::shared_ptr<Mesh>> meshes;
 
-    for (auto primitive : mesh.primitives) {
+    for (tinygltf::Primitive primitive : mesh.primitives) {
         // TODO: Handle point and line rendering.
         if (primitive.mode && primitive.mode != 4) continue;
 
@@ -105,13 +153,13 @@ std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive
 
     if (primitive.attributes.count("POSITION") > 0) {
         auto accessorIndex = primitive.attributes.find("POSITION")->second;
-        auto accessor = model.accessors[accessorIndex];
+        tinygltf::Accessor accessor = model.accessors[accessorIndex];
 
         if (accessor.type != TINYGLTF_TYPE_VEC3) {
             std::printf("Primitive position accessor is not of type VEC3: %d", accessorIndex);
         } else {
-            auto bufferView = model.bufferViews[accessor.bufferView];
-            auto buffer = model.buffers[bufferView.buffer];
+            tinygltf::BufferView bufferView = model.bufferViews[accessor.bufferView];
+            tinygltf::Buffer buffer = model.buffers[bufferView.buffer];
 
             auto data = reinterpret_cast<const float*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
             for (size_t i = 0; i < accessor.count; i++) {
@@ -124,13 +172,13 @@ std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive
 
     if (primitive.attributes.count("NORMAL") > 0) {
         auto accessorIndex = primitive.attributes.find("NORMAL")->second;
-        auto accessor = model.accessors[accessorIndex];
+        tinygltf::Accessor accessor = model.accessors[accessorIndex];
 
         if (accessor.type != TINYGLTF_TYPE_VEC3) {
             std::printf("Primitive normal accessor is not of type VEC3: %d", accessorIndex);
         } else {
-            auto bufferView = model.bufferViews[accessor.bufferView];
-            auto buffer = model.buffers[bufferView.buffer];
+            tinygltf::BufferView bufferView = model.bufferViews[accessor.bufferView];
+            tinygltf::Buffer buffer = model.buffers[bufferView.buffer];
 
             auto data = reinterpret_cast<const float*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
             for (size_t i = 0; i < accessor.count; i++) {
@@ -143,13 +191,13 @@ std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive
 
     if (primitive.indices > -1) {
         auto accessorIndex = primitive.indices;
-        auto accessor = model.accessors[accessorIndex];
+        tinygltf::Accessor accessor = model.accessors[accessorIndex];
 
         if (accessor.type != TINYGLTF_TYPE_SCALAR) {
             std::printf("Primitive index accessor is not of type SCALAR: %d", accessorIndex);
         } else {
-            auto bufferView = model.bufferViews[accessor.bufferView];
-            auto buffer = model.buffers[bufferView.buffer];
+            tinygltf::BufferView bufferView = model.bufferViews[accessor.bufferView];
+            tinygltf::Buffer buffer = model.buffers[bufferView.buffer];
 
             switch (accessor.componentType) {
             case TINYGLTF_PARAMETER_TYPE_UNSIGNED_INT: {
@@ -184,13 +232,10 @@ std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive
     std::vector<Vertex> vertices;
 
     for (auto i = 0; i < positions.size(); i += 3) {
-        Vertex vertex;
-
-        vertex.position = glm::vec3(positions[i], positions[i + 1], positions[i + 2]);
-
-        if (i + 2 < normals.size()) {
-            vertex.normal = glm::vec3(normals[i], normals[i + 1], normals[i + 2]);
-        }
+        Vertex vertex = {
+            glm::vec3(positions[i], positions[i + 1], positions[i + 2]),
+            glm::vec3(normals[i], normals[i + 1], normals[i + 2])
+        };
 
         vertices.push_back(vertex);
     }

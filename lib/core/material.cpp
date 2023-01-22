@@ -1,12 +1,9 @@
-#include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <filesystem>
 
 #include <glad/gl.h>
-#include <glm/glm.hpp>
-#include <glm/ext.hpp>
 
 #include <polyhedron/core/material.h>
 

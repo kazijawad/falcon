@@ -1,8 +1,6 @@
 #ifndef camera_h
 #define camera_h
 
-#include <glm/glm.hpp>
-
 #include <polyhedron/core/transform.h>
 
 namespace polyhedron {
@@ -13,6 +11,9 @@ public:
 
     Camera();
 
+    glm::vec3 target();
+    void lookAt(glm::vec3 target);
+
     glm::mat4 view();
     void updateViewMatrix();
 
@@ -21,15 +22,16 @@ public:
 
     void updateWorldMatrix(glm::mat4* parentWorldMatrix = nullptr) override;
 
-    void lookAt(glm::vec3 target);
-
     virtual void handleResize(unsigned int width, unsigned int height) = 0;
 
 protected:
-    glm::vec3 target = glm::vec3(0.0);
-
     glm::mat4 viewMatrix = glm::mat4();
     glm::mat4 projectionMatrix = glm::mat4();
+
+private:
+    struct CameraState {
+        glm::vec3 target;
+    } state;
 };
 
 }

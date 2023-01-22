@@ -10,12 +10,17 @@
 
 namespace polyhedron {
 
+struct GLTFState {
+    std::vector<std::shared_ptr<Camera>> cameras;
+    std::vector<std::shared_ptr<Transform>> scenes;
+};
+
 class GLTFLoader {
 public:
     GLTFLoader();
 
-    std::vector<std::shared_ptr<Transform>> load(const std::string &filename);
-    std::shared_ptr<Transform> loadNode(int nodeIndex);
+    GLTFState load(const std::string &filename);
+    std::shared_ptr<Transform> loadNode(GLTFState &state, int nodeIndex);
     std::vector<std::shared_ptr<Mesh>> loadMesh(int meshIndex);
 
     std::shared_ptr<Geometry> loadGeometry(tinygltf::Primitive primitive);

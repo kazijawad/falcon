@@ -19,18 +19,10 @@ int main() {
         Renderer renderer(1280, 720);
         renderer.setClearColor(0.1, 0.1, 0.1, 1.0);
 
-        auto camera = std::make_shared<PerspectiveCamera>(
-            45.0,
-            renderer.aspectRatio(),
-            0.1,
-            100.0
-        );
-        camera->applyTranslation(0.0, 3.0, 6.0);
-
         GLTFLoader loader;
-        std::shared_ptr<Transform> scene = loader.load(
-            FileUtils::getAssetPath("/assets/meshes/cornell_box/scene.gltf")
-        )[0];
+        auto state = loader.load(FileUtils::getAssetPath("/assets/meshes/cornell_box/scene.gltf"));
+        std::shared_ptr<Transform> scene = state.scenes[0];
+        std::shared_ptr<Camera> camera = state.cameras[0];
 
         renderer.run([renderer, scene, camera]() mutable {
             renderer.clear();

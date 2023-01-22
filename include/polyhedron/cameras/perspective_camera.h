@@ -1,8 +1,6 @@
 #ifndef perspective_camera_h
 #define perspective_camera_h
 
-#include <glm/glm.hpp>
-
 #include <polyhedron/core/camera.h>
 
 namespace polyhedron {
@@ -37,6 +35,5 @@ private:
 };
 
 }
-
 
 #endif

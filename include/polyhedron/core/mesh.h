@@ -3,9 +3,6 @@
 
 #include <memory>
 
-#include <glm/glm.hpp>
-
-#include <polyhedron/core/transform.h>
 #include <polyhedron/core/geometry.h>
 #include <polyhedron/core/material.h>
 #include <polyhedron/core/camera.h>

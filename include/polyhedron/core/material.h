@@ -3,7 +3,8 @@
 
 #include <string>
 
-#include <glm/fwd.hpp>
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
 
 namespace polyhedron {
 
