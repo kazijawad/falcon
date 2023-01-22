@@ -9,8 +9,6 @@ namespace polyhedron {
 
 class PerspectiveCamera : public Camera {
 public:
-    static glm::vec3 UP;
-
     PerspectiveCamera(float fov, float aspect, float near, float far);
 
     float fov();

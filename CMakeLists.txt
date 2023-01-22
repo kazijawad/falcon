@@ -32,24 +32,25 @@ set(TINYGLTF_INSTALL OFF CACHE INTERNAL "" FORCE)
 
 # Library
 add_library(lib STATIC
-    include/polyhedron/core/renderer.h  lib/core/renderer.cpp
-    include/polyhedron/core/transform.h lib/core/transform.cpp
-    include/polyhedron/core/camera.h    lib/core/camera.cpp
-    include/polyhedron/core/geometry.h  lib/core/geometry.cpp
-    include/polyhedron/core/material.h  lib/core/material.cpp
-    include/polyhedron/core/mesh.h      lib/core/mesh.cpp
+    include/polyhedron/core/renderer.h               lib/core/renderer.cpp
+    include/polyhedron/core/transform.h              lib/core/transform.cpp
+    include/polyhedron/core/camera.h                 lib/core/camera.cpp
+    include/polyhedron/core/geometry.h               lib/core/geometry.cpp
+    include/polyhedron/core/material.h               lib/core/material.cpp
+    include/polyhedron/core/mesh.h                   lib/core/mesh.cpp
 
-    include/polyhedron/cameras/perspective_camera.h lib/cameras/perspective_camera.cpp
+    include/polyhedron/cameras/perspective_camera.h  lib/cameras/perspective_camera.cpp
+    include/polyhedron/cameras/orthographic_camera.h lib/cameras/orthographic_camera.cpp
 
-    include/polyhedron/geometries/plane.h lib/geometries/plane.cpp
-    include/polyhedron/geometries/cube.h  lib/geometries/cube.cpp
+    include/polyhedron/geometries/plane.h            lib/geometries/plane.cpp
+    include/polyhedron/geometries/cube.h             lib/geometries/cube.cpp
 
-    include/polyhedron/materials/normal_material.h lib/materials/normal_material.cpp
-    include/polyhedron/materials/pbr_material.h lib/materials/pbr_material.cpp
+    include/polyhedron/materials/normal_material.h   lib/materials/normal_material.cpp
+    include/polyhedron/materials/pbr_material.h      lib/materials/pbr_material.cpp
 
-    include/polyhedron/loaders/gltf_loader.h lib/loaders/gltf_loader.cpp
+    include/polyhedron/loaders/gltf_loader.h         lib/loaders/gltf_loader.cpp
 
-    include/polyhedron/utils/file_utils.h lib/utils/file_utils.cpp
+    include/polyhedron/utils/file_utils.h            lib/utils/file_utils.cpp
 )
 target_link_libraries(lib PUBLIC
     whereami

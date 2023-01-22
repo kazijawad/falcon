@@ -7,7 +7,10 @@
 
 namespace polyhedron {
 
-Renderer::Renderer(unsigned int width, unsigned int height) : width(width), height(height) {
+Renderer::Renderer(unsigned int width, unsigned int height) {
+    state.width = width;
+    state.height = height;
+
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -16,7 +19,7 @@ Renderer::Renderer(unsigned int width, unsigned int height) : width(width), heig
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_SAMPLES, 4);
 
-    GLFWwindow* newWindow = glfwCreateWindow(width, height, "Polyhedron", NULL, NULL);
+    GLFWwindow* newWindow = glfwCreateWindow(state.width, state.height, "Polyhedron", NULL, NULL);
     if (newWindow == NULL) {
         std::printf("Failed to create GLFW window\n");
         glfwTerminate();
@@ -41,6 +44,18 @@ Renderer::Renderer(unsigned int width, unsigned int height) : width(width), heig
 
 Renderer::~Renderer() {
     terminate();
+}
+
+unsigned int Renderer::width() {
+    return state.width;
+}
+
+unsigned int Renderer::height() {
+    return state.height;
+}
+
+float Renderer::aspectRatio() {
+    return (float)state.width / (float)state.height;
 }
 
 void Renderer::setClearColor(float r, float g, float b, float a) {
@@ -76,7 +91,7 @@ void Renderer::render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> 
     if (handleResize()) {
         // TODO: Need to improve, assumes the same camera
         // used between renders.
-        camera->handleResize(width, height);
+        camera->handleResize(state.width, state.height);
     }
 
     scene->updateWorldMatrix();
@@ -96,11 +111,11 @@ bool Renderer::handleResize() {
     int newWidth, newHeight;
     glfwGetFramebufferSize(window, &newWidth, &newHeight);
 
-    if (newWidth != width || newHeight != height) {
+    if (newWidth != state.width || newHeight != state.height) {
         glViewport(0, 0, newWidth, newHeight);
 
-        width = newWidth;
-        height = newHeight;
+        state.width = newWidth;
+        state.height = newHeight;
 
         return true;
     }

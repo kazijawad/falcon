@@ -16,6 +16,10 @@ public:
     Renderer(unsigned int width, unsigned int height);
     ~Renderer();
 
+    unsigned int width();
+    unsigned int height();
+    float aspectRatio();
+
     void setClearColor(float r, float g, float b, float a);
 
     void clearColor();
@@ -34,8 +38,10 @@ public:
 
 private:
     GLFWwindow* window;
-    unsigned int width;
-    unsigned int height;
+    struct RenderState {
+        unsigned int width;
+        unsigned int height;
+    } state;
 
     bool handleResize();
     std::vector<std::shared_ptr<Mesh>> getRenderList(

@@ -19,7 +19,12 @@ int main() {
         Renderer renderer(1280, 720);
         renderer.setClearColor(0.1, 0.1, 0.1, 1.0);
 
-        auto camera = std::make_shared<PerspectiveCamera>(45.0, 1280.0 / 720.0, 0.1, 100.0);
+        auto camera = std::make_shared<PerspectiveCamera>(
+            45.0,
+            renderer.aspectRatio(),
+            0.1,
+            100.0
+        );
         camera->applyTranslation(0.0, 3.0, 6.0);
 
         GLTFLoader loader;
