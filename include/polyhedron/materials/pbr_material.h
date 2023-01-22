@@ -1,9 +1,8 @@
 #ifndef pbr_material_h
 #define pbr_material_h
 
-#include <glm/glm.hpp>
-
 #include <polyhedron/core/material.h>
+#include <polyhedron/polyhedron.h>
 
 namespace polyhedron {
 

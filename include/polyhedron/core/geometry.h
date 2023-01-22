@@ -1,10 +1,7 @@
 #ifndef geometry_h
 #define geometry_h
 
-#include <vector>
-#include <tuple>
-
-#include <glm/glm.hpp>
+#include <polyhedron/polyhedron.h>
 
 namespace polyhedron {
 

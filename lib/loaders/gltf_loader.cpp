@@ -2,16 +2,13 @@
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
-#include <iostream>
-#include <vector>
-
-#include <glm/gtc/type_ptr.hpp>
-
-#include <polyhedron/cameras/perspective_camera.h>
 #include <polyhedron/cameras/orthographic_camera.h>
+#include <polyhedron/cameras/perspective_camera.h>
+#include <polyhedron/core/geometry.h>
+#include <polyhedron/core/mesh.h>
+#include <polyhedron/loaders/gltf_loader.h>
 #include <polyhedron/materials/normal_material.h>
 #include <polyhedron/materials/pbr_material.h>
-#include <polyhedron/loaders/gltf_loader.h>
 
 namespace polyhedron {
 
@@ -201,14 +198,16 @@ std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive
 
             switch (accessor.componentType) {
             case TINYGLTF_PARAMETER_TYPE_UNSIGNED_INT: {
-                auto data = reinterpret_cast<const uint32_t*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
+                auto data =
+                    reinterpret_cast<const uint32_t*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
                 for (size_t i = 0; i < accessor.count; i++) {
                     indices.push_back(data[i]);
                 }
                 break;
             }
             case TINYGLTF_PARAMETER_TYPE_UNSIGNED_SHORT: {
-                auto data = reinterpret_cast<const uint16_t*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
+                auto data =
+                    reinterpret_cast<const uint16_t*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
                 for (size_t i = 0; i < accessor.count; i++) {
                     indices.push_back(data[i]);
                 }
@@ -234,8 +233,7 @@ std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive
     for (auto i = 0; i < positions.size(); i += 3) {
         Vertex vertex = {
             glm::vec3(positions[i], positions[i + 1], positions[i + 2]),
-            glm::vec3(normals[i], normals[i + 1], normals[i + 2])
-        };
+            glm::vec3(normals[i], normals[i + 1], normals[i + 2])};
 
         vertices.push_back(vertex);
     }
@@ -249,10 +247,7 @@ std::shared_ptr<Material> GLTFLoader::loadMaterial(tinygltf::Primitive primitive
 
         tinygltf::PbrMetallicRoughness pbr = modelMaterial.pbrMetallicRoughness;
         glm::vec4 baseColor(
-            pbr.baseColorFactor[0],
-            pbr.baseColorFactor[1],
-            pbr.baseColorFactor[2],
-            pbr.baseColorFactor[3]
+            pbr.baseColorFactor[0], pbr.baseColorFactor[1], pbr.baseColorFactor[2], pbr.baseColorFactor[3]
         );
 
         auto material = std::make_shared<PBRMaterial>(baseColor, pbr.metallicFactor, pbr.roughnessFactor);

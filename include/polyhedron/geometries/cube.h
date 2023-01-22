@@ -1,7 +1,7 @@
 #ifndef cube_h
 #define cube_h
 
-#include <polyhedron/geometries/plane.h>
+#include <polyhedron/core/geometry.h>
 
 namespace polyhedron {
 

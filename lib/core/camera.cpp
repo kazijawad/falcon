@@ -1,5 +1,3 @@
-#include <glm/gtx/matrix_decompose.hpp>
-
 #include <polyhedron/core/camera.h>
 
 namespace polyhedron {

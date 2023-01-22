@@ -1,11 +1,8 @@
 #ifndef mesh_h
 #define mesh_h
 
-#include <memory>
-
-#include <polyhedron/core/geometry.h>
-#include <polyhedron/core/material.h>
-#include <polyhedron/core/camera.h>
+#include <polyhedron/core/transform.h>
+#include <polyhedron/polyhedron.h>
 
 namespace polyhedron {
 

@@ -35,6 +35,8 @@ set(TINYGLTF_INSTALL OFF CACHE INTERNAL "" FORCE)
 
 # Library
 add_library(lib STATIC
+    include/polyhedron/polyhedron.h
+
     include/polyhedron/core/renderer.h               lib/core/renderer.cpp
     include/polyhedron/core/transform.h              lib/core/transform.cpp
     include/polyhedron/core/camera.h                 lib/core/camera.cpp

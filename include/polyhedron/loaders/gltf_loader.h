@@ -1,12 +1,9 @@
 #ifndef gltf_loader_h
 #define gltf_loader_h
 
-#include <string>
-#include <memory>
-
 #include <tiny_gltf.h>
 
-#include <polyhedron/core/mesh.h>
+#include <polyhedron/polyhedron.h>
 
 namespace polyhedron {
 

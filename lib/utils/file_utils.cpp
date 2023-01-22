@@ -1,6 +1,3 @@
-#include <iostream>
-#include <string>
-
 #include <whereami.h>
 
 #include <polyhedron/utils/file_utils.h>
@@ -15,7 +12,7 @@ const char* FileUtils::getExecutableDirectory() {
         std::printf("Failed to find executable path\n");
     }
 
-    auto path = (char*) malloc(length + 1);
+    auto path = (char*)malloc(length + 1);
     if (!path) {
         std::printf("Failed to allocate memory for executable path\n");
     }

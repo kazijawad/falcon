@@ -1,15 +1,6 @@
-#include <iostream>
-#include <memory>
-#include <vector>
-#include <exception>
-
-#include <glad/gl.h>
-#include <glm/glm.hpp>
-#include <glm/ext.hpp>
-
 #include <polyhedron/core/renderer.h>
-#include <polyhedron/cameras/perspective_camera.h>
 #include <polyhedron/loaders/gltf_loader.h>
+#include <polyhedron/polyhedron.h>
 #include <polyhedron/utils/file_utils.h>
 
 using namespace polyhedron;

@@ -1,9 +1,6 @@
+#include <filesystem>
 #include <fstream>
 #include <sstream>
-#include <iostream>
-#include <filesystem>
-
-#include <glad/gl.h>
 
 #include <polyhedron/core/material.h>
 
@@ -43,14 +40,14 @@ Material::Material(const char* vertexPath, const char* fragmentPath, const char*
     } catch (std::ifstream::failure e) {
         std::printf("Failed to read shader files\n");
     }
-    
+
     const char* vShaderCode = vertexCode.c_str();
     const char* fShaderCode = fragmentCode.c_str();
-    
+
     unsigned int vertex, fragment, geometry;
     int success;
     char infoLog[512];
-    
+
     vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vShaderCode, NULL);
     glCompileShader(vertex);
@@ -59,7 +56,7 @@ Material::Material(const char* vertexPath, const char* fragmentPath, const char*
         glGetShaderInfoLog(vertex, 512, NULL, infoLog);
         std::printf("Failed to compile vertex shader: %s\n", infoLog);
     }
-    
+
     fragment = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragment, 1, &fShaderCode, NULL);
     glCompileShader(fragment);
@@ -68,7 +65,7 @@ Material::Material(const char* vertexPath, const char* fragmentPath, const char*
         glGetShaderInfoLog(fragment, 512, NULL, infoLog);
         std::printf("Failed to compile fragment shader: %s\n", infoLog);
     }
-    
+
     if (!geometryCode.empty()) {
         const char* gShaderCode = geometryCode.c_str();
         geometry = glCreateShader(GL_GEOMETRY_SHADER);
@@ -80,7 +77,7 @@ Material::Material(const char* vertexPath, const char* fragmentPath, const char*
             std::printf("Failed to compile geometry shader: %s\n", infoLog);
         }
     }
-    
+
     id = glCreateProgram();
 
     glAttachShader(id, vertex);
@@ -93,7 +90,7 @@ Material::Material(const char* vertexPath, const char* fragmentPath, const char*
         glGetProgramInfoLog(id, 512, NULL, infoLog);
         std::printf("Failed to link program: %s\n", infoLog);
     }
-    
+
     glDeleteShader(vertex);
     glDeleteShader(fragment);
     if (geometry) glDeleteShader(geometry);
@@ -104,7 +101,7 @@ void Material::use() {
 }
 
 void Material::setBool(const std::string &name, bool value) const {
-    glUniform1i(glGetUniformLocation(id, name.c_str()), (int) value);
+    glUniform1i(glGetUniformLocation(id, name.c_str()), (int)value);
 }
 
 void Material::setInt(const std::string &name, int value) const {

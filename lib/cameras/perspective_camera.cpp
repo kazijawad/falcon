@@ -1,16 +1,8 @@
-#include <glm/glm.hpp>
-#include <glm/gtx/matrix_decompose.hpp>
-
 #include <polyhedron/cameras/perspective_camera.h>
 
 namespace polyhedron {
 
-PerspectiveCamera::PerspectiveCamera(
-    float fov,
-    float aspect,
-    float near,
-    float far
-) : Camera() {
+PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float near, float far) : Camera() {
     state.fov = fov;
     state.aspect = aspect;
     state.near = near;
@@ -18,36 +10,28 @@ PerspectiveCamera::PerspectiveCamera(
     isDirty = true;
 }
 
-float PerspectiveCamera::fov() {
-    return state.fov;
-}
+float PerspectiveCamera::fov() { return state.fov; }
 
 void PerspectiveCamera::setFOV(float v) {
     state.fov = v;
     isDirty = true;
 }
 
-float PerspectiveCamera::aspectRatio() {
-    return state.aspect;
-}
+float PerspectiveCamera::aspectRatio() { return state.aspect; }
 
 void PerspectiveCamera::setAspectRatio(float v) {
     state.aspect = v;
     isDirty = true;
 }
 
-float PerspectiveCamera::near() {
-    return state.near;
-}
+float PerspectiveCamera::near() { return state.near; }
 
 void PerspectiveCamera::setNear(float v) {
     state.near = v;
     isDirty = true;
 }
 
-float PerspectiveCamera::far() {
-    return state.far;
-}
+float PerspectiveCamera::far() { return state.far; }
 
 void PerspectiveCamera::setFar(float v) {
     state.far = v;
@@ -55,12 +39,7 @@ void PerspectiveCamera::setFar(float v) {
 }
 
 void PerspectiveCamera::updateProjectionMatrix() {
-    projectionMatrix = glm::perspective(
-        glm::radians(state.fov),
-        state.aspect,
-        state.near,
-        state.far
-    );
+    projectionMatrix = glm::perspective(glm::radians(state.fov), state.aspect, state.near, state.far);
 }
 
 void PerspectiveCamera::handleResize(unsigned int width, unsigned int height) {

@@ -1,11 +1,12 @@
-#include <glad/gl.h>
-#include <glm/gtc/matrix_inverse.hpp>
-
+#include <polyhedron/core/camera.h>
+#include <polyhedron/core/geometry.h>
+#include <polyhedron/core/material.h>
 #include <polyhedron/core/mesh.h>
 
 namespace polyhedron {
 
-Mesh::Mesh(std::shared_ptr<Geometry> geometry, std::shared_ptr<Material> material) : Transform(), geometry(geometry), material(material) {}
+Mesh::Mesh(std::shared_ptr<Geometry> geometry, std::shared_ptr<Material> material)
+    : Transform(), geometry(geometry), material(material) {}
 
 void Mesh::draw(std::shared_ptr<Camera> camera) {
     // TODO: Look into not recalculating both matrices each frame.

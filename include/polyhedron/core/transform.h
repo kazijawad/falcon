@@ -1,16 +1,11 @@
 #ifndef transform_h
 #define transform_h
 
-#include <vector>
-#include <memory>
-#include <functional>
-
-#include <glm/glm.hpp>
-#include <glm/ext.hpp>
+#include <polyhedron/polyhedron.h>
 
 namespace polyhedron {
 
-class Transform: public std::enable_shared_from_this<Transform> {
+class Transform : public std::enable_shared_from_this<Transform> {
 public:
     bool isVisible = true;
 

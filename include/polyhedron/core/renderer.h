@@ -1,13 +1,7 @@
 #ifndef renderer_h
 #define renderer_h
 
-#include <functional>
-#include <memory>
-
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-
-#include <polyhedron/core/mesh.h>
+#include <polyhedron/polyhedron.h>
 
 namespace polyhedron {
 
@@ -29,10 +23,7 @@ public:
 
     void run(std::function<void()> fn);
 
-    void render(
-        std::shared_ptr<Transform> scene,
-        std::shared_ptr<Camera> camera
-    );
+    void render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera);
 
     void terminate();
 
@@ -44,10 +35,7 @@ private:
     } state;
 
     bool handleResize();
-    std::vector<std::shared_ptr<Mesh>> getRenderList(
-        std::shared_ptr<Transform> scene,
-        std::shared_ptr<Camera> camera
-    );
+    std::vector<std::shared_ptr<Mesh>> getRenderList(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera);
 };
 
 }

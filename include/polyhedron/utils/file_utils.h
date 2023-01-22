@@ -1,7 +1,7 @@
 #ifndef file_utils_h
 #define file_utils_h
 
-#include <string>
+#include <polyhedron/polyhedron.h>
 
 namespace polyhedron {
 

@@ -1,7 +1,3 @@
-#include <vector>
-
-#include <glad/gl.h>
-
 #include <polyhedron/core/geometry.h>
 
 namespace polyhedron {
@@ -12,7 +8,8 @@ Geometry::Geometry(std::vector<Vertex> vertices) : vertices(vertices) {
     bindBuffers();
 }
 
-Geometry::Geometry(std::vector<Vertex> vertices, std::vector<unsigned int> indices) : vertices(vertices), indices(indices) {
+Geometry::Geometry(std::vector<Vertex> vertices, std::vector<unsigned int> indices) :
+    vertices(vertices), indices(indices) {
     bindBuffers();
 }
 
@@ -35,15 +32,15 @@ void Geometry::bindBuffers() {
 
     // Position
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 
     // Normal
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(Vertex, normal));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 
     // UV
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(Vertex, uv));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
 
     glBindVertexArray(0);
 }
