@@ -38,7 +38,7 @@ public:
     glm::vec3 scale();
     void applyScale(float x, float y, float z);
 
-    void updateWorldMatrix(glm::mat4* parentWorldMatrix = nullptr);
+    virtual void updateWorldMatrix(glm::mat4* parentWorldMatrix = nullptr);
     void updateLocalMatrix();
 
     void traverse(std::function<bool(std::shared_ptr<Transform>)> fn);

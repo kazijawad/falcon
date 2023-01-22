@@ -39,6 +39,8 @@ add_library(lib STATIC
     include/polyhedron/core/material.h  lib/core/material.cpp
     include/polyhedron/core/mesh.h      lib/core/mesh.cpp
 
+    include/polyhedron/cameras/perspective_camera.h lib/cameras/perspective_camera.cpp
+
     include/polyhedron/geometries/plane.h lib/geometries/plane.cpp
     include/polyhedron/geometries/cube.h  lib/geometries/cube.cpp
 

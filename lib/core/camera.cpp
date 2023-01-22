@@ -8,45 +8,27 @@ namespace polyhedron {
 
 glm::vec3 Camera::UP = glm::vec3(0.0, 1.0, 0.0);
 
-Camera::Camera(float fov, float aspect, float near, float far) : Transform(), fov(fov), aspect(aspect), near(near), far(far) {
-    updateProjectionMatrix();
-}
+Camera::Camera() : Transform() {}
 
 glm::mat4 Camera::view() {
     return viewMatrix;
+}
+
+void Camera::updateViewMatrix() {
+    viewMatrix = glm::lookAt(t, target, Camera::UP);
 }
 
 glm::mat4 Camera::projection() {
     return projectionMatrix;
 }
 
-void Camera::setFOV(float v) {
-    fov = v;
-    updateProjectionMatrix();
-}
+void Camera::updateWorldMatrix(glm::mat4* parentWorldMatrix) {
+    if (isDirty) {
+        updateViewMatrix();
+        updateProjectionMatrix();
+    }
 
-void Camera::setAspectRatio(float v) {
-    aspect = v;
-    updateProjectionMatrix();
-}
-
-void Camera::setNearPlane(float v) {
-    near = v;
-    updateProjectionMatrix();
-}
-
-void Camera::setFarPlane(float v) {
-    far = v;
-    updateProjectionMatrix();
-}
-
-void Camera::updateWorldMatrix() {
-    Transform::updateWorldMatrix(nullptr);
-    viewMatrix = glm::lookAt(t, target, Camera::UP);
-}
-
-void Camera::updateProjectionMatrix() {
-    projectionMatrix = glm::perspective(glm::radians(fov), aspect, near, far);
+    Transform::updateWorldMatrix(parentWorldMatrix);
 }
 
 void Camera::lookAt(glm::vec3 target) {

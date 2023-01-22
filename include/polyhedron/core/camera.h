@@ -11,27 +11,21 @@ class Camera : public Transform {
 public:
     static glm::vec3 UP;
 
-    Camera(float fov, float aspect, float near, float far);
+    Camera();
 
     glm::mat4 view();
+    void updateViewMatrix();
+
     glm::mat4 projection();
+    virtual void updateProjectionMatrix() = 0;
 
-    void setFOV(float v);
-    void setAspectRatio(float v);
-    void setNearPlane(float v);
-    void setFarPlane(float v);
-
-    void updateWorldMatrix();
-    void updateProjectionMatrix();
+    void updateWorldMatrix(glm::mat4* parentWorldMatrix = nullptr) override;
 
     void lookAt(glm::vec3 target);
 
-protected:
-    float fov;
-    float aspect;
-    float near;
-    float far;
+    virtual void handleResize(unsigned int width, unsigned int height) = 0;
 
+protected:
     glm::vec3 target = glm::vec3(0.0);
 
     glm::mat4 viewMatrix = glm::mat4();
@@ -39,6 +33,5 @@ protected:
 };
 
 }
-
 
 #endif

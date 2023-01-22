@@ -73,10 +73,10 @@ void Renderer::run(std::function<void()> fn) {
 }
 
 void Renderer::render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera) {
-    if (resize()) {
+    if (handleResize()) {
         // TODO: Need to improve, assumes the same camera
         // used between renders.
-        camera->setAspectRatio((float)width / (float)height);
+        camera->handleResize(width, height);
     }
 
     scene->updateWorldMatrix();
@@ -92,7 +92,7 @@ void Renderer::terminate() {
     glfwTerminate();
 }
 
-bool Renderer::resize() {
+bool Renderer::handleResize() {
     int newWidth, newHeight;
     glfwGetFramebufferSize(window, &newWidth, &newHeight);
 

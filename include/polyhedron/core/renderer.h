@@ -37,7 +37,7 @@ private:
     unsigned int width;
     unsigned int height;
 
-    bool resize();
+    bool handleResize();
     std::vector<std::shared_ptr<Mesh>> getRenderList(
         std::shared_ptr<Transform> scene,
         std::shared_ptr<Camera> camera
