@@ -1,3 +1,5 @@
+#include <polyhedron/controls/orbit_controls.h>
+#include <polyhedron/core/camera.h>
 #include <polyhedron/core/renderer.h>
 #include <polyhedron/loaders/gltf_loader.h>
 #include <polyhedron/polyhedron.h>
@@ -15,7 +17,11 @@ int main() {
         std::shared_ptr<Transform> scene = state.scenes[0];
         std::shared_ptr<Camera> camera = state.cameras[0];
 
-        renderer.run([renderer, scene, camera]() mutable {
+        auto controls = OrbitControls(renderer.window, camera);
+
+        renderer.run([&]() mutable {
+            controls.update();
+
             renderer.clear();
             renderer.render(scene, camera);
         });

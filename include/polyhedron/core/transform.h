@@ -24,6 +24,7 @@ public:
 
     glm::vec3 translation();
     void applyTranslation(float x, float y, float z);
+    void applyTranslation(glm::vec3 position);
 
     glm::quat rotation();
     void applyRotation(float angle, glm::vec3 axis);

@@ -10,6 +10,8 @@ public:
     Renderer(unsigned int width, unsigned int height);
     ~Renderer();
 
+    GLFWwindow* window;
+
     unsigned int width();
     unsigned int height();
     float aspectRatio();
@@ -28,7 +30,6 @@ public:
     void terminate();
 
 private:
-    GLFWwindow* window;
     struct RenderState {
         unsigned int width;
         unsigned int height;

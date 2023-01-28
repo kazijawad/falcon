@@ -12,6 +12,7 @@
 
 #include <GLFW/glfw3.h>
 
+#include <glm/gtx/string_cast.hpp>
 #include <glm/mat2x2.hpp>
 #include <glm/mat3x3.hpp>
 #include <glm/mat4x4.hpp>
@@ -28,6 +29,8 @@ class Geometry;
 class Material;
 class Mesh;
 class Camera;
+
+static constexpr float PI = 3.14159265358979323846;
 
 }
 

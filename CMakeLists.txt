@@ -47,6 +47,8 @@ add_library(lib STATIC
     include/polyhedron/cameras/perspective_camera.h  lib/cameras/perspective_camera.cpp
     include/polyhedron/cameras/orthographic_camera.h lib/cameras/orthographic_camera.cpp
 
+    include/polyhedron/controls/orbit_controls.h     lib/controls/orbit_controls.cpp
+
     include/polyhedron/geometries/plane.h            lib/geometries/plane.cpp
     include/polyhedron/geometries/cube.h             lib/geometries/cube.cpp
 

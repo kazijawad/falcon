@@ -47,6 +47,13 @@ void Transform::applyTranslation(float x, float y, float z) {
     isDirty = true;
 }
 
+void Transform::applyTranslation(glm::vec3 position) {
+    t.x = position.x;
+    t.y = position.y;
+    t.z = position.z;
+    isDirty = true;
+}
+
 glm::quat Transform::rotation() {
     return r;
 }
