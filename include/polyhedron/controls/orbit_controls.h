@@ -22,9 +22,9 @@ enum OrbitState {
 
 class OrbitControls {
 public:
-    static int ORBIT_BUTTON;
-    static int ZOOM_BUTTON;
-    static int PAN_BUTTON;
+    static const int ORBIT_BUTTON;
+    static const int ZOOM_BUTTON;
+    static const int PAN_BUTTON;
 
     float ease;
     float inertia;

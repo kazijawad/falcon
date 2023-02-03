@@ -5,9 +5,9 @@
 
 namespace polyhedron {
 
-int OrbitControls::ORBIT_BUTTON = GLFW_MOUSE_BUTTON_LEFT;
-int OrbitControls::ZOOM_BUTTON = GLFW_MOUSE_BUTTON_MIDDLE;
-int OrbitControls::PAN_BUTTON = GLFW_MOUSE_BUTTON_RIGHT;
+const int OrbitControls::ORBIT_BUTTON = GLFW_MOUSE_BUTTON_LEFT;
+const int OrbitControls::ZOOM_BUTTON = GLFW_MOUSE_BUTTON_MIDDLE;
+const int OrbitControls::PAN_BUTTON = GLFW_MOUSE_BUTTON_RIGHT;
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
     static_cast<OrbitControls*>(glfwGetWindowUserPointer(window))->handleMouseButton(button, action);

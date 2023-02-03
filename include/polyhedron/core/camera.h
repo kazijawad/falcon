@@ -7,9 +7,11 @@ namespace polyhedron {
 
 class Camera : public Transform {
 public:
-    static glm::vec3 UP;
+    static const glm::vec3 UP;
 
     Camera();
+
+    virtual ~Camera() = default;
 
     glm::vec3 target();
     void lookAt(glm::vec3 target);

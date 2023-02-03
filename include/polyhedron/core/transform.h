@@ -13,6 +13,8 @@ public:
 
     Transform();
 
+    virtual ~Transform() = default;
+
     void addChild(std::shared_ptr<Transform> object);
     void removeChild(std::shared_ptr<Transform> object);
 
