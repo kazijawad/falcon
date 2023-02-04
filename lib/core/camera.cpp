@@ -6,20 +6,20 @@ const glm::vec3 Camera::UP = glm::vec3(0.0, 1.0, 0.0);
 
 Camera::Camera() : Transform() {}
 
-glm::vec3 Camera::target() {
-    return state.target;
+glm::vec3 Camera::getTarget() {
+    return target;
 }
 
-void Camera::lookAt(glm::vec3 target) {
-    state.target = target;
+void Camera::lookAt(glm::vec3 v) {
+    target = v;
     isDirty = true;
 }
 
-glm::mat4 Camera::view() {
+glm::mat4 Camera::getView() {
     return viewMatrix;
 }
 
-void Camera::updateViewMatrix() {
+void Camera::updateView() {
     // Camera orientation is based on a transformation of the view matrix.
     // We can define a target position, a { r, u, v } basis to orient the
     // camera, and a world space up direction. The transformation matrix
@@ -30,20 +30,20 @@ void Camera::updateViewMatrix() {
     // against the up direction will give us the r vector. For validation,
     // we calculate u as the cross product of r and v to ensure the correct
     // up direction.
-    viewMatrix = glm::lookAt(t, state.target, Camera::UP);
+    viewMatrix = glm::lookAt(translation, target, Camera::UP);
 }
 
-glm::mat4 Camera::projection() {
+glm::mat4 Camera::getProjection() {
     return projectionMatrix;
 }
 
-void Camera::updateWorldMatrix(glm::mat4* parentWorldMatrix) {
+void Camera::updateWorld(glm::mat4* parentWorldMatrix) {
     if (isDirty) {
-        updateViewMatrix();
-        updateProjectionMatrix();
+        updateView();
+        updateProjection();
     }
 
-    Transform::updateWorldMatrix(parentWorldMatrix);
+    Transform::updateWorld(parentWorldMatrix);
 }
 
 }

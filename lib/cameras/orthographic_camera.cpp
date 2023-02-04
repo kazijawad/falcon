@@ -3,80 +3,78 @@
 namespace polyhedron {
 
 OrthographicCamera::OrthographicCamera(float left, float right, float bottom, float top, float near, float far) :
-    Camera() {
-    // These state variables define the AABB that will be
-    // transformed to the canonical view volume.
-    state.left = left;
-    state.right = right;
-    state.bottom = bottom;
-    state.top = top;
-    state.near = near;
-    state.far = far;
+    Camera(),
+    left(left),
+    right(right),
+    bottom(bottom),
+    top(top),
+    near(near),
+    far(far) {
     isDirty = true;
 }
 
-float OrthographicCamera::left() {
-    return state.left;
+float OrthographicCamera::getLeft() {
+    return left;
 }
 
 void OrthographicCamera::setLeft(float v) {
-    state.left = v;
+    left = v;
     isDirty = true;
 }
 
-float OrthographicCamera::right() {
-    return state.right;
+float OrthographicCamera::getRight() {
+    return right;
 }
 
 void OrthographicCamera::setRight(float v) {
-    state.right = v;
+    right = v;
     isDirty = true;
 }
 
-float OrthographicCamera::bottom() {
-    return state.bottom;
+float OrthographicCamera::getBottom() {
+    return bottom;
 }
 
 void OrthographicCamera::setBottom(float v) {
-    state.bottom = v;
+    bottom = v;
     isDirty = true;
 }
 
-float OrthographicCamera::top() {
-    return state.top;
+float OrthographicCamera::getTop() {
+    return top;
 }
 
 void OrthographicCamera::setTop(float v) {
-    state.top = v;
+    top = v;
     isDirty = true;
 }
 
-float OrthographicCamera::near() {
-    return state.near;
+float OrthographicCamera::getNear() {
+    return near;
 }
 
 void OrthographicCamera::setNear(float v) {
-    state.near = v;
+    near = v;
     isDirty = true;
 }
 
-float OrthographicCamera::far() {
-    return state.far;
+float OrthographicCamera::getFar() {
+    return far;
 }
 
 void OrthographicCamera::setFar(float v) {
-    state.far = v;
+    far = v;
     isDirty = true;
 }
 
-void OrthographicCamera::updateProjectionMatrix() {
+void OrthographicCamera::updateProjection() {
     // The projection matrix is calculated by translating the AABB to the
     // origin. Then, it's scaled to the canonical view volume, which is a cube
     // ranging from (-1, -1, -1) to (1, 1, 1) in OpenGL. The far plane is
     // negated because the projection faces the negative z direction, but
     // it's intuitive for the user to think of the far plane as greater than
     // the near plane.
-    projectionMatrix = glm::ortho(state.left, state.right, state.bottom, state.top, state.near, state.far);
+    projectionMatrix = glm::ortho(left, right, bottom, top, near, far);
 }
 
 void OrthographicCamera::handleResize(unsigned int width, unsigned int height) {}

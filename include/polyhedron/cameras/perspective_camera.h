@@ -9,29 +9,27 @@ class PerspectiveCamera : public Camera {
 public:
     PerspectiveCamera(float fov, float aspect, float near, float far);
 
-    float fov();
+    float getFOV();
     void setFOV(float v);
 
-    float aspectRatio();
+    float getAspectRatio();
     void setAspectRatio(float v);
 
-    float near();
+    float getNear();
     void setNear(float v);
 
-    float far();
+    float getFar();
     void setFar(float v);
 
-    void updateProjectionMatrix() override;
+    void updateProjection() override;
 
     void handleResize(unsigned int width, unsigned int height) override;
 
 private:
-    struct CameraState {
-        float fov;
-        float aspect;
-        float near;
-        float far;
-    } state;
+    float fov;
+    float aspect;
+    float near;
+    float far;
 };
 
 }

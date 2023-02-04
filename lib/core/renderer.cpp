@@ -90,8 +90,8 @@ void Renderer::render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> 
         camera->handleResize(width, height);
     }
 
-    scene->updateWorldMatrix();
-    camera->updateWorldMatrix();
+    scene->updateWorld();
+    camera->updateWorld();
 
     updateRenderState(scene, camera);
 

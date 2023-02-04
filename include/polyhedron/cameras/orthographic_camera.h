@@ -9,37 +9,37 @@ class OrthographicCamera : public Camera {
 public:
     OrthographicCamera(float left, float right, float bottom, float top, float near, float far);
 
-    float left();
+    float getLeft();
     void setLeft(float v);
 
-    float right();
+    float getRight();
     void setRight(float v);
 
-    float bottom();
+    float getBottom();
     void setBottom(float v);
 
-    float top();
+    float getTop();
     void setTop(float v);
 
-    float near();
+    float getNear();
     void setNear(float v);
 
-    float far();
+    float getFar();
     void setFar(float v);
 
-    void updateProjectionMatrix() override;
+    void updateProjection() override;
 
     void handleResize(unsigned int width, unsigned int height) override;
 
 private:
-    struct CameraState {
-        float left;
-        float right;
-        float bottom;
-        float top;
-        float near;
-        float far;
-    } state;
+    // These variables define the AABB that will be
+    // transformed to the canonical view volume.
+    float left;
+    float right;
+    float bottom;
+    float top;
+    float near;
+    float far;
 };
 
 }

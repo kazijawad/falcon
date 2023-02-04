@@ -2,51 +2,52 @@
 
 namespace polyhedron {
 
-PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float near, float far) : Camera() {
-    state.fov = fov;
-    state.aspect = aspect;
-    state.near = near;
-    state.far = far;
+PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float near, float far) :
+    Camera(),
+    fov(fov),
+    aspect(aspect),
+    near(near),
+    far(far) {
     isDirty = true;
 }
 
-float PerspectiveCamera::fov() {
-    return state.fov;
+float PerspectiveCamera::getFOV() {
+    return fov;
 }
 
 void PerspectiveCamera::setFOV(float v) {
-    state.fov = v;
+    fov = v;
     isDirty = true;
 }
 
-float PerspectiveCamera::aspectRatio() {
-    return state.aspect;
+float PerspectiveCamera::getAspectRatio() {
+    return aspect;
 }
 
 void PerspectiveCamera::setAspectRatio(float v) {
-    state.aspect = v;
+    aspect = v;
     isDirty = true;
 }
 
-float PerspectiveCamera::near() {
-    return state.near;
+float PerspectiveCamera::getNear() {
+    return near;
 }
 
 void PerspectiveCamera::setNear(float v) {
-    state.near = v;
+    near = v;
     isDirty = true;
 }
 
-float PerspectiveCamera::far() {
-    return state.far;
+float PerspectiveCamera::getFar() {
+    return far;
 }
 
 void PerspectiveCamera::setFar(float v) {
-    state.far = v;
+    far = v;
     isDirty = true;
 }
 
-void PerspectiveCamera::updateProjectionMatrix() {
+void PerspectiveCamera::updateProjection() {
     // The perspective projection is similar to the orthographic projection in
     // that there's a scaled view volume that's transformed to the canonical
     // view volume. However, a perspective projection involves field of view (fov)
@@ -57,7 +58,7 @@ void PerspectiveCamera::updateProjectionMatrix() {
     // coordinate, w. This division can also affect depth buffer accuracy because
     // the z coordinate is divided against w. The accuracy degradation is noticeable
     // for near planes close to zero or extremely large far planes.
-    projectionMatrix = glm::perspective(glm::radians(state.fov), state.aspect, state.near, state.far);
+    projectionMatrix = glm::perspective(glm::radians(fov), aspect, near, far);
 }
 
 void PerspectiveCamera::handleResize(unsigned int width, unsigned int height) {

@@ -45,8 +45,8 @@ OrbitControls::OrbitControls(
     maxAzimuthAngle(maxAzimuthAngle),
     minDistance(minDistance),
     maxDistance(maxDistance),
-    target(camera->target()),
-    offset(camera->translation() - target) {
+    target(camera->getTarget()),
+    offset(camera->getTranslation() - target) {
     spherical.radius = sphericalTarget.radius = glm::length(offset);
     spherical.theta = sphericalTarget.theta = glm::atan(offset.x, offset.z);
     spherical.phi = sphericalTarget.phi = glm::acos(std::min(std::max(offset.y / sphericalTarget.radius, -1.0f), 1.0f));
@@ -88,7 +88,7 @@ void OrbitControls::update() {
     offset.z = sinPhiRadius * std::cos(spherical.theta);
 
     // Update camera positioning.
-    camera->applyTranslation(target + offset);
+    camera->setTranslation(target + offset);
     camera->lookAt(target);
 
     // Apply inertia to spherical coordinates.
@@ -168,13 +168,13 @@ void OrbitControls::handlePan(double x, double y) {
     glfwGetFramebufferSize(window, NULL, &height);
 
     glm::vec2 delta = (glm::vec2(x, y) - panStart) * panSpeed;
-    auto distance = (camera->translation() - target).length();
-    auto localTransform = camera->localSpace();
+    auto distance = (camera->getTranslation() - target).length();
+    auto localTransform = camera->getLocal();
 
     // Set standard FOV.
     float fov = 45.0;
     if (std::shared_ptr<PerspectiveCamera> perspective = std::dynamic_pointer_cast<PerspectiveCamera>(camera)) {
-        fov = perspective->fov();
+        fov = perspective->getFOV();
     }
     distance *= std::tan(((fov / 2.0) * PI) / 180.0);
 

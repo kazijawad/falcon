@@ -13,7 +13,7 @@ Mesh::Mesh(std::shared_ptr<Geometry> geometry, std::shared_ptr<Material> materia
 
 void Mesh::draw(RenderState &state) {
     // TODO: Look into not recalculating both matrices each frame.
-    modelViewMatrix = state.camera->view() * worldMatrix;
+    modelViewMatrix = state.camera->getView() * worldMatrix;
     // TODO: The normal matrix could be accurately calculated using the adjoint
     // matrix, but likely not needed for our use cases. In this format, there
     // are also optimizations that can be done depending on what local transformations
@@ -23,13 +23,13 @@ void Mesh::draw(RenderState &state) {
     material->use(state);
 
     material->setMat4("model", worldMatrix);
-    material->setMat4("view", state.camera->view());
-    material->setMat4("projection", state.camera->projection());
+    material->setMat4("view", state.camera->getView());
+    material->setMat4("projection", state.camera->getProjection());
 
     material->setMat4("modelViewMatrix", modelViewMatrix);
     material->setMat3("normalMatrix", normalMatrix);
 
-    material->setVec3("cameraPosition", state.camera->translation());
+    material->setVec3("cameraPosition", state.camera->getTranslation());
 
     if (material->depthTest) {
         glEnable(GL_DEPTH_TEST);

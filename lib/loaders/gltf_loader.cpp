@@ -74,8 +74,8 @@ GLTFState GLTFLoader::load(const std::string &filename) {
         std::shared_ptr<Transform> scene = state.scenes[0];
 
         auto camera = std::make_shared<PerspectiveCamera>(45.0, 16.0 / 9.0, 0.1, 100.0);
-        camera->applyTranslation(glm::vec3(-5.0, 0.0, 0.0));
-        camera->lookAt(scene->translation());
+        camera->setTranslation(-5.0, 0.0, 0.0);
+        camera->lookAt(scene->getTranslation());
 
         state.cameras.push_back(camera);
     }
@@ -96,27 +96,27 @@ std::shared_ptr<Transform> GLTFLoader::loadNode(GLTFState &state, int nodeIndex)
 
     if (!node.translation.empty()) {
         double* translation = &node.translation[0];
-        transform->applyTranslation(translation[0], translation[1], translation[2]);
+        transform->setTranslation(translation[0], translation[1], translation[2]);
     }
 
     if (!node.scale.empty()) {
         double* scale = &node.scale[0];
-        transform->applyScale(scale[0], scale[1], scale[2]);
+        transform->setScale(scale[0], scale[1], scale[2]);
     }
 
     if (!node.rotation.empty()) {
         double* quat = &node.rotation[0];
-        transform->applyRotation(quat[3], glm::vec3(quat[0], quat[1], quat[2]));
+        transform->setRotation(quat[3], glm::vec3(quat[0], quat[1], quat[2]));
     }
 
     if (!node.matrix.empty()) {
         double* mat = &node.matrix[0];
-        transform->setLocalSpace(glm::make_mat4(mat));
+        transform->setLocal(glm::make_mat4(mat));
     } else if (node.camera > -1) {
         // The view direction is along the negative z-axis
         // if no transformation is defined.
         if (std::shared_ptr<Camera> camera = std::dynamic_pointer_cast<Camera>(transform)) {
-            auto translation = camera->translation();
+            auto translation = camera->getTranslation();
             camera->lookAt(glm::vec3(translation.x, translation.y, -translation.z));
         }
     }

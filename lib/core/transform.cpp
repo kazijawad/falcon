@@ -1,14 +1,14 @@
 #include <algorithm>
 
-#include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/transform.hpp>
 
 #include <polyhedron/core/transform.h>
 
 namespace polyhedron {
 
 Transform::Transform() {
-    updateLocalMatrix();
+    updateLocal();
     worldMatrix = glm::mat4(localMatrix);
 }
 
@@ -20,69 +20,76 @@ void Transform::removeChild(std::shared_ptr<Transform> object) {
     children.erase(std::remove(children.begin(), children.end(), object), children.end());
 }
 
-glm::mat4 Transform::localSpace() {
+glm::mat4 Transform::getLocal() {
     return localMatrix;
 }
 
-void Transform::setLocalSpace(glm::mat4 matrix) {
-    localMatrix = matrix;
+void Transform::setLocal(glm::mat4 v) {
+    localMatrix = v;
 }
 
-glm::mat4 Transform::worldSpace() {
+glm::mat4 Transform::getWorld() {
     return worldMatrix;
 }
 
-void Transform::setWorldSpace(glm::mat4 matrix) {
-    worldMatrix = matrix;
+void Transform::setWorld(glm::mat4 v) {
+    worldMatrix = v;
 }
 
-glm::vec3 Transform::translation() {
-    return t;
+glm::vec3 Transform::getTranslation() {
+    return translation;
 }
 
-void Transform::applyTranslation(float x, float y, float z) {
-    t.x = x;
-    t.y = y;
-    t.z = z;
+void Transform::setTranslation(float x, float y, float z) {
+    translation.x = x;
+    translation.y = y;
+    translation.z = z;
     isDirty = true;
 }
 
-void Transform::applyTranslation(glm::vec3 position) {
-    t.x = position.x;
-    t.y = position.y;
-    t.z = position.z;
+void Transform::setTranslation(glm::vec3 v) {
+    translation.x = v.x;
+    translation.y = v.y;
+    translation.z = v.z;
     isDirty = true;
 }
 
-glm::quat Transform::rotation() {
-    return r;
+glm::quat Transform::getRotation() {
+    return rotation;
 }
 
-void Transform::applyRotation(float angle, glm::vec3 axis) {
-    r.x = axis.x;
-    r.y = axis.y;
-    r.z = axis.z;
-    r.w = angle;
+void Transform::setRotation(float angle, glm::vec3 axis) {
+    rotation.x = axis.x;
+    rotation.y = axis.y;
+    rotation.z = axis.z;
+    rotation.w = angle;
     isDirty = true;
 }
 
-glm::vec3 Transform::scale() {
-    return s;
+glm::vec3 Transform::getScale() {
+    return scale;
 }
 
-void Transform::applyScale(float x, float y, float z) {
-    s.x = x;
-    s.y = y;
-    s.z = z;
+void Transform::setScale(float x, float y, float z) {
+    scale.x = x;
+    scale.y = y;
+    scale.z = z;
     isDirty = true;
 }
 
-void Transform::updateWorldMatrix(glm::mat4* parentWorldMatrix) {
+void Transform::setScale(glm::vec3 v) {
+    scale.x = v.x;
+    scale.y = v.y;
+    scale.z = v.z;
+    isDirty = true;
+}
+
+void Transform::updateWorld(glm::mat4* parentWorldMatrix) {
     if (isDirty) {
-        updateLocalMatrix();
+        updateLocal();
         isDirty = false;
     }
-    
+
     // TODO: Improve this by not recalculating every frame.
     // A potential solution is to update the parameter to be the parent
     // transform and check against its dirty flag.
@@ -91,7 +98,7 @@ void Transform::updateWorldMatrix(glm::mat4* parentWorldMatrix) {
     // transformation against its parent. If there is no parent defined it's
     // assumed the object's local transformation is in world space. This can
     // be beneficial in creating complex scenes because children objects are
-    // only dependent on their parent transformation. A classic example is 
+    // only dependent on their parent transformation. A classic example is
     // creating a solar system where the moon only orbits the Earth, which
     // orbits the Sun.
     if (parentWorldMatrix != nullptr) {
@@ -101,19 +108,19 @@ void Transform::updateWorldMatrix(glm::mat4* parentWorldMatrix) {
     }
 
     for (std::shared_ptr<Transform> child : children) {
-        child->updateWorldMatrix(&worldMatrix);
+        child->updateWorld(&worldMatrix);
     }
 }
 
-void Transform::updateLocalMatrix() {
+void Transform::updateLocal() {
     // A local matrix on a mesh, or collection of meshes, can be defined by
     // three common properties of translation, rotation, and scale. The order
     // of matrix products is important because matrix products are not commutative,
     // but they are associative. For example, it could be fruitful in calculating
     // the translation and rotation matrix together in certain scenarios.
-    auto T = glm::translate(t);
-    auto R = glm::mat4_cast(r);
-    auto S = glm::scale(s);
+    auto T = glm::translate(translation);
+    auto R = glm::mat4_cast(rotation);
+    auto S = glm::scale(scale);
     localMatrix = T * R * S;
 }
 
