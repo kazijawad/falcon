@@ -12,7 +12,7 @@ public:
 
     bool doubleSided = false;
 
-    Material(const char* vertexPath, const char* fragmentPath, const char* geometryPath = NULL);
+    Material(const std::string &vertexPath, const std::string &fragmentPath);
 
     virtual void use();
 

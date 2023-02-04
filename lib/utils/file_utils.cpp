@@ -4,33 +4,25 @@
 
 namespace polyhedron {
 
-const char* FileUtils::getExecutableDirectory() {
-    auto dirnameLength = 0;
-
-    auto length = wai_getExecutablePath(NULL, 0, &dirnameLength);
+const std::string FileUtils::getExecutableDirectory() {
+    int dirnameLength = 0;
+    int length = wai_getExecutablePath(nullptr, 0, &dirnameLength);
     if (length < 1) {
         std::printf("Failed to find executable path\n");
     }
 
-    auto path = (char*)malloc(length + 1);
-    if (!path) {
-        std::printf("Failed to allocate memory for executable path\n");
-    }
-
+    char* path = new char[length + 1];
     wai_getExecutablePath(path, length, &dirnameLength);
     path[dirnameLength] = '\0';
 
-    return path;
+    std::string executablePath(path);
+    delete[] path;
+
+    return executablePath;
 }
 
-const char* FileUtils::getAssetPath(const char* relativePath) {
-    auto execPath = getExecutableDirectory();
-
-    auto assetPath = new char[strlen(execPath) + strlen(relativePath) + 1];
-    strcpy(assetPath, execPath);
-    strcat(assetPath, relativePath);
-
-    return assetPath;
+const std::string FileUtils::getAssetPath(const std::string &relativePath) {
+    return getExecutableDirectory() + relativePath;
 }
 
 }

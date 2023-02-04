@@ -7,8 +7,8 @@ namespace polyhedron {
 
 class FileUtils {
 public:
-    static const char* getExecutableDirectory();
-    static const char* getAssetPath(const char* relativePath);
+    static const std::string getExecutableDirectory();
+    static const std::string getAssetPath(const std::string &relativePath);
 };
 
 }

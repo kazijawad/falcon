@@ -6,50 +6,28 @@
 
 namespace polyhedron {
 
-Material::Material(const char* vertexPath, const char* fragmentPath, const char* geometryPath) {
-    std::string vertexCode;
-    std::string fragmentCode;
-    std::string geometryCode;
-
-    std::ifstream vShaderFile;
-    std::ifstream fShaderFile;
-    std::ifstream gShaderFile;
-
-    vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-    fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-    gShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-
-    try {
-        vShaderFile.open(vertexPath);
-        fShaderFile.open(fragmentPath);
-        if (geometryPath) gShaderFile.open(geometryPath);
-
-        std::stringstream vShaderStream, fShaderStream, gShaderStream;
-
-        vShaderStream << vShaderFile.rdbuf();
-        fShaderStream << fShaderFile.rdbuf();
-        if (gShaderFile) gShaderStream << gShaderFile.rdbuf();
-
-        vShaderFile.close();
-        fShaderFile.close();
-        if (geometryPath) gShaderFile.close();
-
-        vertexCode = vShaderStream.str();
-        fragmentCode = fShaderStream.str();
-        if (gShaderStream) geometryCode = gShaderStream.str();
-    } catch (std::ifstream::failure e) {
-        std::printf("Failed to read shader files\n");
+Material::Material(const std::string &vertexPath, const std::string &fragmentPath) {
+    std::ifstream vertexStream(vertexPath);
+    if (!vertexStream.is_open()) {
+        std::printf("Failed to read vertex shader: %s\n", vertexPath.c_str());
     }
 
-    const char* vShaderCode = vertexCode.c_str();
-    const char* fShaderCode = fragmentCode.c_str();
+    std::ifstream fragmentStream(fragmentPath);
+    if (!fragmentStream.is_open()) {
+        std::printf("Failed to read fragment shader: %s\n", fragmentPath.c_str());
+    }
 
-    unsigned int vertex, fragment, geometry;
-    int success;
+    std::string vertexCode((std::istreambuf_iterator<char>(vertexStream)), std::istreambuf_iterator<char>());
+    std::string fragmentCode((std::istreambuf_iterator<char>(fragmentStream)), std::istreambuf_iterator<char>());
+
+    const char* vertexSource = vertexCode.c_str();
+    const char* fragmentSource = fragmentCode.c_str();
+
+    int success = 0;
     char infoLog[512];
 
-    vertex = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertex, 1, &vShaderCode, NULL);
+    unsigned int vertex = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertex, 1, &vertexSource, NULL);
     glCompileShader(vertex);
     glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
     if (!success) {
@@ -57,8 +35,8 @@ Material::Material(const char* vertexPath, const char* fragmentPath, const char*
         std::printf("Failed to compile vertex shader: %s\n", infoLog);
     }
 
-    fragment = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragment, 1, &fShaderCode, NULL);
+    unsigned int fragment = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragment, 1, &fragmentSource, NULL);
     glCompileShader(fragment);
     glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
     if (!success) {
@@ -66,23 +44,10 @@ Material::Material(const char* vertexPath, const char* fragmentPath, const char*
         std::printf("Failed to compile fragment shader: %s\n", infoLog);
     }
 
-    if (!geometryCode.empty()) {
-        const char* gShaderCode = geometryCode.c_str();
-        geometry = glCreateShader(GL_GEOMETRY_SHADER);
-        glShaderSource(geometry, 1, &gShaderCode, NULL);
-        glCompileShader(geometry);
-        glGetShaderiv(geometry, GL_COMPILE_STATUS, &success);
-        if (!success) {
-            glGetShaderInfoLog(geometry, 512, NULL, infoLog);
-            std::printf("Failed to compile geometry shader: %s\n", infoLog);
-        }
-    }
-
     id = glCreateProgram();
 
     glAttachShader(id, vertex);
     glAttachShader(id, fragment);
-    if (geometry) glAttachShader(id, geometry);
 
     glLinkProgram(id);
     glGetProgramiv(id, GL_LINK_STATUS, &success);
@@ -93,7 +58,6 @@ Material::Material(const char* vertexPath, const char* fragmentPath, const char*
 
     glDeleteShader(vertex);
     glDeleteShader(fragment);
-    if (geometry) glDeleteShader(geometry);
 };
 
 void Material::use() {
