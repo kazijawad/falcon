@@ -26,8 +26,8 @@ void PBRMaterial::use(RenderState &state) {
     setInt("numLights", numLights);
     for (auto i = 0; i < numLights; ++i) {
         std::shared_ptr<Light> light = state.lights[i];
-        setVec3("lightPositions[" + std::to_string(i) + "]", light->getTranslation());
-        setVec3("lightColors[" + std::to_string(i) + "]", light->getColor());
+        setVec3Array("lightPositions", i, light->getTranslation());
+        setVec3Array("lightColors", i, light->getColor());
     }
 }
 

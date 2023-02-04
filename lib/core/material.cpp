@@ -77,12 +77,26 @@ void Material::setFloat(const std::string &name, float value) const {
     glUniform1f(glGetUniformLocation(id, name.c_str()), value);
 }
 
+void Material::setFloatArray(const std::string &name, unsigned int index, float value) const {
+    glUniform1f(glGetUniformLocation(id, (name + "[" + std::to_string(index) + "]").c_str()), value);
+}
+
 void Material::setVec2(const std::string &name, const glm::vec2 &value) const {
     glUniform2fv(glGetUniformLocation(id, name.c_str()), 1, glm::value_ptr(value));
 }
 
 void Material::setVec2(const std::string &name, float x, float y) const {
     glUniform2f(glGetUniformLocation(id, name.c_str()), x, y);
+}
+
+void Material::setVec2Array(const std::string &name, unsigned int index, const glm::vec2 &value) const {
+    glUniform2fv(
+        glGetUniformLocation(id, (name + "[" + std::to_string(index) + "]").c_str()), 1, glm::value_ptr(value)
+    );
+}
+
+void Material::setVec2Array(const std::string &name, unsigned int index, float x, float y) const {
+    glUniform2f(glGetUniformLocation(id, (name + "[" + std::to_string(index) + "]").c_str()), x, y);
 }
 
 void Material::setVec3(const std::string &name, const glm::vec3 &value) const {
@@ -93,12 +107,32 @@ void Material::setVec3(const std::string &name, float x, float y, float z) const
     glUniform3f(glGetUniformLocation(id, name.c_str()), x, y, z);
 }
 
+void Material::setVec3Array(const std::string &name, unsigned int index, const glm::vec3 &value) const {
+    glUniform3fv(
+        glGetUniformLocation(id, (name + "[" + std::to_string(index) + "]").c_str()), 1, glm::value_ptr(value)
+    );
+}
+
+void Material::setVec3Array(const std::string &name, unsigned int index, float x, float y, float z) const {
+    glUniform3f(glGetUniformLocation(id, (name + "[" + std::to_string(index) + "]").c_str()), x, y, z);
+}
+
 void Material::setVec4(const std::string &name, const glm::vec4 &value) const {
     glUniform4fv(glGetUniformLocation(id, name.c_str()), 1, glm::value_ptr(value));
 }
 
 void Material::setVec4(const std::string &name, float x, float y, float z, float w) const {
     glUniform4f(glGetUniformLocation(id, name.c_str()), x, y, z, w);
+}
+
+void Material::setVec4Array(const std::string &name, unsigned int index, const glm::vec4 &value) const {
+    glUniform4fv(
+        glGetUniformLocation(id, (name + "[" + std::to_string(index) + "]").c_str()), 1, glm::value_ptr(value)
+    );
+}
+
+void Material::setVec4Array(const std::string &name, unsigned int index, float x, float y, float z, float w) const {
+    glUniform4f(glGetUniformLocation(id, (name + "[" + std::to_string(index) + "]").c_str()), x, y, z, w);
 }
 
 void Material::setMat2(const std::string &name, const glm::mat2 &mat) const {
