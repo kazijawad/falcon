@@ -13,7 +13,7 @@ int main() {
         renderer.setClearColor(0.1, 0.1, 0.1, 1.0);
 
         GLTFLoader loader;
-        auto state = loader.load(FileUtils::getAssetPath("/assets/meshes/cornell_box/scene.gltf"));
+        auto state = loader.load(FileUtils::getAssetPath("/assets/meshes/dragon/scene.gltf"));
         std::shared_ptr<Transform> scene = state.scenes[0];
         std::shared_ptr<Camera> camera = state.cameras[0];
 

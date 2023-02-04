@@ -32,40 +32,52 @@ GLTFState GLTFLoader::load(const std::string &filename) {
     }
 
     GLTFState state;
-    state.cameras = std::vector<std::shared_ptr<Camera>>(model.cameras.size());
-    state.scenes = std::vector<std::shared_ptr<Transform>>(model.scenes.size());
+    state.cameras = std::vector<std::shared_ptr<Camera>>();
+    state.scenes = std::vector<std::shared_ptr<Transform>>();
 
-    for (auto i = 0; i < model.cameras.size(); ++i) {
-        tinygltf::Camera camera = model.cameras[i];
+    state.cameras.reserve(model.cameras.size());
+    state.scenes.reserve(model.scenes.size());
 
+    for (tinygltf::Camera camera : model.cameras) {
         if (camera.type == "perspective") {
-            state.cameras[i] = std::make_shared<PerspectiveCamera>(
+            state.cameras.push_back(std::make_shared<PerspectiveCamera>(
                 glm::degrees(camera.perspective.yfov),
                 camera.perspective.aspectRatio,
                 camera.perspective.znear,
                 camera.perspective.zfar
-            );
+            ));
         } else if (camera.type == "orthographic") {
-            state.cameras[i] = std::make_shared<OrthographicCamera>(
+            state.cameras.push_back(std::make_shared<OrthographicCamera>(
                 -camera.orthographic.xmag,
                 camera.orthographic.xmag,
                 -camera.orthographic.ymag,
                 camera.orthographic.ymag,
                 camera.orthographic.znear,
                 camera.orthographic.zfar
-            );
+            ));
         }
     }
 
-    for (auto i = 0; i < model.scenes.size(); ++i) {
+    for (tinygltf::Scene glTFScene : model.scenes) {
         auto scene = std::make_shared<Transform>();
 
-        for (int nodeIndex : model.scenes[i].nodes) {
+        for (int nodeIndex : glTFScene.nodes) {
             auto transform = loadNode(state, nodeIndex);
             scene->addChild(transform);
         }
 
-        state.scenes[i] = scene;
+        state.scenes.push_back(scene);
+    }
+
+    // Create a default camera if no cameras are set.
+    if (state.cameras.empty()) {
+        std::shared_ptr<Transform> scene = state.scenes[0];
+
+        auto camera = std::make_shared<PerspectiveCamera>(45.0, 16.0 / 9.0, 0.1, 100.0);
+        camera->applyTranslation(glm::vec3(-5.0, 0.0, 0.0));
+        camera->lookAt(scene->translation());
+
+        state.cameras.push_back(camera);
     }
 
     return state;
