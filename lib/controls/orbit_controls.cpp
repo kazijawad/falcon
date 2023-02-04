@@ -45,9 +45,8 @@ OrbitControls::OrbitControls(
     maxAzimuthAngle(maxAzimuthAngle),
     minDistance(minDistance),
     maxDistance(maxDistance),
-    target(camera->target()) {
-    offset = glm::vec3(camera->translation()) - target;
-
+    target(camera->target()),
+    offset(camera->translation() - target) {
     spherical.radius = sphericalTarget.radius = glm::length(offset);
     spherical.theta = sphericalTarget.theta = glm::atan(offset.x, offset.z);
     spherical.phi = sphericalTarget.phi = glm::acos(std::min(std::max(offset.y / sphericalTarget.radius, -1.0f), 1.0f));
@@ -180,12 +179,12 @@ void OrbitControls::handlePan(double x, double y) {
     distance *= std::tan(((fov / 2.0) * PI) / 180.0);
 
     // Pan horizontally.
-    float offset = (2.0f * delta.x * distance) / height;
-    panDelta += glm::vec3(localTransform[0][0], localTransform[0][1], localTransform[0][2]) * -offset;
+    float offset = -((2.0f * delta.x * distance) / height);
+    panDelta += glm::vec3(localTransform[0][0], localTransform[0][1], localTransform[0][2]) * offset;
 
     // Pan vertically.
     offset = (2.0f * delta.y * distance) / height;
-    panDelta += glm::vec3(localTransform[1][0], localTransform[1][1], localTransform[2][2]) * offset;
+    panDelta += glm::vec3(localTransform[1][0], localTransform[1][1], localTransform[1][2]) * offset;
 
     panStart.x = x;
     panStart.y = y;
