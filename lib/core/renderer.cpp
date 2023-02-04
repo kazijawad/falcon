@@ -39,21 +39,37 @@ Renderer::Renderer(unsigned int width, unsigned int height) {
     std::printf("Version: %s\n", glGetString(GL_VERSION));
 }
 
-Renderer::~Renderer() { terminate(); }
+Renderer::~Renderer() {
+    terminate();
+}
 
-unsigned int Renderer::width() { return state.width; }
+unsigned int Renderer::width() {
+    return state.width;
+}
 
-unsigned int Renderer::height() { return state.height; }
+unsigned int Renderer::height() {
+    return state.height;
+}
 
-float Renderer::aspectRatio() { return (float)state.width / (float)state.height; }
+float Renderer::aspectRatio() {
+    return static_cast<float>(state.width) / static_cast<float>(state.height);
+}
 
-void Renderer::setClearColor(float r, float g, float b, float a) { glClearColor(r, g, b, a); }
+void Renderer::setClearColor(float r, float g, float b, float a) {
+    glClearColor(r, g, b, a);
+}
 
-void Renderer::clearColor() { glClear(GL_COLOR_BUFFER_BIT); }
+void Renderer::clearColor() {
+    glClear(GL_COLOR_BUFFER_BIT);
+}
 
-void Renderer::clearDepth() { glClear(GL_DEPTH_BUFFER_BIT); }
+void Renderer::clearDepth() {
+    glClear(GL_DEPTH_BUFFER_BIT);
+}
 
-void Renderer::clearStencil() { glClear(GL_STENCIL_BUFFER_BIT); }
+void Renderer::clearStencil() {
+    glClear(GL_STENCIL_BUFFER_BIT);
+}
 
 void Renderer::clear(bool color, bool depth, bool stencil) {
     glClear(GL_COLOR_BUFFER_BIT | (depth ? GL_DEPTH_BUFFER_BIT : 0) | (stencil ? GL_STENCIL_BUFFER_BIT : 0));
@@ -69,6 +85,7 @@ void Renderer::run(std::function<void()> fn) {
 }
 
 void Renderer::render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera) {
+    // TODO: Move outside of render loop.
     if (handleResize()) {
         // TODO: Need to improve, assumes the same camera
         // used between renders.
@@ -84,7 +101,9 @@ void Renderer::render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> 
     }
 }
 
-void Renderer::terminate() { glfwTerminate(); }
+void Renderer::terminate() {
+    glfwTerminate();
+}
 
 bool Renderer::handleResize() {
     int newWidth, newHeight;

@@ -128,7 +128,9 @@ std::shared_ptr<Transform> GLTFLoader::loadNode(GLTFState &state, int nodeIndex)
 
 std::vector<std::shared_ptr<Mesh>> GLTFLoader::loadMesh(int meshIndex) {
     tinygltf::Mesh mesh = model.meshes[meshIndex];
+
     std::vector<std::shared_ptr<Mesh>> meshes;
+    meshes.reserve(mesh.primitives.size());
 
     for (tinygltf::Primitive primitive : mesh.primitives) {
         // TODO: Handle point and line rendering.
@@ -229,6 +231,7 @@ std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive
     }
 
     std::vector<Vertex> vertices;
+    vertices.reserve(positions.size() / 3);
 
     for (auto i = 0; i < positions.size(); i += 3) {
         Vertex vertex = {

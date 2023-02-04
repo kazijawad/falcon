@@ -2,12 +2,7 @@
 
 namespace polyhedron {
 
-Plane::Plane(
-    int width,
-    int height,
-    unsigned int widthSegments,
-    unsigned int heightSegments
-) : Geometry() {
+Plane::Plane(int width, int height, unsigned int widthSegments, unsigned int heightSegments) : Geometry() {
     int depth = 0;
 
     unsigned int u = 0;
@@ -27,8 +22,8 @@ Plane::Plane(
     indices.resize(numIndices);
 
     unsigned int io = i;
-    float segmentedWidth = (float) width / widthSegments;
-    float segmentedHeight = (float) height / heightSegments;
+    float segmentedWidth = static_cast<float>(width) / static_cast<float>(widthSegments);
+    float segmentedHeight = static_cast<float>(height) / static_cast<float>(heightSegments);
 
     std::vector<float> position(numVertices * 3);
     std::vector<float> normal(numVertices * 3);
@@ -56,22 +51,11 @@ Plane::Plane(
     for (auto i = 0; i < numVertices; i++) {
         Vertex vertex;
 
-        vertex.position = glm::vec3(
-            position[i * 3],
-            position[i * 3 + 1],
-            position[i * 3 + 2]
-        );
+        vertex.position = glm::vec3(position[i * 3], position[i * 3 + 1], position[i * 3 + 2]);
 
-        vertex.normal = glm::vec3(
-            normal[i * 3],
-            normal[i * 3 + 1],
-            normal[i * 3 + 2]
-        );
+        vertex.normal = glm::vec3(normal[i * 3], normal[i * 3 + 1], normal[i * 3 + 2]);
 
-        vertex.uv = glm::vec2(
-            uv[i * 2],
-            uv[i * 2 + 1]
-        );
+        vertex.uv = glm::vec2(uv[i * 2], uv[i * 2 + 1]);
 
         vertices.push_back(vertex);
     }
@@ -98,13 +82,13 @@ void Plane::build(
     unsigned int ii
 ) {
     unsigned int io = i;
-    float segmentedWidth = (float) width / widthSegments;
-    float segmentedHeight = (float) height / heightSegments;
+    float segmentedWidth = static_cast<float>(width) / static_cast<float>(widthSegments);
+    float segmentedHeight = static_cast<float>(height) / static_cast<float>(heightSegments);
 
-    for (unsigned int iy = 0; iy <= heightSegments; iy++) {
+    for (auto iy = 0; iy <= heightSegments; iy++) {
         float y = iy * segmentedHeight - height / 2.0f;
 
-        for (unsigned int ix = 0; ix <= widthSegments; ix++, i++) {
+        for (auto ix = 0; ix <= widthSegments; ix++, i++) {
             float x = ix * segmentedWidth - width / 2.0f;
 
             position[i * 3 + u] = x * uDirection;
@@ -115,8 +99,8 @@ void Plane::build(
             normal[i * 3 + v] = 0.0f;
             normal[i * 3 + w] = depth >= 0.0f ? 1.0f : -1.0f;
 
-            uv[i * 2] = (float) ix / widthSegments;
-            uv[i * 2 + 1] = 1.0f - (float) iy / heightSegments;
+            uv[i * 2] = (float)ix / widthSegments;
+            uv[i * 2 + 1] = 1.0f - (float)iy / heightSegments;
 
             if (iy == heightSegments || ix == widthSegments) continue;
 

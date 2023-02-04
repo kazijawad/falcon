@@ -61,7 +61,7 @@ void PerspectiveCamera::updateProjectionMatrix() {
 }
 
 void PerspectiveCamera::handleResize(unsigned int width, unsigned int height) {
-    setAspectRatio((float)width / (float)height);
+    setAspectRatio(static_cast<float>(width) / static_cast<float>(height));
 }
 
 }
