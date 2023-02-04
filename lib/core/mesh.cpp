@@ -2,31 +2,34 @@
 #include <polyhedron/core/geometry.h>
 #include <polyhedron/core/material.h>
 #include <polyhedron/core/mesh.h>
+#include <polyhedron/core/renderer.h>
 
 namespace polyhedron {
 
-Mesh::Mesh(std::shared_ptr<Geometry> geometry, std::shared_ptr<Material> material)
-    : Transform(), geometry(geometry), material(material) {}
+Mesh::Mesh(std::shared_ptr<Geometry> geometry, std::shared_ptr<Material> material) :
+    Transform(),
+    geometry(geometry),
+    material(material) {}
 
-void Mesh::draw(std::shared_ptr<Camera> camera) {
+void Mesh::draw(RenderState &state) {
     // TODO: Look into not recalculating both matrices each frame.
-    modelViewMatrix = camera->view() * worldMatrix;
+    modelViewMatrix = state.camera->view() * worldMatrix;
     // TODO: The normal matrix could be accurately calculated using the adjoint
     // matrix, but likely not needed for our use cases. In this format, there
     // are also optimizations that can be done depending on what local transformations
     // were applied and simplifying the transpose and inverse operations.
     normalMatrix = glm::transpose(glm::inverse(modelViewMatrix));
 
-    material->use();
+    material->use(state);
 
     material->setMat4("model", worldMatrix);
-    material->setMat4("view", camera->view());
-    material->setMat4("projection", camera->projection());
+    material->setMat4("view", state.camera->view());
+    material->setMat4("projection", state.camera->projection());
 
     material->setMat4("modelViewMatrix", modelViewMatrix);
     material->setMat3("normalMatrix", normalMatrix);
 
-    material->setVec3("cameraPosition", camera->translation());
+    material->setVec3("cameraPosition", state.camera->translation());
 
     if (material->depthTest) {
         glEnable(GL_DEPTH_TEST);

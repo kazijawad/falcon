@@ -1,27 +1,24 @@
 #version 330 core
 
-#define PI 3.14159265359
+#define MAX_LIGHTS 64
 
 uniform vec3 cameraPosition;
+uniform int numLights;
 
 uniform vec4 baseColor;
 uniform float metallic;
 uniform float roughness;
 uniform float ao;
 
+uniform vec3 lightPositions[MAX_LIGHTS];
+uniform vec3 lightColors[MAX_LIGHTS];
+
 in vec3 vPosition;
 in vec3 vNormal;
 
 out vec4 fragColor;
 
-// TODO: Replace with proper lighting setup.
-// For testing purposes.
-const vec3 lightPositions[4] = vec3[](
-    vec3(-5.0,  5.0, 5.0),
-    vec3( 5.0,  5.0, 5.0),
-    vec3(-5.0, -5.0, 5.0),
-    vec3( 5.0, -5.0, 5.0)
-);
+const float PI = 3.14159265359;
 
 float DistributionGGX(vec3 N, vec3 H, float roughness) {
     float a = roughness * roughness;
@@ -66,9 +63,9 @@ void main() {
 
     // Reflectance Equation (Render Equation)
     vec3 Lo = vec3(0.0);
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < numLights; i++) {
         vec3 lightPosition = lightPositions[i];
-        vec3 lightColor = vec3(300.0);
+        vec3 lightColor = lightColors[i];
 
         // Calcualte per-light radiance.
         vec3 L = normalize(lightPosition - vPosition);
@@ -98,7 +95,6 @@ void main() {
         kDiffuse *= 1.0 - metallic;
 
         float NdotL = max(dot(N, L), 0.0);
-
         Lo += (kDiffuse * baseColor.rgb / PI + specular) * radiance * NdotL;
     }
 

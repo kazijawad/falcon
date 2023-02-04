@@ -1,6 +1,7 @@
 #include <polyhedron/controls/orbit_controls.h>
 #include <polyhedron/core/camera.h>
 #include <polyhedron/core/renderer.h>
+#include <polyhedron/lights/point_light.h>
 #include <polyhedron/loaders/gltf_loader.h>
 #include <polyhedron/polyhedron.h>
 #include <polyhedron/utils/file_utils.h>
@@ -18,6 +19,9 @@ int main() {
         std::shared_ptr<Camera> camera = state.cameras[0];
 
         auto controls = OrbitControls(renderer.window, camera);
+
+        scene->addChild(std::make_shared<PointLight>(glm::vec3(-2.0, 1.0, 0.0), glm::vec3(0.2, 0.2, 0.8)));
+        scene->addChild(std::make_shared<PointLight>(glm::vec3(2.0, 1.0, 0.0), glm::vec3(1.0)));
 
         renderer.run([&]() mutable {
             controls.update();

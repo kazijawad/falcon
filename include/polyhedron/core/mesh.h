@@ -16,7 +16,7 @@ public:
 
     Mesh(std::shared_ptr<Geometry> geometry, std::shared_ptr<Material> material);
 
-    void draw(std::shared_ptr<Camera> camera);
+    void draw(RenderState &state);
 };
 
 }

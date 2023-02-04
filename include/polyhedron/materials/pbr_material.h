@@ -16,7 +16,7 @@ public:
 
     PBRMaterial(glm::vec4 baseColor, float metallic, float roughness);
 
-    virtual void use() override;
+    virtual void use(RenderState &state) override;
 };
 
 }

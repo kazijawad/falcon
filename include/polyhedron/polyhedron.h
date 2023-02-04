@@ -29,6 +29,8 @@ class Geometry;
 class Material;
 class Mesh;
 class Camera;
+class Light;
+struct RenderState;
 
 static constexpr float PI = 3.14159265358979323846;
 

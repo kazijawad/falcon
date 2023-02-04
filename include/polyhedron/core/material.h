@@ -14,7 +14,7 @@ public:
 
     Material(const std::string &vertexPath, const std::string &fragmentPath);
 
-    virtual void use();
+    virtual void use(RenderState &state);
 
     void setBool(const std::string &name, bool value) const;
 

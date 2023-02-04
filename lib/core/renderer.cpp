@@ -1,13 +1,11 @@
 #include <polyhedron/core/camera.h>
 #include <polyhedron/core/mesh.h>
 #include <polyhedron/core/renderer.h>
+#include <polyhedron/lights/point_light.h>
 
 namespace polyhedron {
 
-Renderer::Renderer(unsigned int width, unsigned int height) {
-    state.width = width;
-    state.height = height;
-
+Renderer::Renderer(unsigned int width, unsigned int height) : width(width), height(height) {
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -16,7 +14,7 @@ Renderer::Renderer(unsigned int width, unsigned int height) {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_SAMPLES, 4);
 
-    GLFWwindow* newWindow = glfwCreateWindow(state.width, state.height, "Polyhedron", NULL, NULL);
+    GLFWwindow* newWindow = glfwCreateWindow(width, height, "Polyhedron", NULL, NULL);
     if (newWindow == NULL) {
         std::printf("Failed to create GLFW window\n");
         glfwTerminate();
@@ -43,16 +41,16 @@ Renderer::~Renderer() {
     terminate();
 }
 
-unsigned int Renderer::width() {
-    return state.width;
+unsigned int Renderer::getWidth() {
+    return width;
 }
 
-unsigned int Renderer::height() {
-    return state.height;
+unsigned int Renderer::getHeight() {
+    return height;
 }
 
-float Renderer::aspectRatio() {
-    return static_cast<float>(state.width) / static_cast<float>(state.height);
+float Renderer::getAspectRatio() {
+    return static_cast<float>(width) / static_cast<float>(height);
 }
 
 void Renderer::setClearColor(float r, float g, float b, float a) {
@@ -89,15 +87,16 @@ void Renderer::render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> 
     if (handleResize()) {
         // TODO: Need to improve, assumes the same camera
         // used between renders.
-        camera->handleResize(state.width, state.height);
+        camera->handleResize(width, height);
     }
 
     scene->updateWorldMatrix();
     camera->updateWorldMatrix();
 
-    auto meshes = getRenderList(scene, camera);
-    for (std::shared_ptr<Mesh> mesh : meshes) {
-        mesh->draw(camera);
+    updateRenderState(scene, camera);
+
+    for (std::shared_ptr<Mesh> mesh : state.meshes) {
+        mesh->draw(state);
     }
 }
 
@@ -109,11 +108,11 @@ bool Renderer::handleResize() {
     int newWidth, newHeight;
     glfwGetFramebufferSize(window, &newWidth, &newHeight);
 
-    if (newWidth != state.width || newHeight != state.height) {
+    if (newWidth != width || newHeight != height) {
         glViewport(0, 0, newWidth, newHeight);
 
-        state.width = newWidth;
-        state.height = newHeight;
+        width = newWidth;
+        height = newHeight;
 
         return true;
     }
@@ -121,16 +120,21 @@ bool Renderer::handleResize() {
     return false;
 }
 
-std::vector<std::shared_ptr<Mesh>>
-Renderer::getRenderList(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera) {
+void Renderer::updateRenderState(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera) {
     std::vector<std::shared_ptr<Mesh>> meshes;
+    std::vector<std::shared_ptr<Light>> lights;
 
-    scene->traverse([&meshes](std::shared_ptr<Transform> transform) mutable {
+    scene->traverse([&](std::shared_ptr<Transform> transform) mutable {
         if (transform->isVisible) {
             if (std::shared_ptr<Mesh> mesh = std::dynamic_pointer_cast<Mesh>(transform)) {
                 // TODO: Test for frustum culling?
                 meshes.push_back(mesh);
             }
+
+            if (std::shared_ptr<PointLight> light = std::dynamic_pointer_cast<PointLight>(transform)) {
+                lights.push_back(light);
+            }
+
             return false;
         }
         return true;
@@ -138,7 +142,9 @@ Renderer::getRenderList(std::shared_ptr<Transform> scene, std::shared_ptr<Camera
 
     // TODO: Add sorting.
 
-    return meshes;
+    state.camera = camera;
+    state.meshes = meshes;
+    state.lights = lights;
 }
 
 }

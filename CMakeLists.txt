@@ -40,6 +40,7 @@ add_library(lib STATIC
     include/polyhedron/core/renderer.h               lib/core/renderer.cpp
     include/polyhedron/core/transform.h              lib/core/transform.cpp
     include/polyhedron/core/camera.h                 lib/core/camera.cpp
+    include/polyhedron/core/light.h                  lib/core/light.cpp
     include/polyhedron/core/geometry.h               lib/core/geometry.cpp
     include/polyhedron/core/material.h               lib/core/material.cpp
     include/polyhedron/core/mesh.h                   lib/core/mesh.cpp
@@ -54,6 +55,9 @@ add_library(lib STATIC
 
     include/polyhedron/materials/normal_material.h   lib/materials/normal_material.cpp
     include/polyhedron/materials/pbr_material.h      lib/materials/pbr_material.cpp
+
+    include/polyhedron/lights/directional_light.h    lib/lights/directional_light.cpp
+    include/polyhedron/lights/point_light.h          lib/lights/point_light.cpp
 
     include/polyhedron/loaders/gltf_loader.h         lib/loaders/gltf_loader.cpp
 

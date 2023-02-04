@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include <polyhedron/core/material.h>
+#include <polyhedron/core/renderer.h>
 
 namespace polyhedron {
 
@@ -60,7 +61,7 @@ Material::Material(const std::string &vertexPath, const std::string &fragmentPat
     glDeleteShader(fragment);
 };
 
-void Material::use() {
+void Material::use(RenderState &state) {
     glUseProgram(id);
 }
 

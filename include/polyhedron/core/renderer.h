@@ -5,6 +5,12 @@
 
 namespace polyhedron {
 
+struct RenderState {
+    std::shared_ptr<Camera> camera;
+    std::vector<std::shared_ptr<Mesh>> meshes;
+    std::vector<std::shared_ptr<Light>> lights;
+};
+
 class Renderer {
 public:
     Renderer(unsigned int width, unsigned int height);
@@ -12,9 +18,9 @@ public:
 
     GLFWwindow* window;
 
-    unsigned int width();
-    unsigned int height();
-    float aspectRatio();
+    unsigned int getWidth();
+    unsigned int getHeight();
+    float getAspectRatio();
 
     void setClearColor(float r, float g, float b, float a);
 
@@ -30,13 +36,13 @@ public:
     void terminate();
 
 private:
-    struct RenderState {
-        unsigned int width;
-        unsigned int height;
-    } state;
+    unsigned int width;
+    unsigned int height;
+
+    RenderState state;
 
     bool handleResize();
-    std::vector<std::shared_ptr<Mesh>> getRenderList(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera);
+    void updateRenderState(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera);
 };
 
 }
