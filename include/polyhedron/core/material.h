@@ -10,7 +10,9 @@ public:
     bool depthTest = true;
     bool depthWrite = true;
 
-    bool doubleSided = false;
+    bool isTransparent = false;
+    // TODO: Not handling this anywhere at the moment.
+    bool isDoubleSided = false;
 
     Material(const std::string &vertexPath, const std::string &fragmentPath);
 

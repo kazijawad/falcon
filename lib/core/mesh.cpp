@@ -31,18 +31,6 @@ void Mesh::draw(RenderState &state) {
 
     material->setVec3("cameraPosition", state.camera->getTranslation());
 
-    if (material->depthTest) {
-        glEnable(GL_DEPTH_TEST);
-    } else {
-        glDisable(GL_DEPTH_TEST);
-    }
-
-    if (material->depthWrite) {
-        glDepthMask(GL_TRUE);
-    } else {
-        glDepthMask(GL_FALSE);
-    }
-
     geometry->draw();
 }
 

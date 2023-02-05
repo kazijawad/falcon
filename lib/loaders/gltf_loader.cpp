@@ -266,7 +266,13 @@ std::shared_ptr<Material> GLTFLoader::loadMaterial(tinygltf::Primitive primitive
         );
 
         auto material = std::make_shared<PBRMaterial>(baseColor, pbr.metallicFactor, pbr.roughnessFactor);
-        material->doubleSided = modelMaterial.doubleSided;
+        material->isDoubleSided = modelMaterial.doubleSided;
+
+        if (modelMaterial.alphaMode == "BLEND") {
+            material->isTransparent = true;
+        } else if (modelMaterial.alphaMode == "MASK" && (modelMaterial.alphaCutoff > baseColor.a || modelMaterial.alphaCutoff > 1.0)) {
+            material->isTransparent = true;
+        }
 
         return material;
     }

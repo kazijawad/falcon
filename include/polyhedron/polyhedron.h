@@ -1,6 +1,7 @@
 #ifndef polyhedron_h
 #define polyhedron_h
 
+#include <algorithm>
 #include <exception>
 #include <functional>
 #include <iostream>

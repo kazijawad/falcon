@@ -1,4 +1,5 @@
 #include <polyhedron/core/camera.h>
+#include <polyhedron/core/material.h>
 #include <polyhedron/core/mesh.h>
 #include <polyhedron/core/renderer.h>
 #include <polyhedron/lights/point_light.h>
@@ -29,8 +30,11 @@ Renderer::Renderer(unsigned int width, unsigned int height) : width(width), heig
         throw std::exception();
     }
 
-    // Enable MSAA
+    // Enable GL capabilities.
     glEnable(GL_MULTISAMPLE);
+    glEnable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
 
     std::printf("Vender: %s\n", glGetString(GL_VENDOR));
     std::printf("Renderer: %s\n", glGetString(GL_RENDERER));
@@ -55,6 +59,33 @@ float Renderer::getAspectRatio() {
 
 void Renderer::setClearColor(float r, float g, float b, float a) {
     glClearColor(r, g, b, a);
+}
+
+void Renderer::setDepthTest(bool v) {
+    if (v == state.depthTest) return;
+    if (v) {
+        glEnable(GL_DEPTH_TEST);
+    } else {
+        glDisable(GL_DEPTH_TEST);
+    }
+    state.depthTest = v;
+}
+
+void Renderer::setDepthMask(bool v) {
+    if (v == state.depthMask) return;
+    if (v) {
+        glDepthMask(GL_TRUE);
+    } else {
+        glDepthMask(GL_FALSE);
+    }
+    state.depthMask = v;
+}
+
+void Renderer::setBlendFunc(int src, int dst) {
+    if (src == state.srcBlendFactor && dst == state.dstBlendFactor) return;
+    glBlendFunc(src, dst);
+    state.srcBlendFactor = src;
+    state.dstBlendFactor = dst;
 }
 
 void Renderer::clearColor() {
@@ -96,6 +127,13 @@ void Renderer::render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> 
     updateRenderState(scene, camera);
 
     for (std::shared_ptr<Mesh> mesh : state.meshes) {
+        setDepthTest(mesh->material->depthTest);
+        setDepthMask(mesh->material->depthWrite);
+
+        if (mesh->material->isTransparent) {
+            setBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        }
+
         mesh->draw(state);
     }
 }
@@ -122,13 +160,19 @@ bool Renderer::handleResize() {
 
 void Renderer::updateRenderState(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera) {
     std::vector<std::shared_ptr<Mesh>> meshes;
+    std::vector<std::shared_ptr<Mesh>> transparent;
+
     std::vector<std::shared_ptr<Light>> lights;
 
     scene->traverse([&](std::shared_ptr<Transform> transform) mutable {
         if (transform->isVisible) {
             if (std::shared_ptr<Mesh> mesh = std::dynamic_pointer_cast<Mesh>(transform)) {
                 // TODO: Test for frustum culling?
-                meshes.push_back(mesh);
+                if (mesh->material->isTransparent) {
+                    transparent.push_back(mesh);
+                } else {
+                    meshes.push_back(mesh);
+                }
             }
 
             if (std::shared_ptr<PointLight> light = std::dynamic_pointer_cast<PointLight>(transform)) {
@@ -140,7 +184,18 @@ void Renderer::updateRenderState(std::shared_ptr<Transform> scene, std::shared_p
         return true;
     });
 
-    // TODO: Add sorting.
+    // Sort transparent meshes by depth relative to camera.
+    auto cameraPosition = camera->getTranslation();
+    std::sort(
+        transparent.begin(),
+        transparent.end(),
+        [&cameraPosition](std::shared_ptr<Mesh> a, std::shared_ptr<Mesh> b) {
+            auto aDist = glm::length(cameraPosition - a->getTranslation());
+            auto bDist = glm::length(cameraPosition - b->getTranslation());
+            return aDist < bDist;
+        }
+    );
+    meshes.insert(meshes.end(), transparent.begin(), transparent.end());
 
     state.camera = camera;
     state.meshes = meshes;
