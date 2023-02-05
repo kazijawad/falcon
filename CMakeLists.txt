@@ -9,10 +9,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_executable(polyhedron src/main.cpp)
 
 # Assets
-add_custom_target(copy_assets
-    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_LIST_DIR}/copy-assets.cmake
+add_custom_target(assets
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_LIST_DIR}/cmake/assets.cmake
 )
-add_dependencies(polyhedron copy_assets)
+add_dependencies(polyhedron assets)
 
 # whereami
 add_subdirectory(ext/whereami)
