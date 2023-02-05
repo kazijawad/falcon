@@ -1,6 +1,7 @@
 #include <polyhedron/core/light.h>
 #include <polyhedron/core/renderer.h>
 #include <polyhedron/materials/pbr_material.h>
+#include <polyhedron/textures/image_texture.h>
 #include <polyhedron/utils/file_utils.h>
 
 namespace polyhedron {
@@ -14,10 +15,26 @@ PBRMaterial::PBRMaterial(glm::vec4 baseColor, float metallic, float roughness) :
     metallic(metallic),
     roughness(roughness) {}
 
+PBRMaterial::PBRMaterial(std::shared_ptr<ImageTexture> baseColorMap, float metallic, float roughness) :
+    Material(
+        FileUtils::getAssetPath("/assets/shaders/pbr/vertex.glsl"),
+        FileUtils::getAssetPath("/assets/shaders/pbr/fragment-map.glsl")
+    ),
+    baseColorMap(baseColorMap),
+    metallic(metallic),
+    roughness(roughness) {}
+
 void PBRMaterial::use(RenderState &state) {
     Material::use(state);
 
-    setVec4("baseColor", baseColor);
+    if (baseColorMap != nullptr) {
+        glActiveTexture(GL_TEXTURE0);
+        baseColorMap->bind();
+        setInt("baseColorMap", 0);
+    } else {
+        setVec4("baseColor", baseColor);
+    }
+
     setFloat("metallic", metallic);
     setFloat("roughness", roughness);
     setFloat("ao", ao);

@@ -9,6 +9,7 @@ class FileUtils {
 public:
     static const std::string getExecutableDirectory();
     static const std::string getAssetPath(const std::string &relativePath);
+    static const std::string getDirectory(const std::string &path);
 };
 
 }

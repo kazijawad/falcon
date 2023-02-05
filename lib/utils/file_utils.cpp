@@ -1,3 +1,5 @@
+#include <regex>
+
 #include <whereami.h>
 
 #include <polyhedron/utils/file_utils.h>
@@ -23,6 +25,11 @@ const std::string FileUtils::getExecutableDirectory() {
 
 const std::string FileUtils::getAssetPath(const std::string &relativePath) {
     return getExecutableDirectory() + relativePath;
+}
+
+const std::string FileUtils::getDirectory(const std::string &path) {
+    size_t position = path.find_last_of("\\/");
+    return (std::string::npos == position) ? "" : path.substr(0, position);
 }
 
 }

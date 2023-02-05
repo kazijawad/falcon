@@ -25,12 +25,15 @@
 
 namespace polyhedron {
 
-class Transform;
+class Camera;
 class Geometry;
+class ImageTexture;
+class Light;
 class Material;
 class Mesh;
-class Camera;
-class Light;
+class Texture;
+class Transform;
+
 struct RenderState;
 
 static constexpr float PI = 3.14159265358979323846;

@@ -26,6 +26,8 @@ public:
 private:
     tinygltf::TinyGLTF loader;
     tinygltf::Model model;
+
+    std::string path;
 };
 
 }

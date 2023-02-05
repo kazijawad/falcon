@@ -37,13 +37,14 @@ set(TINYGLTF_INSTALL OFF CACHE INTERNAL "" FORCE)
 add_library(lib STATIC
     include/polyhedron/polyhedron.h
 
-    include/polyhedron/core/renderer.h               lib/core/renderer.cpp
-    include/polyhedron/core/transform.h              lib/core/transform.cpp
     include/polyhedron/core/camera.h                 lib/core/camera.cpp
-    include/polyhedron/core/light.h                  lib/core/light.cpp
     include/polyhedron/core/geometry.h               lib/core/geometry.cpp
+    include/polyhedron/core/light.h                  lib/core/light.cpp
     include/polyhedron/core/material.h               lib/core/material.cpp
     include/polyhedron/core/mesh.h                   lib/core/mesh.cpp
+    include/polyhedron/core/renderer.h               lib/core/renderer.cpp
+    include/polyhedron/core/texture.h                lib/core/texture.cpp
+    include/polyhedron/core/transform.h              lib/core/transform.cpp
 
     include/polyhedron/cameras/perspective_camera.h  lib/cameras/perspective_camera.cpp
     include/polyhedron/cameras/orthographic_camera.h lib/cameras/orthographic_camera.cpp
@@ -55,6 +56,8 @@ add_library(lib STATIC
 
     include/polyhedron/materials/normal_material.h   lib/materials/normal_material.cpp
     include/polyhedron/materials/pbr_material.h      lib/materials/pbr_material.cpp
+
+    include/polyhedron/textures/image_texture.h      lib/textures/image_texture.cpp
 
     include/polyhedron/lights/directional_light.h    lib/lights/directional_light.cpp
     include/polyhedron/lights/point_light.h          lib/lights/point_light.cpp

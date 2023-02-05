@@ -1,5 +1,4 @@
 #define TINYGLTF_IMPLEMENTATION
-#define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
 #include <polyhedron/cameras/orthographic_camera.h>
@@ -9,16 +8,20 @@
 #include <polyhedron/loaders/gltf_loader.h>
 #include <polyhedron/materials/normal_material.h>
 #include <polyhedron/materials/pbr_material.h>
+#include <polyhedron/textures/image_texture.h>
+#include <polyhedron/utils/file_utils.h>
 
 namespace polyhedron {
 
 GLTFLoader::GLTFLoader() {}
 
 GLTFState GLTFLoader::load(const std::string &filename) {
+    path = filename;
+
     std::string err;
     std::string warn;
-
     bool ret = loader.LoadASCIIFromFile(&model, &err, &warn, filename);
+
     if (!warn.empty()) {
         std::printf("GLTF File Warning: %s\n", warn.c_str());
     }
@@ -160,6 +163,7 @@ std::vector<std::shared_ptr<Mesh>> GLTFLoader::loadMesh(int meshIndex) {
 std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive) {
     std::vector<float> positions;
     std::vector<float> normals;
+    std::vector<float> uvs;
     std::vector<unsigned int> indices;
 
     if (primitive.attributes.count("POSITION") > 0) {
@@ -196,6 +200,24 @@ std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive
                 normals.push_back(data[i * 3 + 0]);
                 normals.push_back(data[i * 3 + 1]);
                 normals.push_back(data[i * 3 + 2]);
+            }
+        }
+    }
+
+    if (primitive.attributes.count("TEXCOORD_0") > 0) {
+        auto accessorIndex = primitive.attributes.find("TEXCOORD_0")->second;
+        tinygltf::Accessor accessor = model.accessors[accessorIndex];
+
+        if (accessor.type != TINYGLTF_TYPE_VEC2) {
+            std::printf("Primitive uv accessor is not of type VEC2: %d", accessorIndex);
+        } else {
+            tinygltf::BufferView bufferView = model.bufferViews[accessor.bufferView];
+            tinygltf::Buffer buffer = model.buffers[bufferView.buffer];
+
+            auto data = reinterpret_cast<const float*>(&buffer.data[bufferView.byteOffset + accessor.byteOffset]);
+            for (size_t i = 0; i < accessor.count; i++) {
+                uvs.push_back(data[i * 2 + 0]);
+                uvs.push_back(data[i * 2 + 1]);
             }
         }
     }
@@ -243,13 +265,15 @@ std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive
     }
 
     std::vector<Vertex> vertices;
-    vertices.reserve(positions.size() / 3);
 
-    for (auto i = 0; i < positions.size(); i += 3) {
+    unsigned int vertexCount = positions.size() / 3;
+    vertices.reserve(vertexCount);
+    for (auto i = 0; i < vertexCount; ++i) {
         Vertex vertex = {
-            glm::vec3(positions[i], positions[i + 1], positions[i + 2]),
-            glm::vec3(normals[i], normals[i + 1], normals[i + 2])};
-
+            glm::vec3(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]),
+            glm::vec3(normals[i * 3], normals[i * 3 + 1], normals[i * 3 + 2]),
+            glm::vec2(uvs[i * 2], uvs[i * 2 + 1])
+        };
         vertices.push_back(vertex);
     }
 
@@ -259,18 +283,69 @@ std::shared_ptr<Geometry> GLTFLoader::loadGeometry(tinygltf::Primitive primitive
 std::shared_ptr<Material> GLTFLoader::loadMaterial(tinygltf::Primitive primitive) {
     if (primitive.material > -1) {
         tinygltf::Material modelMaterial = model.materials[primitive.material];
+        std::shared_ptr<PBRMaterial> material;
 
         tinygltf::PbrMetallicRoughness pbr = modelMaterial.pbrMetallicRoughness;
-        glm::vec4 baseColor(
-            pbr.baseColorFactor[0], pbr.baseColorFactor[1], pbr.baseColorFactor[2], pbr.baseColorFactor[3]
-        );
+        if (pbr.baseColorTexture.index > -1) {
+            tinygltf::Texture texture = model.textures[pbr.baseColorTexture.index];
 
-        auto material = std::make_shared<PBRMaterial>(baseColor, pbr.metallicFactor, pbr.roughnessFactor);
+            tinygltf::Image image = model.images[texture.source];
+            tinygltf::Sampler sampler = model.samplers[texture.sampler];
+
+            auto imageTexture = std::make_shared<ImageTexture>(FileUtils::getDirectory(path) + "\\" + image.uri);
+
+            if (sampler.minFilter > -1) {
+                if (sampler.minFilter == TINYGLTF_TEXTURE_FILTER_NEAREST) {
+                    imageTexture->setMinFilter(GL_NEAREST);
+                } else if (sampler.minFilter == TINYGLTF_TEXTURE_FILTER_LINEAR) {
+                    imageTexture->setMinFilter(GL_LINEAR);
+                } else if (sampler.minFilter == TINYGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_NEAREST) {
+                    imageTexture->setMinFilter(GL_NEAREST_MIPMAP_NEAREST);
+                } else if (sampler.minFilter == TINYGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_NEAREST) {
+                    imageTexture->setMinFilter(GL_LINEAR_MIPMAP_NEAREST);
+                } else if (sampler.minFilter == TINYGLTF_TEXTURE_FILTER_NEAREST_MIPMAP_LINEAR) {
+                    imageTexture->setMinFilter(GL_NEAREST_MIPMAP_LINEAR);
+                } else if (sampler.minFilter == TINYGLTF_TEXTURE_FILTER_LINEAR_MIPMAP_LINEAR) {
+                    imageTexture->setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
+                }
+            }
+
+            if (sampler.magFilter > -1) {
+                if (sampler.magFilter == TINYGLTF_TEXTURE_FILTER_NEAREST) {
+                    imageTexture->setMagFilter(GL_NEAREST);
+                } else if (sampler.magFilter == TINYGLTF_TEXTURE_FILTER_LINEAR) {
+                    imageTexture->setMagFilter(GL_LINEAR);
+                }
+            }
+
+            if (sampler.wrapS == TINYGLTF_TEXTURE_WRAP_REPEAT) {
+                imageTexture->setWrapS(GL_REPEAT);
+            } else if (sampler.wrapS == TINYGLTF_TEXTURE_WRAP_CLAMP_TO_EDGE) {
+                imageTexture->setWrapS(GL_CLAMP_TO_EDGE);
+            } else if (sampler.wrapS == TINYGLTF_TEXTURE_WRAP_MIRRORED_REPEAT) {
+                imageTexture->setWrapS(GL_MIRRORED_REPEAT);
+            }
+
+            if (sampler.wrapT == TINYGLTF_TEXTURE_WRAP_REPEAT) {
+                imageTexture->setWrapT(GL_REPEAT);
+            } else if (sampler.wrapT == TINYGLTF_TEXTURE_WRAP_CLAMP_TO_EDGE) {
+                imageTexture->setWrapT(GL_CLAMP_TO_EDGE);
+            } else if (sampler.wrapT == TINYGLTF_TEXTURE_WRAP_MIRRORED_REPEAT) {
+                imageTexture->setWrapT(GL_MIRRORED_REPEAT);
+            }
+
+            material = std::make_shared<PBRMaterial>(imageTexture, pbr.metallicFactor, pbr.roughnessFactor);
+        } else {
+            glm::vec4 baseColor(
+                pbr.baseColorFactor[0], pbr.baseColorFactor[1], pbr.baseColorFactor[2], pbr.baseColorFactor[3]
+            );
+            material = std::make_shared<PBRMaterial>(baseColor, pbr.metallicFactor, pbr.roughnessFactor);
+        }
+
         material->isDoubleSided = modelMaterial.doubleSided;
-
         if (modelMaterial.alphaMode == "BLEND") {
             material->isTransparent = true;
-        } else if (modelMaterial.alphaMode == "MASK" && (modelMaterial.alphaCutoff > baseColor.a || modelMaterial.alphaCutoff > 1.0)) {
+        } else if (modelMaterial.alphaMode == "MASK" && (modelMaterial.alphaCutoff > material->baseColor.a || modelMaterial.alphaCutoff > 1.0)) {
             material->isTransparent = true;
         }
 
