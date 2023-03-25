@@ -1,7 +1,7 @@
-#include <polyhedron/geometries/cube.h>
-#include <polyhedron/geometries/plane.h>
+#include <falcon/geometries/cube.h>
+#include <falcon/geometries/plane.h>
 
-namespace polyhedron {
+namespace falcon {
 
 Cube::Cube(
     int width,

@@ -1,6 +1,6 @@
-#include <polyhedron/lights/point_light.h>
+#include <falcon/lights/point_light.h>
 
-namespace polyhedron {
+namespace falcon {
 
 PointLight::PointLight(glm::vec3 position, glm::vec3 color) : Light(color) {
     setTranslation(position);

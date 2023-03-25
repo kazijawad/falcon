@@ -1,6 +1,6 @@
-#include <polyhedron/geometries/plane.h>
+#include <falcon/geometries/plane.h>
 
-namespace polyhedron {
+namespace falcon {
 
 Plane::Plane(int width, int height, unsigned int widthSegments, unsigned int heightSegments) : Geometry() {
     int depth = 0;

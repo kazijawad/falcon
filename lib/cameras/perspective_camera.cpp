@@ -1,6 +1,6 @@
-#include <polyhedron/cameras/perspective_camera.h>
+#include <falcon/cameras/perspective_camera.h>
 
-namespace polyhedron {
+namespace falcon {
 
 PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float near, float far) :
     Camera(),

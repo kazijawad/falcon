@@ -1,10 +1,10 @@
-#include <polyhedron/core/camera.h>
-#include <polyhedron/core/geometry.h>
-#include <polyhedron/core/material.h>
-#include <polyhedron/core/mesh.h>
-#include <polyhedron/core/renderer.h>
+#include <falcon/core/camera.h>
+#include <falcon/core/geometry.h>
+#include <falcon/core/material.h>
+#include <falcon/core/mesh.h>
+#include <falcon/core/renderer.h>
 
-namespace polyhedron {
+namespace falcon {
 
 Mesh::Mesh(std::shared_ptr<Geometry> geometry, std::shared_ptr<Material> material) :
     Transform(),

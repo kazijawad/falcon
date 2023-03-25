@@ -1,17 +1,17 @@
 #define TINYGLTF_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
-#include <polyhedron/cameras/orthographic_camera.h>
-#include <polyhedron/cameras/perspective_camera.h>
-#include <polyhedron/core/geometry.h>
-#include <polyhedron/core/mesh.h>
-#include <polyhedron/loaders/gltf_loader.h>
-#include <polyhedron/materials/normal_material.h>
-#include <polyhedron/materials/pbr_material.h>
-#include <polyhedron/textures/image_texture.h>
-#include <polyhedron/utils/file_utils.h>
+#include <falcon/cameras/orthographic_camera.h>
+#include <falcon/cameras/perspective_camera.h>
+#include <falcon/core/geometry.h>
+#include <falcon/core/mesh.h>
+#include <falcon/loaders/gltf_loader.h>
+#include <falcon/materials/normal_material.h>
+#include <falcon/materials/pbr_material.h>
+#include <falcon/textures/image_texture.h>
+#include <falcon/utils/file_utils.h>
 
-namespace polyhedron {
+namespace falcon {
 
 GLTFLoader::GLTFLoader() {}
 

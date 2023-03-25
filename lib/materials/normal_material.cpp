@@ -1,7 +1,7 @@
-#include <polyhedron/materials/normal_material.h>
-#include <polyhedron/utils/file_utils.h>
+#include <falcon/materials/normal_material.h>
+#include <falcon/utils/file_utils.h>
 
-namespace polyhedron {
+namespace falcon {
 
 NormalMaterial::NormalMaterial()
     : Material(

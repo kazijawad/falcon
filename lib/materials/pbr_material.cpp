@@ -1,10 +1,10 @@
-#include <polyhedron/core/light.h>
-#include <polyhedron/core/renderer.h>
-#include <polyhedron/materials/pbr_material.h>
-#include <polyhedron/textures/image_texture.h>
-#include <polyhedron/utils/file_utils.h>
+#include <falcon/core/light.h>
+#include <falcon/core/renderer.h>
+#include <falcon/materials/pbr_material.h>
+#include <falcon/textures/image_texture.h>
+#include <falcon/utils/file_utils.h>
 
-namespace polyhedron {
+namespace falcon {
 
 PBRMaterial::PBRMaterial(glm::vec4 baseColor, float metallic, float roughness) :
     Material(

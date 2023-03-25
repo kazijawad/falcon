@@ -1,10 +1,10 @@
-#include <polyhedron/core/camera.h>
-#include <polyhedron/core/material.h>
-#include <polyhedron/core/mesh.h>
-#include <polyhedron/core/renderer.h>
-#include <polyhedron/lights/point_light.h>
+#include <falcon/core/camera.h>
+#include <falcon/core/material.h>
+#include <falcon/core/mesh.h>
+#include <falcon/core/renderer.h>
+#include <falcon/lights/point_light.h>
 
-namespace polyhedron {
+namespace falcon {
 
 Renderer::Renderer(unsigned int width, unsigned int height) : width(width), height(height) {
     glfwInit();
@@ -15,7 +15,7 @@ Renderer::Renderer(unsigned int width, unsigned int height) : width(width), heig
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_SAMPLES, 4);
 
-    GLFWwindow* newWindow = glfwCreateWindow(width, height, "Polyhedron", NULL, NULL);
+    GLFWwindow* newWindow = glfwCreateWindow(width, height, "falcon", NULL, NULL);
     if (newWindow == NULL) {
         std::printf("Failed to create GLFW window\n");
         glfwTerminate();

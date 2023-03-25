@@ -2,9 +2,9 @@
 
 #include <whereami.h>
 
-#include <polyhedron/utils/file_utils.h>
+#include <falcon/utils/file_utils.h>
 
-namespace polyhedron {
+namespace falcon {
 
 const std::string FileUtils::getExecutableDirectory() {
     int dirnameLength = 0;

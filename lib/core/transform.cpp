@@ -3,9 +3,9 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
 
-#include <polyhedron/core/transform.h>
+#include <falcon/core/transform.h>
 
-namespace polyhedron {
+namespace falcon {
 
 Transform::Transform() {
     updateLocal();

@@ -1,6 +1,6 @@
-#include <polyhedron/core/camera.h>
+#include <falcon/core/camera.h>
 
-namespace polyhedron {
+namespace falcon {
 
 const glm::vec3 Camera::UP = glm::vec3(0.0, 1.0, 0.0);
 

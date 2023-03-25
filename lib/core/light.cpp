@@ -1,6 +1,6 @@
-#include <polyhedron/core/light.h>
+#include <falcon/core/light.h>
 
-namespace polyhedron {
+namespace falcon {
 
 Light::Light(glm::vec3 color) : color(color) {}
 

@@ -1,12 +1,12 @@
-#include <polyhedron/controls/orbit_controls.h>
-#include <polyhedron/core/camera.h>
-#include <polyhedron/core/renderer.h>
-#include <polyhedron/lights/point_light.h>
-#include <polyhedron/loaders/gltf_loader.h>
-#include <polyhedron/polyhedron.h>
-#include <polyhedron/utils/file_utils.h>
+#include <falcon/controls/orbit_controls.h>
+#include <falcon/core/camera.h>
+#include <falcon/core/renderer.h>
+#include <falcon/lights/point_light.h>
+#include <falcon/loaders/gltf_loader.h>
+#include <falcon/falcon.h>
+#include <falcon/utils/file_utils.h>
 
-using namespace polyhedron;
+using namespace falcon;
 
 int main() {
     try {

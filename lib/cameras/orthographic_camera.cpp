@@ -1,6 +1,6 @@
-#include <polyhedron/cameras/orthographic_camera.h>
+#include <falcon/cameras/orthographic_camera.h>
 
-namespace polyhedron {
+namespace falcon {
 
 OrthographicCamera::OrthographicCamera(float left, float right, float bottom, float top, float near, float far) :
     Camera(),

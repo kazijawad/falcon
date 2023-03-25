@@ -2,10 +2,10 @@
 #include <fstream>
 #include <sstream>
 
-#include <polyhedron/core/material.h>
-#include <polyhedron/core/renderer.h>
+#include <falcon/core/material.h>
+#include <falcon/core/renderer.h>
 
-namespace polyhedron {
+namespace falcon {
 
 Material::Material(const std::string &vertexPath, const std::string &fragmentPath) {
     std::ifstream vertexStream(vertexPath);

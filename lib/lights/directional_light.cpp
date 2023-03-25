@@ -1,6 +1,6 @@
-#include <polyhedron/lights/directional_light.h>
+#include <falcon/lights/directional_light.h>
 
-namespace polyhedron {
+namespace falcon {
 
 DirectionalLight::DirectionalLight(glm::vec3 direction, glm::vec3 color) : Light(color), direction(direction) {}
 

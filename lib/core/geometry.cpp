@@ -1,6 +1,6 @@
-#include <polyhedron/core/geometry.h>
+#include <falcon/core/geometry.h>
 
-namespace polyhedron {
+namespace falcon {
 
 Geometry::Geometry() {}
 

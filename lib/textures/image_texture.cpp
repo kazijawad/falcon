@@ -2,9 +2,9 @@
 
 #include <stb_image.h>
 
-#include <polyhedron/textures/image_texture.h>
+#include <falcon/textures/image_texture.h>
 
-namespace polyhedron {
+namespace falcon {
 
 ImageTexture::ImageTexture(const std::string &path) {
     glGenTextures(1, &id);

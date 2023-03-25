@@ -1,9 +1,9 @@
 #include <algorithm>
 
-#include <polyhedron/cameras/perspective_camera.h>
-#include <polyhedron/controls/orbit_controls.h>
+#include <falcon/cameras/perspective_camera.h>
+#include <falcon/controls/orbit_controls.h>
 
-namespace polyhedron {
+namespace falcon {
 
 const int OrbitControls::ORBIT_BUTTON = GLFW_MOUSE_BUTTON_LEFT;
 const int OrbitControls::ZOOM_BUTTON = GLFW_MOUSE_BUTTON_MIDDLE;

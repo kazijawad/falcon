@@ -1,6 +1,6 @@
-#include <polyhedron/core/texture.h>
+#include <falcon/core/texture.h>
 
-namespace polyhedron {
+namespace falcon {
 
 Texture::Texture() {}
 
