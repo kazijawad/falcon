@@ -49,7 +49,7 @@ public:
         float inertia = 0.85,
         float rotationSpeed = 0.1,
         float zoomSpeed = 0.5,
-        float panSpeed = 0.5,
+        float panSpeed = 0.25,
         float minPolarAngle = 0.0,
         float maxPolarAngle = PI,
         float minAzimuthAngle = -std::numeric_limits<float>::infinity(),
@@ -64,10 +64,14 @@ public:
 
     void handleMouseButton(int button, int action);
     void handleMouseMove(double x, double y);
+    void handleResize(int width, int height);
 
 private:
     GLFWwindow* window;
     std::shared_ptr<Camera> camera;
+
+    int windowWidth = 0;
+    int windowHeight = 0;
 
     SphericalCoordinate spherical = {1, 0, 0};
     SphericalCoordinate sphericalDelta = {1, 0, 0};

@@ -17,6 +17,10 @@ void cursorPosCallback(GLFWwindow* window, double x, double y) {
     static_cast<OrbitControls*>(glfwGetWindowUserPointer(window))->handleMouseMove(x, y);
 }
 
+void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
+    static_cast<OrbitControls*>(glfwGetWindowUserPointer(window))->handleResize(width, height);
+}
+
 OrbitControls::OrbitControls(
     GLFWwindow* window,
     std::shared_ptr<Camera> camera,
@@ -51,10 +55,13 @@ OrbitControls::OrbitControls(
     spherical.theta = sphericalTarget.theta = glm::atan(offset.x, offset.z);
     spherical.phi = sphericalTarget.phi = glm::acos(std::min(std::max(offset.y / sphericalTarget.radius, -1.0f), 1.0f));
 
+    glfwGetFramebufferSize(window, &windowWidth, &windowHeight);
+
     // Setup event handlers.
     glfwSetWindowUserPointer(window, this);
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
     glfwSetCursorPosCallback(window, cursorPosCallback);
+    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 }
 
 float OrbitControls::zoomScale() {
@@ -136,6 +143,11 @@ void OrbitControls::handleMouseMove(double x, double y) {
     }
 }
 
+void OrbitControls::handleResize(int width, int height) {
+    windowWidth = width;
+    windowHeight = height;
+}
+
 void OrbitControls::handleRotation(double x, double y) {
     // TODO: Improve?
     int height;
@@ -163,29 +175,22 @@ void OrbitControls::handleDolly(double x, double y) {
 }
 
 void OrbitControls::handlePan(double x, double y) {
-    // TODO: Improve?
-    int height;
-    glfwGetFramebufferSize(window, NULL, &height);
+    // Calculate movement in NDC.
+    glm::vec2 delta(
+        (x - panStart.x) / static_cast<float>(windowWidth),
+        -((y - panStart.y) / static_cast<float>(windowHeight))
+    );
 
-    glm::vec2 delta = (glm::vec2(x, y) - panStart) * panSpeed;
-    auto distance = (camera->getTranslation() - target).length();
-    auto localTransform = camera->getLocal();
+    // Calculate camera orientation.
+    glm::mat4 view = camera->getView();
+    glm::vec3 up(view[0][1], view[1][1], view[2][1]);
+    glm::vec3 right(view[0][0], view[1][0], view[2][0]);
+    
+    // Scale by distance.
+    float distance = glm::length(target - camera->getTranslation());
+    panDelta += (up * delta.y + right * delta.x) * distance * panSpeed;
 
-    // Set standard FOV.
-    float fov = 45.0;
-    if (std::shared_ptr<PerspectiveCamera> perspective = std::dynamic_pointer_cast<PerspectiveCamera>(camera)) {
-        fov = perspective->getFOV();
-    }
-    distance *= std::tan(((fov / 2.0) * PI) / 180.0);
-
-    // Pan horizontally.
-    float offset = -((2.0f * delta.x * distance) / height);
-    panDelta += glm::vec3(localTransform[0][0], localTransform[0][1], localTransform[0][2]) * offset;
-
-    // Pan vertically.
-    offset = (2.0f * delta.y * distance) / height;
-    panDelta += glm::vec3(localTransform[1][0], localTransform[1][1], localTransform[1][2]) * offset;
-
+    // Update for next frame.
     panStart.x = x;
     panStart.y = y;
 }
