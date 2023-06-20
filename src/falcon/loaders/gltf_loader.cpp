@@ -13,8 +13,6 @@
 
 namespace falcon {
 
-GLTFLoader::GLTFLoader() {}
-
 GLTFState GLTFLoader::load(const std::string &filename) {
     path = filename;
 
@@ -44,19 +42,19 @@ GLTFState GLTFLoader::load(const std::string &filename) {
     for (tinygltf::Camera camera : model.cameras) {
         if (camera.type == "perspective") {
             state.cameras.push_back(std::make_shared<PerspectiveCamera>(
-                glm::degrees(camera.perspective.yfov),
-                camera.perspective.aspectRatio,
-                camera.perspective.znear,
-                camera.perspective.zfar
+                glm::degrees(static_cast<float>(camera.perspective.yfov)),
+                static_cast<float>(camera.perspective.aspectRatio),
+                static_cast<float>(camera.perspective.znear),
+                static_cast<float>(camera.perspective.zfar)
             ));
         } else if (camera.type == "orthographic") {
             state.cameras.push_back(std::make_shared<OrthographicCamera>(
-                -camera.orthographic.xmag,
-                camera.orthographic.xmag,
-                -camera.orthographic.ymag,
-                camera.orthographic.ymag,
-                camera.orthographic.znear,
-                camera.orthographic.zfar
+                static_cast<float>(-camera.orthographic.xmag),
+                static_cast<float>(camera.orthographic.xmag),
+                static_cast<float>(-camera.orthographic.ymag),
+                static_cast<float>(camera.orthographic.ymag),
+                static_cast<float>(camera.orthographic.znear),
+                static_cast<float>(camera.orthographic.zfar)
             ));
         }
     }
@@ -76,8 +74,8 @@ GLTFState GLTFLoader::load(const std::string &filename) {
     if (state.cameras.empty()) {
         std::shared_ptr<Transform> scene = state.scenes[0];
 
-        auto camera = std::make_shared<PerspectiveCamera>(45.0, 16.0 / 9.0, 0.1, 100.0);
-        camera->setTranslation(-5.0, 0.0, 0.0);
+        auto camera = std::make_shared<PerspectiveCamera>(45.0f, 16.0f / 9.0f, 0.1f, 100.0f);
+        camera->setTranslation(-5.0f, 0.0f, 0.0f);
         camera->lookAt(scene->getTranslation());
 
         state.cameras.push_back(camera);
@@ -99,17 +97,32 @@ std::shared_ptr<Transform> GLTFLoader::loadNode(GLTFState &state, int nodeIndex)
 
     if (!node.translation.empty()) {
         double* translation = &node.translation[0];
-        transform->setTranslation(translation[0], translation[1], translation[2]);
+        transform->setTranslation(
+            static_cast<float>(translation[0]),
+            static_cast<float>(translation[1]),
+            static_cast<float>(translation[2])
+        );
     }
 
     if (!node.scale.empty()) {
         double* scale = &node.scale[0];
-        transform->setScale(scale[0], scale[1], scale[2]);
+        transform->setScale(
+            static_cast<float>(scale[0]),
+            static_cast<float>(scale[1]),
+            static_cast<float>(scale[2])
+        );
     }
 
     if (!node.rotation.empty()) {
         double* quat = &node.rotation[0];
-        transform->setRotation(quat[3], glm::vec3(quat[0], quat[1], quat[2]));
+        transform->setRotation(
+            static_cast<float>(quat[3]),
+            glm::vec3(
+                static_cast<float>(quat[0]),
+                static_cast<float>(quat[1]),
+                static_cast<float>(quat[2])
+            )
+        );
     }
 
     if (!node.matrix.empty()) {
@@ -334,12 +347,23 @@ std::shared_ptr<Material> GLTFLoader::loadMaterial(tinygltf::Primitive primitive
                 imageTexture->setWrapT(GL_MIRRORED_REPEAT);
             }
 
-            material = std::make_shared<PBRMaterial>(imageTexture, pbr.metallicFactor, pbr.roughnessFactor);
+            material = std::make_shared<PBRMaterial>(
+                imageTexture,
+                static_cast<float>(pbr.metallicFactor),
+                static_cast<float>(pbr.roughnessFactor)
+            );
         } else {
             glm::vec4 baseColor(
-                pbr.baseColorFactor[0], pbr.baseColorFactor[1], pbr.baseColorFactor[2], pbr.baseColorFactor[3]
+                static_cast<float>(pbr.baseColorFactor[0]),
+                static_cast<float>(pbr.baseColorFactor[1]),
+                static_cast<float>(pbr.baseColorFactor[1]),
+                static_cast<float>(pbr.baseColorFactor[3])
             );
-            material = std::make_shared<PBRMaterial>(baseColor, pbr.metallicFactor, pbr.roughnessFactor);
+            material = std::make_shared<PBRMaterial>(
+                baseColor,
+                static_cast<float>(pbr.metallicFactor),
+                static_cast<float>(pbr.roughnessFactor)
+            );
         }
 
         material->isDoubleSided = modelMaterial.doubleSided;

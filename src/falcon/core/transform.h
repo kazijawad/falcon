@@ -12,27 +12,27 @@ public:
     std::vector<std::shared_ptr<Transform>> children;
 
     Transform();
-    virtual ~Transform() = default;
+    virtual ~Transform() {}
 
-    void addChild(std::shared_ptr<Transform> v);
-    void removeChild(std::shared_ptr<Transform> v);
+    void addChild(std::shared_ptr<Transform> child);
+    void removeChild(std::shared_ptr<Transform> child);
 
     glm::mat4 getLocal();
-    void setLocal(glm::mat4 v);
+    void setLocal(glm::mat4 mat);
 
     glm::mat4 getWorld();
-    void setWorld(glm::mat4 v);
+    void setWorld(glm::mat4 mat);
 
     glm::vec3 getTranslation();
     void setTranslation(float x, float y, float z);
-    void setTranslation(glm::vec3 v);
+    void setTranslation(glm::vec3 translation);
 
     glm::quat getRotation();
     void setRotation(float angle, glm::vec3 axis);
 
     glm::vec3 getScale();
     void setScale(float x, float y, float z);
-    void setScale(glm::vec3 v);
+    void setScale(glm::vec3 scale);
 
     virtual void updateWorld(glm::mat4* parentWorldMatrix = nullptr);
     void updateLocal();

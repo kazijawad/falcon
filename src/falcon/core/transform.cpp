@@ -12,28 +12,28 @@ Transform::Transform() {
     worldMatrix = glm::mat4(localMatrix);
 }
 
-void Transform::addChild(std::shared_ptr<Transform> object) {
-    children.push_back(object);
+void Transform::addChild(std::shared_ptr<Transform> child) {
+    children.push_back(child);
 }
 
-void Transform::removeChild(std::shared_ptr<Transform> object) {
-    children.erase(std::remove(children.begin(), children.end(), object), children.end());
+void Transform::removeChild(std::shared_ptr<Transform> child) {
+    children.erase(std::remove(children.begin(), children.end(), child), children.end());
 }
 
 glm::mat4 Transform::getLocal() {
     return localMatrix;
 }
 
-void Transform::setLocal(glm::mat4 v) {
-    localMatrix = v;
+void Transform::setLocal(glm::mat4 mat) {
+    localMatrix = mat;
 }
 
 glm::mat4 Transform::getWorld() {
     return worldMatrix;
 }
 
-void Transform::setWorld(glm::mat4 v) {
-    worldMatrix = v;
+void Transform::setWorld(glm::mat4 mat) {
+    worldMatrix = mat;
 }
 
 glm::vec3 Transform::getTranslation() {

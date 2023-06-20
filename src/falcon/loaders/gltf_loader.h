@@ -14,7 +14,7 @@ struct GLTFState {
 
 class GLTFLoader {
 public:
-    GLTFLoader();
+    GLTFLoader() {}
 
     GLTFState load(const std::string &filename);
     std::shared_ptr<Transform> loadNode(GLTFState &state, int nodeIndex);
