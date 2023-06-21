@@ -31,8 +31,11 @@ class ImageTexture;
 class Light;
 class Material;
 class Mesh;
+class OrbitControls;
 class Texture;
 class Transform;
+class Renderer;
+class RenderWindow;
 
 struct RenderState;
 

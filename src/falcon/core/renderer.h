@@ -2,7 +2,6 @@
 #define renderer_h
 
 #include <falcon/falcon.h>
-#include <falcon/render/window.h>
 
 namespace falcon {
 
@@ -43,6 +42,8 @@ public:
 
     void render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera);
 
+    void handleResize(int width, int height);
+
 private:
     unsigned int width;
     unsigned int height;
@@ -51,7 +52,6 @@ private:
 
     RenderState state;
 
-    void handleResize(int width, int height);
     void updateRenderState(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera);
 };
 

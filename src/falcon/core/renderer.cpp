@@ -2,6 +2,7 @@
 #include <falcon/core/material.h>
 #include <falcon/core/mesh.h>
 #include <falcon/core/renderer.h>
+#include <falcon/render/window.h>
 #include <falcon/lights/point_light.h>
 
 namespace falcon {
@@ -23,6 +24,7 @@ Renderer::Renderer(unsigned int width, unsigned int height) : width(width), heig
     }
 
     renderWindow = new RenderWindow(window);
+    renderWindow->setRenderer(this);
 
     if (gladLoadGL(glfwGetProcAddress) == 0) {
         std::printf("Failed to initialize OpenGL Context\n");

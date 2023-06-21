@@ -43,6 +43,7 @@ OrbitControls::OrbitControls(
     spherical.theta = sphericalTarget.theta = glm::atan(offset.x, offset.z);
     spherical.phi = sphericalTarget.phi = glm::acos(std::min(std::max(offset.y / sphericalTarget.radius, -1.0f), 1.0f));
 
+    window->setOrbitControls(this);
     window->getSize(&windowWidth, &windowHeight);
 }
 
@@ -89,6 +90,11 @@ void OrbitControls::update() {
     sphericalDelta.radius = 1.0;
 }
 
+void OrbitControls::handleResize(int width, int height) {
+    windowWidth = width;
+    windowHeight = height;
+}
+
 void OrbitControls::handleMouseButton(int button, int action) {
     if (action == GLFW_PRESS) {
         // Get current cursor position.
@@ -123,11 +129,6 @@ void OrbitControls::handleMouseMove(double x, double y) {
     } else if (state == OrbitState::PAN) {
         handlePan(x, y);
     }
-}
-
-void OrbitControls::handleResize(int width, int height) {
-    windowWidth = width;
-    windowHeight = height;
 }
 
 void OrbitControls::handleRotation(double x, double y) {

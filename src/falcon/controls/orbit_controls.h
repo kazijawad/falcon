@@ -63,9 +63,9 @@ public:
 
     void update();
 
+    void handleResize(int width, int height);
     void handleMouseButton(int button, int action);
     void handleMouseMove(double x, double y);
-    void handleResize(int width, int height);
 
 private:
     RenderWindow* window;
