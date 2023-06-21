@@ -4,6 +4,7 @@
 #include <limits>
 
 #include <falcon/falcon.h>
+#include <falcon/render/window.h>
 
 namespace falcon {
 
@@ -43,7 +44,7 @@ public:
     float maxDistance;
 
     OrbitControls(
-        GLFWwindow* window,
+        RenderWindow* window,
         std::shared_ptr<Camera> camera,
         float ease = 0.25,
         float inertia = 0.85,
@@ -67,7 +68,7 @@ public:
     void handleResize(int width, int height);
 
 private:
-    GLFWwindow* window;
+    RenderWindow* window;
     std::shared_ptr<Camera> camera;
 
     int windowWidth = 0;

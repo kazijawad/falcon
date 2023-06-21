@@ -44,14 +44,14 @@ void Transform::setTranslation(float x, float y, float z) {
     translation.x = x;
     translation.y = y;
     translation.z = z;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 void Transform::setTranslation(glm::vec3 v) {
     translation.x = v.x;
     translation.y = v.y;
     translation.z = v.z;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 glm::quat Transform::getRotation() {
@@ -63,7 +63,7 @@ void Transform::setRotation(float angle, glm::vec3 axis) {
     rotation.y = axis.y;
     rotation.z = axis.z;
     rotation.w = angle;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 glm::vec3 Transform::getScale() {
@@ -74,26 +74,21 @@ void Transform::setScale(float x, float y, float z) {
     scale.x = x;
     scale.y = y;
     scale.z = z;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 void Transform::setScale(glm::vec3 v) {
     scale.x = v.x;
     scale.y = v.y;
     scale.z = v.z;
-    isDirty = true;
+    needsUpdate = true;
 }
 
-void Transform::updateWorld(glm::mat4* parentWorldMatrix) {
-    if (isDirty) {
+void Transform::updateWorld(Transform* parentTransform) {
+    if (needsUpdate) {
         updateLocal();
-        isDirty = false;
     }
 
-    // TODO: Improve this by not recalculating every frame.
-    // A potential solution is to update the parameter to be the parent
-    // transform and check against its dirty flag.
-    //
     // When updating the world transformation, we need to multiply the local
     // transformation against its parent. If there is no parent defined it's
     // assumed the object's local transformation is in world space. This can
@@ -101,15 +96,15 @@ void Transform::updateWorld(glm::mat4* parentWorldMatrix) {
     // only dependent on their parent transformation. A classic example is
     // creating a solar system where the moon only orbits the Earth, which
     // orbits the Sun.
-    if (parentWorldMatrix != nullptr) {
-        worldMatrix = (*parentWorldMatrix) * localMatrix;
-    } else {
-        worldMatrix = glm::mat4(localMatrix);
+    if (parentTransform != nullptr && parentTransform->needsUpdate) {
+        worldMatrix = parentTransform->getWorld() * localMatrix;
     }
 
     for (std::shared_ptr<Transform> child : children) {
-        child->updateWorld(&worldMatrix);
+        child->updateWorld(this);
     }
+
+    needsUpdate = false;
 }
 
 void Transform::updateLocal() {

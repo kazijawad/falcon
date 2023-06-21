@@ -4,15 +4,13 @@ namespace falcon {
 
 const glm::vec3 Camera::UP = glm::vec3(0.0, 1.0, 0.0);
 
-Camera::Camera() : Transform() {}
-
 glm::vec3 Camera::getTarget() {
     return target;
 }
 
-void Camera::lookAt(glm::vec3 v) {
-    target = v;
-    isDirty = true;
+void Camera::lookAt(glm::vec3 point) {
+    target = point;
+    needsUpdate = true;
 }
 
 glm::mat4 Camera::getView() {
@@ -37,13 +35,13 @@ glm::mat4 Camera::getProjection() {
     return projectionMatrix;
 }
 
-void Camera::updateWorld(glm::mat4* parentWorldMatrix) {
-    if (isDirty) {
+void Camera::updateWorld(Transform* parentTransform) {
+    if (needsUpdate) {
         updateView();
         updateProjection();
     }
 
-    Transform::updateWorld(parentWorldMatrix);
+    Transform::updateWorld(parentTransform);
 }
 
 }

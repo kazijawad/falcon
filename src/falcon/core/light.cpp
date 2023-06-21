@@ -10,7 +10,7 @@ glm::vec3 Light::getColor() {
 
 void Light::setColor(glm::vec3 v) {
     color = v;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 }

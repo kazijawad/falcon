@@ -10,7 +10,7 @@ OrthographicCamera::OrthographicCamera(float left, float right, float bottom, fl
     top(top),
     near(near),
     far(far) {
-    isDirty = true;
+    needsUpdate = true;
 }
 
 float OrthographicCamera::getLeft() {
@@ -19,7 +19,7 @@ float OrthographicCamera::getLeft() {
 
 void OrthographicCamera::setLeft(float v) {
     left = v;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 float OrthographicCamera::getRight() {
@@ -28,7 +28,7 @@ float OrthographicCamera::getRight() {
 
 void OrthographicCamera::setRight(float v) {
     right = v;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 float OrthographicCamera::getBottom() {
@@ -37,7 +37,7 @@ float OrthographicCamera::getBottom() {
 
 void OrthographicCamera::setBottom(float v) {
     bottom = v;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 float OrthographicCamera::getTop() {
@@ -46,7 +46,7 @@ float OrthographicCamera::getTop() {
 
 void OrthographicCamera::setTop(float v) {
     top = v;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 float OrthographicCamera::getNear() {
@@ -55,7 +55,7 @@ float OrthographicCamera::getNear() {
 
 void OrthographicCamera::setNear(float v) {
     near = v;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 float OrthographicCamera::getFar() {
@@ -64,7 +64,7 @@ float OrthographicCamera::getFar() {
 
 void OrthographicCamera::setFar(float v) {
     far = v;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 void OrthographicCamera::updateProjection() {

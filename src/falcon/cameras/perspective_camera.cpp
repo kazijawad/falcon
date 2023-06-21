@@ -8,7 +8,7 @@ PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float near, float 
     aspect(aspect),
     near(near),
     far(far) {
-    isDirty = true;
+    needsUpdate = true;
 }
 
 float PerspectiveCamera::getFOV() {
@@ -17,7 +17,7 @@ float PerspectiveCamera::getFOV() {
 
 void PerspectiveCamera::setFOV(float v) {
     fov = v;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 float PerspectiveCamera::getAspectRatio() {
@@ -26,7 +26,7 @@ float PerspectiveCamera::getAspectRatio() {
 
 void PerspectiveCamera::setAspectRatio(float v) {
     aspect = v;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 float PerspectiveCamera::getNear() {
@@ -35,7 +35,7 @@ float PerspectiveCamera::getNear() {
 
 void PerspectiveCamera::setNear(float v) {
     near = v;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 float PerspectiveCamera::getFar() {
@@ -44,7 +44,7 @@ float PerspectiveCamera::getFar() {
 
 void PerspectiveCamera::setFar(float v) {
     far = v;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 void PerspectiveCamera::updateProjection() {

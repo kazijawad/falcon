@@ -18,7 +18,7 @@ int main() {
         std::shared_ptr<Transform> scene = state.scenes[0];
         std::shared_ptr<Camera> camera = state.cameras[0];
 
-        auto controls = OrbitControls(renderer.window, camera);
+        auto controls = OrbitControls(renderer.renderWindow, camera);
 
         scene->addChild(std::make_shared<PointLight>(glm::vec3(-2.0, 1.0, 0.0), glm::vec3(0.2, 0.2, 0.8)));
         scene->addChild(std::make_shared<PointLight>(glm::vec3(2.0, 1.0, 0.0), glm::vec3(1.0)));

@@ -34,13 +34,13 @@ public:
     void setScale(float x, float y, float z);
     void setScale(glm::vec3 scale);
 
-    virtual void updateWorld(glm::mat4* parentWorldMatrix = nullptr);
+    virtual void updateWorld(Transform* parentTransform = nullptr);
     void updateLocal();
 
     void traverse(std::function<bool(std::shared_ptr<Transform>)> fn);
 
 protected:
-    bool isDirty = false;
+    bool needsUpdate = true;
 
     glm::mat4 worldMatrix;
     glm::mat4 localMatrix;

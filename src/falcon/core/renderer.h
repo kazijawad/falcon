@@ -2,6 +2,7 @@
 #define renderer_h
 
 #include <falcon/falcon.h>
+#include <falcon/render/window.h>
 
 namespace falcon {
 
@@ -17,10 +18,12 @@ struct RenderState {
 
 class Renderer {
 public:
+    static constexpr int SAMPLES_PER_PIXEL = 4;
+
+    RenderWindow* renderWindow = nullptr;
+
     Renderer(unsigned int width, unsigned int height);
     ~Renderer();
-
-    GLFWwindow* window;
 
     unsigned int getWidth();
     unsigned int getHeight();
@@ -40,15 +43,15 @@ public:
 
     void render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera);
 
-    void terminate();
-
 private:
     unsigned int width;
     unsigned int height;
 
+    bool needsUpdate = true;
+
     RenderState state;
 
-    bool handleResize();
+    void handleResize(int width, int height);
     void updateRenderState(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera);
 };
 

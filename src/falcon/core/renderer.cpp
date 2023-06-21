@@ -13,20 +13,20 @@ Renderer::Renderer(unsigned int width, unsigned int height) : width(width), heig
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_SAMPLES, 4);
+    glfwWindowHint(GLFW_SAMPLES, SAMPLES_PER_PIXEL);
 
-    GLFWwindow* newWindow = glfwCreateWindow(width, height, "falcon", NULL, NULL);
-    if (newWindow == NULL) {
+    GLFWwindow* window = glfwCreateWindow(width, height, "Falcon", NULL, NULL);
+    if (window == NULL) {
         std::printf("Failed to create GLFW window\n");
         glfwTerminate();
         throw std::exception();
     }
 
-    window = newWindow;
-    glfwMakeContextCurrent(window);
+    renderWindow = new RenderWindow(window);
 
     if (gladLoadGL(glfwGetProcAddress) == 0) {
         std::printf("Failed to initialize OpenGL Context\n");
+        glfwTerminate();
         throw std::exception();
     }
 
@@ -35,14 +35,11 @@ Renderer::Renderer(unsigned int width, unsigned int height) : width(width), heig
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
-
-    std::printf("Vender: %s\n", glGetString(GL_VENDOR));
-    std::printf("Renderer: %s\n", glGetString(GL_RENDERER));
-    std::printf("Version: %s\n", glGetString(GL_VERSION));
 }
 
 Renderer::~Renderer() {
-    terminate();
+    glfwTerminate();
+    delete renderWindow;
 }
 
 unsigned int Renderer::getWidth() {
@@ -105,20 +102,21 @@ void Renderer::clear(bool color, bool depth, bool stencil) {
 }
 
 void Renderer::run(std::function<void()> fn) {
-    while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(renderWindow->window)) {
         fn();
 
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(renderWindow->window);
         glfwPollEvents();
     }
 }
 
 void Renderer::render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera) {
-    // TODO: Move outside of render loop.
-    if (handleResize()) {
-        // TODO: Need to improve, assumes the same camera
-        // used between renders.
+    if (camera != state.camera) {
         camera->handleResize(width, height);
+        state.camera = camera;
+    } else if (needsUpdate) {
+        camera->handleResize(width, height);
+        needsUpdate = false;
     }
 
     scene->updateWorld();
@@ -138,24 +136,14 @@ void Renderer::render(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> 
     }
 }
 
-void Renderer::terminate() {
-    glfwTerminate();
-}
-
-bool Renderer::handleResize() {
-    int newWidth, newHeight;
-    glfwGetFramebufferSize(window, &newWidth, &newHeight);
-
+void Renderer::handleResize(int newWidth, int newHeight) {
     if (newWidth != width || newHeight != height) {
         glViewport(0, 0, newWidth, newHeight);
 
         width = newWidth;
         height = newHeight;
-
-        return true;
+        needsUpdate = true;
     }
-
-    return false;
 }
 
 void Renderer::updateRenderState(std::shared_ptr<Transform> scene, std::shared_ptr<Camera> camera) {
@@ -197,7 +185,6 @@ void Renderer::updateRenderState(std::shared_ptr<Transform> scene, std::shared_p
     );
     meshes.insert(meshes.end(), transparent.begin(), transparent.end());
 
-    state.camera = camera;
     state.meshes = meshes;
     state.lights = lights;
 }

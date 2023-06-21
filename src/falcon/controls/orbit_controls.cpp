@@ -9,20 +9,8 @@ const int OrbitControls::ORBIT_BUTTON = GLFW_MOUSE_BUTTON_LEFT;
 const int OrbitControls::ZOOM_BUTTON = GLFW_MOUSE_BUTTON_MIDDLE;
 const int OrbitControls::PAN_BUTTON = GLFW_MOUSE_BUTTON_RIGHT;
 
-void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
-    static_cast<OrbitControls*>(glfwGetWindowUserPointer(window))->handleMouseButton(button, action);
-}
-
-void cursorPosCallback(GLFWwindow* window, double x, double y) {
-    static_cast<OrbitControls*>(glfwGetWindowUserPointer(window))->handleMouseMove(x, y);
-}
-
-void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
-    static_cast<OrbitControls*>(glfwGetWindowUserPointer(window))->handleResize(width, height);
-}
-
 OrbitControls::OrbitControls(
-    GLFWwindow* window,
+    RenderWindow* window,
     std::shared_ptr<Camera> camera,
     float ease,
     float inertia,
@@ -55,13 +43,7 @@ OrbitControls::OrbitControls(
     spherical.theta = sphericalTarget.theta = glm::atan(offset.x, offset.z);
     spherical.phi = sphericalTarget.phi = glm::acos(std::min(std::max(offset.y / sphericalTarget.radius, -1.0f), 1.0f));
 
-    glfwGetFramebufferSize(window, &windowWidth, &windowHeight);
-
-    // Setup event handlers.
-    glfwSetWindowUserPointer(window, this);
-    glfwSetMouseButtonCallback(window, mouseButtonCallback);
-    glfwSetCursorPosCallback(window, cursorPosCallback);
-    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+    window->getSize(&windowWidth, &windowHeight);
 }
 
 float OrbitControls::zoomScale() {
@@ -111,7 +93,7 @@ void OrbitControls::handleMouseButton(int button, int action) {
     if (action == GLFW_PRESS) {
         // Get current cursor position.
         double x, y;
-        glfwGetCursorPos(window, &x, &y);
+        window->getCursor(&x, &y);
 
         if (button == OrbitControls::ORBIT_BUTTON) {
             state = OrbitState::ROTATE;
@@ -149,13 +131,10 @@ void OrbitControls::handleResize(int width, int height) {
 }
 
 void OrbitControls::handleRotation(double x, double y) {
-    // TODO: Improve?
-    int height;
-    glfwGetFramebufferSize(window, NULL, &height);
-
     glm::vec2 temp = (glm::vec2(x, y) - rotationStart) * rotationSpeed;
-    sphericalDelta.theta -= (2.0 * PI * temp.x) / height;
-    sphericalDelta.phi -= (2.0 * PI * temp.y) / height;
+
+    sphericalDelta.theta -= (2.0 * PI * temp.x) / static_cast<float>(windowHeight);
+    sphericalDelta.phi -= (2.0 * PI * temp.y) / static_cast<float>(windowHeight);
 
     rotationStart.x = x;
     rotationStart.y = y;

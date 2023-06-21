@@ -34,6 +34,7 @@ set(FALCON_SOURCE_HEADERS
 
     src/falcon/cameras/perspective_camera.h
     src/falcon/cameras/orthographic_camera.h
+
     src/falcon/controls/orbit_controls.h
 
     src/falcon/geometries/plane.h
@@ -41,6 +42,7 @@ set(FALCON_SOURCE_HEADERS
 
     src/falcon/materials/normal_material.h
     src/falcon/materials/pbr_material.h
+
     src/falcon/textures/image_texture.h
 
     src/falcon/lights/directional_light.h
@@ -48,7 +50,9 @@ set(FALCON_SOURCE_HEADERS
 
     src/falcon/loaders/gltf_loader.h
 
-    src/falcon/utils/file_utils.h    
+    src/falcon/utils/file_utils.h
+
+    src/falcon/render/window.h
 )
 
 set(FALCON_SOURCE
@@ -80,6 +84,8 @@ set(FALCON_SOURCE
     src/falcon/loaders/gltf_loader.cpp
 
     src/falcon/utils/file_utils.cpp
+
+    src/falcon/render/window.cpp
 )
 
 set(FALCON_INCLUDE src src/ext)

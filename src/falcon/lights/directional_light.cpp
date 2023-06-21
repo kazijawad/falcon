@@ -10,7 +10,7 @@ glm::vec3 DirectionalLight::getDirection() {
 
 void DirectionalLight::setDirection(glm::vec3 v) {
     direction = v;
-    isDirty = true;
+    needsUpdate = true;
 }
 
 }
