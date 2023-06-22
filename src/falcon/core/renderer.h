@@ -19,14 +19,14 @@ class Renderer {
 public:
     static constexpr int SAMPLES_PER_PIXEL = 4;
 
-    RenderWindow* renderWindow = nullptr;
+    std::shared_ptr<RenderWindow> renderWindow;
 
     Renderer(unsigned int width, unsigned int height);
     ~Renderer();
 
-    unsigned int getWidth();
-    unsigned int getHeight();
-    float getAspectRatio();
+    unsigned int getWidth() const;
+    unsigned int getHeight() const;
+    float getAspectRatio() const;
 
     void setClearColor(float r, float g, float b, float a);
     void setDepthTest(bool v);

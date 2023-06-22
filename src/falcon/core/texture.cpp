@@ -2,13 +2,11 @@
 
 namespace falcon {
 
-Texture::Texture() {}
-
-GLenum Texture::getFormat() {
+GLenum Texture::getFormat() const {
     return format;
 }
 
-GLenum Texture::getWrapS() {
+GLenum Texture::getWrapS() const {
     return wrapS;
 }
 
@@ -19,7 +17,7 @@ void Texture::setWrapS(GLenum v) {
     wrapS = v;
 }
 
-GLenum Texture::getWrapT() {
+GLenum Texture::getWrapT() const {
     return wrapT;
 }
 
@@ -30,7 +28,7 @@ void Texture::setWrapT(GLenum v) {
     wrapT = v;
 }
 
-GLenum Texture::getMinFilter() {
+GLenum Texture::getMinFilter() const {
     return minFilter;
 }
 
@@ -41,7 +39,7 @@ void Texture::setMinFilter(GLenum v) {
     minFilter = v;
 }
 
-GLenum Texture::getMagFilter() {
+GLenum Texture::getMagFilter() const {
     return magFilter;
 }
 

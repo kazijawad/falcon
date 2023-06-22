@@ -20,7 +20,7 @@ void Transform::removeChild(std::shared_ptr<Transform> child) {
     children.erase(std::remove(children.begin(), children.end(), child), children.end());
 }
 
-glm::mat4 Transform::getLocal() {
+glm::mat4 Transform::getLocal() const {
     return localMatrix;
 }
 
@@ -28,7 +28,7 @@ void Transform::setLocal(glm::mat4 mat) {
     localMatrix = mat;
 }
 
-glm::mat4 Transform::getWorld() {
+glm::mat4 Transform::getWorld() const {
     return worldMatrix;
 }
 
@@ -36,7 +36,7 @@ void Transform::setWorld(glm::mat4 mat) {
     worldMatrix = mat;
 }
 
-glm::vec3 Transform::getTranslation() {
+glm::vec3 Transform::getTranslation() const {
     return translation;
 }
 
@@ -54,7 +54,7 @@ void Transform::setTranslation(glm::vec3 v) {
     needsUpdate = true;
 }
 
-glm::quat Transform::getRotation() {
+glm::quat Transform::getRotation() const {
     return rotation;
 }
 
@@ -66,7 +66,7 @@ void Transform::setRotation(float angle, glm::vec3 axis) {
     needsUpdate = true;
 }
 
-glm::vec3 Transform::getScale() {
+glm::vec3 Transform::getScale() const {
     return scale;
 }
 

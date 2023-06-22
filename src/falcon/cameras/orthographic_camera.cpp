@@ -13,7 +13,7 @@ OrthographicCamera::OrthographicCamera(float left, float right, float bottom, fl
     needsUpdate = true;
 }
 
-float OrthographicCamera::getLeft() {
+float OrthographicCamera::getLeft() const {
     return left;
 }
 
@@ -22,7 +22,7 @@ void OrthographicCamera::setLeft(float v) {
     needsUpdate = true;
 }
 
-float OrthographicCamera::getRight() {
+float OrthographicCamera::getRight() const {
     return right;
 }
 
@@ -31,7 +31,7 @@ void OrthographicCamera::setRight(float v) {
     needsUpdate = true;
 }
 
-float OrthographicCamera::getBottom() {
+float OrthographicCamera::getBottom() const {
     return bottom;
 }
 
@@ -40,7 +40,7 @@ void OrthographicCamera::setBottom(float v) {
     needsUpdate = true;
 }
 
-float OrthographicCamera::getTop() {
+float OrthographicCamera::getTop() const {
     return top;
 }
 
@@ -49,7 +49,7 @@ void OrthographicCamera::setTop(float v) {
     needsUpdate = true;
 }
 
-float OrthographicCamera::getNear() {
+float OrthographicCamera::getNear() const {
     return near;
 }
 
@@ -58,7 +58,7 @@ void OrthographicCamera::setNear(float v) {
     needsUpdate = true;
 }
 
-float OrthographicCamera::getFar() {
+float OrthographicCamera::getFar() const {
     return far;
 }
 

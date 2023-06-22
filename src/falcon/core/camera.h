@@ -12,13 +12,13 @@ public:
     Camera() : Transform() {};
     virtual ~Camera() = default;
 
-    glm::vec3 getTarget();
+    glm::vec3 getTarget() const;
     void lookAt(glm::vec3 point);
 
-    glm::mat4 getView();
+    glm::mat4 getView() const;
     void updateView();
 
-    glm::mat4 getProjection();
+    glm::mat4 getProjection() const;
     virtual void updateProjection() = 0;
 
     void updateWorld(Transform* parentTransform = nullptr) override;

@@ -7,28 +7,28 @@ namespace falcon {
 
 class Texture {
 public:
-    Texture();
+    Texture() {};
     virtual ~Texture() = default;
 
-    GLenum getFormat();
+    GLenum getFormat() const;
 
-    GLenum getWrapS();
+    GLenum getWrapS() const;
     void setWrapS(GLenum v);
 
-    GLenum getWrapT();
+    GLenum getWrapT() const;
     void setWrapT(GLenum v);
 
-    GLenum getMinFilter();
+    GLenum getMinFilter() const;
     void setMinFilter(GLenum v);
 
-    GLenum getMagFilter();
+    GLenum getMagFilter() const;
     void setMagFilter(GLenum v);
 
     virtual void bind() = 0;
 
 protected:
-    unsigned int id;
-    GLenum target;
+    unsigned int id = 0;
+    GLenum target = GL_TEXTURE_2D;
 
     GLenum format = GL_RED;
     GLenum wrapS = GL_REPEAT;

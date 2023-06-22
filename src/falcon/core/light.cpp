@@ -4,7 +4,7 @@ namespace falcon {
 
 Light::Light(glm::vec3 color) : color(color) {}
 
-glm::vec3 Light::getColor() {
+glm::vec3 Light::getColor() const {
     return color;
 }
 

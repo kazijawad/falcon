@@ -4,7 +4,7 @@ namespace falcon {
 
 const glm::vec3 Camera::UP = glm::vec3(0.0, 1.0, 0.0);
 
-glm::vec3 Camera::getTarget() {
+glm::vec3 Camera::getTarget() const {
     return target;
 }
 
@@ -13,7 +13,7 @@ void Camera::lookAt(glm::vec3 point) {
     needsUpdate = true;
 }
 
-glm::mat4 Camera::getView() {
+glm::mat4 Camera::getView() const {
     return viewMatrix;
 }
 
@@ -31,7 +31,7 @@ void Camera::updateView() {
     viewMatrix = glm::lookAt(translation, target, Camera::UP);
 }
 
-glm::mat4 Camera::getProjection() {
+glm::mat4 Camera::getProjection() const {
     return projectionMatrix;
 }
 

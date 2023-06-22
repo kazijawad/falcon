@@ -10,14 +10,13 @@ public:
     GLFWwindow* window;
 
     RenderWindow() : window(nullptr) {};
-    RenderWindow(GLFWwindow* window);
+    RenderWindow(GLFWwindow* window, Renderer* renderer);
 
     ~RenderWindow();
 
-    void getSize(int* width, int* height);
-    void getCursor(double* x, double* y);
+    void getSize(int* width, int* height) const;
+    void getCursor(double* x, double* y) const;
 
-    void setRenderer(Renderer* renderer);
     void setOrbitControls(OrbitControls* controls);
 
     void handleResize(int width, int height);

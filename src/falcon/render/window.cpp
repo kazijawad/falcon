@@ -16,7 +16,9 @@ void cursorPosCallback(GLFWwindow* window, double x, double y) {
     static_cast<RenderWindow*>(glfwGetWindowUserPointer(window))->handleMouseMove(x, y);
 }
 
-RenderWindow::RenderWindow(GLFWwindow* window) : window(window) {
+RenderWindow::RenderWindow(GLFWwindow* window, Renderer* renderer) : window(window) {
+    attachments.renderer = renderer;
+
     glfwMakeContextCurrent(window);
     glfwSetWindowUserPointer(window, this);
 
@@ -29,16 +31,12 @@ RenderWindow::~RenderWindow() {
     glfwDestroyWindow(window);
 }
 
-void RenderWindow::getSize(int* width, int* height) {
+void RenderWindow::getSize(int* width, int* height) const {
     glfwGetFramebufferSize(window, width, height);
 }
 
-void RenderWindow::getCursor(double* x, double* y) {
+void RenderWindow::getCursor(double* x, double* y) const {
     glfwGetCursorPos(window, x, y);
-}
-
-void RenderWindow::setRenderer(Renderer* renderer) {
-    attachments.renderer = renderer;
 }
 
 void RenderWindow::setOrbitControls(OrbitControls* controls) {

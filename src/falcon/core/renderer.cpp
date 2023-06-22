@@ -23,8 +23,7 @@ Renderer::Renderer(unsigned int width, unsigned int height) : width(width), heig
         throw std::exception();
     }
 
-    renderWindow = new RenderWindow(window);
-    renderWindow->setRenderer(this);
+    renderWindow = std::make_shared<RenderWindow>(window, this);
 
     if (gladLoadGL(glfwGetProcAddress) == 0) {
         std::printf("Failed to initialize OpenGL Context\n");
@@ -41,18 +40,17 @@ Renderer::Renderer(unsigned int width, unsigned int height) : width(width), heig
 
 Renderer::~Renderer() {
     glfwTerminate();
-    delete renderWindow;
 }
 
-unsigned int Renderer::getWidth() {
+unsigned int Renderer::getWidth() const {
     return width;
 }
 
-unsigned int Renderer::getHeight() {
+unsigned int Renderer::getHeight() const {
     return height;
 }
 
-float Renderer::getAspectRatio() {
+float Renderer::getAspectRatio() const {
     return static_cast<float>(width) / static_cast<float>(height);
 }
 

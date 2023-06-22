@@ -11,7 +11,7 @@ PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float near, float 
     needsUpdate = true;
 }
 
-float PerspectiveCamera::getFOV() {
+float PerspectiveCamera::getFOV() const {
     return fov;
 }
 
@@ -20,7 +20,7 @@ void PerspectiveCamera::setFOV(float v) {
     needsUpdate = true;
 }
 
-float PerspectiveCamera::getAspectRatio() {
+float PerspectiveCamera::getAspectRatio() const {
     return aspect;
 }
 
@@ -29,7 +29,7 @@ void PerspectiveCamera::setAspectRatio(float v) {
     needsUpdate = true;
 }
 
-float PerspectiveCamera::getNear() {
+float PerspectiveCamera::getNear() const {
     return near;
 }
 
@@ -38,7 +38,7 @@ void PerspectiveCamera::setNear(float v) {
     needsUpdate = true;
 }
 
-float PerspectiveCamera::getFar() {
+float PerspectiveCamera::getFar() const {
     return far;
 }
 

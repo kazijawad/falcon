@@ -10,7 +10,7 @@ const int OrbitControls::ZOOM_BUTTON = GLFW_MOUSE_BUTTON_MIDDLE;
 const int OrbitControls::PAN_BUTTON = GLFW_MOUSE_BUTTON_RIGHT;
 
 OrbitControls::OrbitControls(
-    RenderWindow* window,
+    std::shared_ptr<RenderWindow> window,
     std::shared_ptr<Camera> camera,
     float ease,
     float inertia,
@@ -47,7 +47,7 @@ OrbitControls::OrbitControls(
     window->getSize(&windowWidth, &windowHeight);
 }
 
-float OrbitControls::zoomScale() {
+float OrbitControls::zoomScale() const {
     return std::powf(0.95, zoomSpeed);
 }
 

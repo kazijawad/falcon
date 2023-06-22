@@ -10,7 +10,7 @@ public:
     Light(glm::vec3 color);
     virtual ~Light() = default;
 
-    glm::vec3 getColor();
+    glm::vec3 getColor() const;
     void setColor(glm::vec3 v);
 
 protected:

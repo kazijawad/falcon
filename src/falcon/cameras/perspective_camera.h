@@ -9,16 +9,16 @@ class PerspectiveCamera : public Camera {
 public:
     PerspectiveCamera(float fov, float aspect, float near, float far);
 
-    float getFOV();
+    float getFOV() const;
     void setFOV(float v);
 
-    float getAspectRatio();
+    float getAspectRatio() const;
     void setAspectRatio(float v);
 
-    float getNear();
+    float getNear() const;
     void setNear(float v);
 
-    float getFar();
+    float getFar() const;
     void setFar(float v);
 
     void updateProjection() override;

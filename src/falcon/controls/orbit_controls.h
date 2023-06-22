@@ -44,7 +44,7 @@ public:
     float maxDistance;
 
     OrbitControls(
-        RenderWindow* window,
+        std::shared_ptr<RenderWindow> window,
         std::shared_ptr<Camera> camera,
         float ease = 0.25,
         float inertia = 0.85,
@@ -59,7 +59,7 @@ public:
         float maxDistance = std::numeric_limits<float>::infinity()
     );
 
-    float zoomScale();
+    float zoomScale() const;
 
     void update();
 
@@ -68,7 +68,7 @@ public:
     void handleMouseMove(double x, double y);
 
 private:
-    RenderWindow* window;
+    std::shared_ptr<RenderWindow> window;
     std::shared_ptr<Camera> camera;
 
     int windowWidth = 0;

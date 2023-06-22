@@ -9,22 +9,22 @@ class OrthographicCamera : public Camera {
 public:
     OrthographicCamera(float left, float right, float bottom, float top, float near, float far);
 
-    float getLeft();
+    float getLeft() const;
     void setLeft(float v);
 
-    float getRight();
+    float getRight() const;
     void setRight(float v);
 
-    float getBottom();
+    float getBottom() const;
     void setBottom(float v);
 
-    float getTop();
+    float getTop() const;
     void setTop(float v);
 
-    float getNear();
+    float getNear() const;
     void setNear(float v);
 
-    float getFar();
+    float getFar() const;
     void setFar(float v);
 
     void updateProjection() override;

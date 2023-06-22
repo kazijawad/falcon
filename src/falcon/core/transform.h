@@ -17,20 +17,20 @@ public:
     void addChild(std::shared_ptr<Transform> child);
     void removeChild(std::shared_ptr<Transform> child);
 
-    glm::mat4 getLocal();
+    glm::mat4 getLocal() const;
     void setLocal(glm::mat4 mat);
 
-    glm::mat4 getWorld();
+    glm::mat4 getWorld() const;
     void setWorld(glm::mat4 mat);
 
-    glm::vec3 getTranslation();
+    glm::vec3 getTranslation() const;
     void setTranslation(float x, float y, float z);
     void setTranslation(glm::vec3 translation);
 
-    glm::quat getRotation();
+    glm::quat getRotation() const;
     void setRotation(float angle, glm::vec3 axis);
 
-    glm::vec3 getScale();
+    glm::vec3 getScale() const;
     void setScale(float x, float y, float z);
     void setScale(glm::vec3 scale);
 
